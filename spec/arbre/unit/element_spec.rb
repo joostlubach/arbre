@@ -54,17 +54,6 @@ describe Arbre::Element do
 
   end
 
-  describe "passing in assigns" do
-    let(:post){ stub }
-    let(:assigns){ {:post => post} }
-
-    it "should be accessible via a method call" do
-      element = Arbre::Element.new(Arbre::Context.new(assigns))
-      element.post.should == post
-    end
-
-  end
-
   describe "adding a child" do
 
     let(:child){ Arbre::Element.new }
@@ -97,7 +86,7 @@ describe Arbre::Element do
 
       it "should add as a TextNode" do
         element.children.first.should be_instance_of(Arbre::HTML::TextNode)
-        element.children.first.to_s.should == "Hello World"
+        element.children.first.render.should == "Hello World"
       end
 
     end
@@ -117,13 +106,13 @@ describe Arbre::Element do
       end
 
       it "should add the string as a child" do
-        element.children.first.to_s.should == "Goodbye"
+        element.children.first.render.should == "Goodbye"
       end
 
       it "should html escape the string" do
         string = "Goodbye <br />"
         element.content = string
-        element.content.to_s.should == "Goodbye &lt;br /&gt;"
+        element.content.should == "Goodbye &lt;br /&gt;"
       end
     end
 
@@ -166,20 +155,15 @@ describe Arbre::Element do
 
     before  { @separator = $, }
     after   { $, = @separator }
-    let(:collection){ element + "hello world" }
+    let(:collection){ element + Arbre::HTML::TextNode.from_string("hello world") }
 
     it "should render the children collection" do
-      element.children.should_receive(:to_s).and_return("content")
-      element.to_s.should == "content"
+      element.children.should_receive(:render).and_return("content")
+      element.render.should == "content"
     end
 
-    it "should render collection when is set the default separator" do
-      $, = "_"
-      collection.to_s.should == "hello world"
-    end
-
-    it "should render collection when is not set the default separator" do
-      collection.to_s.should == "hello world"
+    it "should render collection" do
+      collection.render.should == "hello world"
     end
 
   end
@@ -238,28 +222,6 @@ describe Arbre::Element do
       end
     end
 
-    context "when the left is a tag and the right is a string" do
-      let(:element){ Arbre::Element.new }
-      let(:collection){ element + "Hello World"}
-
-      it "should return an instance of Collection" do
-        collection.should be_an_instance_of(Arbre::ElementCollection)
-      end
-
-      it "should return the elements in the collection" do
-        collection.size.should == 2
-        collection[0].should == element
-        collection[1].should be_an_instance_of(Arbre::HTML::TextNode)
-      end
-    end
-
-    context "when the left is a string and the right is a tag" do
-      let(:collection){ "hello World" + Arbre::Element.new}
-
-      it "should return a string" do
-        collection.strip.chomp.should == "hello World"
-      end
-    end
   end
 
 end

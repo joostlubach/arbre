@@ -16,8 +16,6 @@ module Arbre
         attributes = extract_arguments(args)
         self.content = args.first if args.first
 
-        set_for_attribute(attributes.delete(:for))
-
         attributes.each do |key, value|
           set_attribute(key, value)
         end
@@ -89,7 +87,7 @@ module Arbre
         end
       end
 
-      def to_s
+      def render
         indent(opening_tag, content, closing_tag).html_safe
       end
 
@@ -143,39 +141,7 @@ module Arbre
 
 
       def attributes_html
-        attributes.any? ? " " + attributes.to_s : nil
-      end
-
-      def set_for_attribute(record)
-        return unless record
-        # set_attribute :id, ActionController::RecordIdentifier.dom_id(record, default_id_for_prefix)
-        # add_class ActionController::RecordIdentifier.dom_class(record)
-        set_attribute :id, dom_id_for(record)
-        add_class dom_class_name_for(record)
-      end
-
-      def dom_class_name_for(record)
-        if record.class.respond_to?(:model_name)
-          record.class.model_name.singular
-        else
-          record.class.name.underscore.gsub("/", "_")
-        end
-      end
-
-      def dom_id_for(record)
-        id = if record.respond_to?(:to_key)
-               record.to_key
-             elsif record.respond_to?(:id)
-               record.id
-             else
-               record.object_id
-             end
-
-        [default_id_for_prefix, dom_class_name_for(record), id].compact.join("_")
-      end
-
-      def default_id_for_prefix
-        nil
+        attributes.any? ? " " + attributes.render : nil
       end
 
     end

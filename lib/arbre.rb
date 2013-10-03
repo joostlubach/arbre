@@ -12,8 +12,7 @@ require 'arbre/html/class_list'
 require 'arbre/html/tag'
 require 'arbre/html/text_node'
 require 'arbre/html/document'
-require 'arbre/html/html5_elements'
-require 'arbre/component'
+require 'arbre/html/html5_tags'
 
 if defined?(Rails)
   require 'arbre/rails'

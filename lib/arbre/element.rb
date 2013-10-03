@@ -114,36 +114,19 @@ module Arbre
     alias_method :find_by_class, :get_elements_by_class_name
 
     def content
-      children.to_s
-    end
-
-    def html_safe
-      to_s
+      children.render
     end
 
     def indent_level
       parent? ? parent.indent_level + 1 : 0
     end
 
-    def each(&block)
-      [to_s].each(&block)
-    end
-
-    def to_str
-      to_s
-    end
-
-    def to_s
+    def render
       content
     end
 
     def +(element)
-      case element
-      when Element, ElementCollection
-      else
-        element = Arbre::HTML::TextNode.from_string(element)
-      end
-      ElementCollection.new([self]) + element
+      to_a + element
     end
 
     def to_ary
@@ -158,20 +141,8 @@ module Arbre
       @children.clear
     end
 
-    # Implements the method lookup chain. When you call a method that
-    # doesn't exist, we:
-    #
-    #  1. Try to call the method on the current DOM context
-    #  2. Return an assigned variable of the same name
-    #  3. Call the method on the helper object
-    #  4. Call super
-    #
     def method_missing(name, *args, &block)
-      if current_arbre_element.respond_to?(name)
-        current_arbre_element.send name, *args, &block
-      elsif assigns && assigns.has_key?(name)
-        assigns[name]
-      elsif helpers.respond_to?(name)
+      if helpers.respond_to?(name)
         helpers.send(name, *args, &block)
       else
         super

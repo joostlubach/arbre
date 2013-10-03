@@ -1,5 +1,3 @@
-require 'support/bundle'
-
 require 'arbre'
 
 def arbre(&block)
