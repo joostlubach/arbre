@@ -13,7 +13,11 @@ module Arbre
     end
 
     def children
-      ElementCollection.new
+      @children ||= ElementCollection.new.tap do |children|
+        def children.<<(*) raise NotImplementedError end
+        def children.add(*) raise NotImplementedError end
+        def children.concat(*) raise NotImplementedError end
+      end
     end
 
     attr_reader :text
@@ -23,13 +27,9 @@ module Arbre
     end
 
     def to_s
-      ERB::Util.html_escape(@text)
+      ERB::Util.html_escape(text)
     end
 
-  end
-
-  def TextNode(text)
-    TextNode.from_string(text)
   end
 
 end

@@ -3,15 +3,6 @@ module Arbre
 
     # Dynamic module onto which builder methods can be defined.
     module BuilderMethods
-
-      def builder_method(method_name)
-        BuilderMethods.class_eval <<-EOF, __FILE__, __LINE__
-          def #{method_name}(*args, &block)
-            insert_element ::#{self.name}, *args, &block
-          end
-        EOF
-      end
-
     end
 
     # Element building concern. Contains methods pertaining to building and inserting child
@@ -22,7 +13,23 @@ module Arbre
       # Builder methods
 
         def self.included(klass)
-          klass.extend BuilderMethods
+          klass.send :include, BuilderMethods
+          klass.send :extend, BuilderMethod
+        end
+
+      ######
+      # Builder method DSL
+
+        module BuilderMethod
+
+          def builder_method(method_name)
+            BuilderMethods.class_eval <<-EOF, __FILE__, __LINE__
+              def #{method_name}(*args, &block)
+                insert_element ::#{self.name}, *args, &block
+              end
+            EOF
+          end
+
         end
 
       ######
@@ -41,7 +48,7 @@ module Arbre
         # children.
         def insert_element(klass, *args, &block)
           element = klass.new(arbre_context)
-          current_arbre_element.insert_child element
+          current_element.insert_child element
           within(element) { element.build *args, &block }
           element
         end
