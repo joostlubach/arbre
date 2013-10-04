@@ -3,8 +3,7 @@ require 'erb'
 module Arbre
   module Html
 
-    # HTML tag element. Has attributes and is rendered as a HTML tag. Also provides querying
-    # functionality.
+    # HTML tag element. Has attributes and is rendered as a HTML tag.
     class Tag < Element
 
       ######
@@ -105,10 +104,12 @@ module Arbre
         def [](attribute)
           attributes[attribute]
         end
+        alias_method :get_attribute, :[]
 
         def []=(attribute, value)
           attributes[attribute] = value
         end
+        alias_method :set_attribute, :[]=
 
         def has_attribute?(name)
           attributes.has_key? name
@@ -123,11 +124,15 @@ module Arbre
         end
 
         def add_class(classes)
-          self[:class] << classes
+          self[:class].add classes
         end
 
         def remove_class(classes)
           self[:class].remove classes
+        end
+
+        def classes=(classes)
+          self[:class] = classes
         end
 
         def classes
@@ -168,7 +173,7 @@ module Arbre
 
           html = ActiveSupport::SafeBuffer.new
 
-          if self_closing_tag?
+          if empty? && self_closing_tag?
             html << spaces << self_closing_tag
           elsif empty? || one_line?
             html << spaces << open_tag << child_content << close_tag
