@@ -27,7 +27,7 @@ module Arbre
     end
 
     def to_s
-      ERB::Util.html_escape(text)
+      text
     end
 
   end

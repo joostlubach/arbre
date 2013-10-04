@@ -25,14 +25,6 @@ describe TextNode do
     expect(node.to_s).to eql('Test')
   end
 
-  it "should be HTML safe" do
-    node = TextNode.new
-    expect(node).to receive(:text).and_return('<>')
-    expect(node.to_s).to eql('&lt;&gt;')
-    expect(node).to receive(:text).and_return('<>'.html_safe)
-    expect(node.to_s).to eql('<>')
-  end
-
   it "should always have an empty child collection" do
     node = TextNode.new
     expect(node.children).to be_empty
