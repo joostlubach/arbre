@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe Arbre::HTML::Tag, "Attributes" do
+describe Arbre::Html::Tag, "Attributes" do
 
-  let(:tag){ Arbre::HTML::Tag.new }
+  let(:tag){ Arbre::Html::Tag.new }
 
   describe "attributes" do
 

@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe Arbre::HTML::Tag do
+describe Arbre::Html::Tag do
 
-  let(:tag){ Arbre::HTML::Tag.new }
+  let(:tag){ Arbre::Html::Tag.new }
 
   describe "building a new tag" do
     before { tag.build "Hello World", :id => "my_id" }
@@ -42,7 +42,7 @@ describe Arbre::HTML::Tag do
     end
 
     it "should create a class list from a string" do
-      tag = Arbre::HTML::Tag.new
+      tag = Arbre::Html::Tag.new
       tag.build(:class => "first-class")
       tag.add_class "second-class"
       tag.class_list.size.should == 2

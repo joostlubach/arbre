@@ -152,7 +152,7 @@ HTML
         "Hello World"
       end
       node = list.children.first
-      node.class.should == Arbre::HTML::TextNode
+      node.class.should == Arbre::TextNode
     }
   end
 

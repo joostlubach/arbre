@@ -20,7 +20,7 @@ describe Arbre::Element, "Finder Methods" do
       end
       elements = html.get_elements_by_tag_name("li")
       elements.size.should == 1
-      elements[0].should be_instance_of(Arbre::HTML::Li)
+      elements[0].should be_instance_of(Arbre::Html::Li)
     end
 
     it "should return multple child elements" do
@@ -32,8 +32,8 @@ describe Arbre::Element, "Finder Methods" do
       end
       elements = html.get_elements_by_tag_name("li")
       elements.size.should == 2
-      elements[0].should be_instance_of(Arbre::HTML::Li)
-      elements[1].should be_instance_of(Arbre::HTML::Li)
+      elements[0].should be_instance_of(Arbre::Html::Li)
+      elements[1].should be_instance_of(Arbre::Html::Li)
     end
 
     it "should return children's child elements" do
@@ -45,8 +45,8 @@ describe Arbre::Element, "Finder Methods" do
       end
       elements = html.get_elements_by_tag_name("li")
       elements.size.should == 2
-      elements[0].should be_instance_of(Arbre::HTML::Li)
-      elements[1].should be_instance_of(Arbre::HTML::Li)
+      elements[0].should be_instance_of(Arbre::Html::Li)
+      elements[1].should be_instance_of(Arbre::Html::Li)
       elements[1].parent.should == elements[0]
     end
   end
@@ -68,7 +68,7 @@ describe Arbre::Element, "Finder Methods" do
       end
       elements = html.get_elements_by_class_name("my_class")
       elements.size.should == 1
-      elements[0].should be_instance_of(Arbre::HTML::Div)
+      elements[0].should be_instance_of(Arbre::Html::Div)
     end
 
     it "should return multple child elements" do
@@ -79,8 +79,8 @@ describe Arbre::Element, "Finder Methods" do
       end
       elements = html.get_elements_by_class_name("my_class")
       elements.size.should == 2
-      elements[0].should be_instance_of(Arbre::HTML::Div)
-      elements[1].should be_instance_of(Arbre::HTML::Div)
+      elements[0].should be_instance_of(Arbre::Html::Div)
+      elements[1].should be_instance_of(Arbre::Html::Div)
     end
 
     it "should return elements that match one of several classes" do
@@ -92,7 +92,7 @@ describe Arbre::Element, "Finder Methods" do
       end
       elements = html.get_elements_by_class_name("this_class")
       elements.size.should == 1
-      elements[0].should be_instance_of(Arbre::HTML::Div)
+      elements[0].should be_instance_of(Arbre::Html::Div)
     end
 
     # TODO: find children's children by class name

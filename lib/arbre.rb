@@ -1,19 +1,28 @@
-require 'active_support/core_ext/string/output_safety'
-require 'active_support/hash_with_indifferent_access'
 require 'active_support/inflector'
+require 'active_support/dependencies/autoload'
+require 'active_support/core_ext/module/delegation'
+require 'active_support/core_ext/string/output_safety'
 
 module Arbre
+  extend ActiveSupport::Autoload
+
+  autoload :Element
+  autoload :Context
+  autoload :TextNode
+  autoload :Container
+
+  module Html
+    extend ActiveSupport::Autoload
+
+    autoload :Attributes
+    autoload :ClassList
+    autoload :Tag
+    autoload :Document
+    autoload :Query, 'arbre/html/querying'
+
+    require 'arbre/html/html_tags'
+  end
+
 end
 
-require 'arbre/element'
-require 'arbre/context'
-require 'arbre/html/attributes'
-require 'arbre/html/class_list'
-require 'arbre/html/tag'
-require 'arbre/html/text_node'
-require 'arbre/html/document'
-require 'arbre/html/html5_tags'
-
-if defined?(Rails)
-  require 'arbre/rails'
-end
+require 'arbre/railtie' if defined?(Rails)

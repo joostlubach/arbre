@@ -1,5 +1,8 @@
 module Arbre
-  module HTML
+  module Html
+
+    # This file creates a class for all known HTML 5 tags. You can derive
+    # from these classes to build specialized versions.
 
     AUTO_BUILD_TAGS = %w[
       a abbr address area article aside audio b base
@@ -16,7 +19,7 @@ module Arbre
     ]
 
     def self.create_tag_class(tag, builder_method = tag.to_sym)
-      class_eval <<-EOF
+      module_eval <<-RUBY, __FILE__, __LINE__+1
         class #{tag.camelize} < Tag
           builder_method #{builder_method.inspect}
 
@@ -24,7 +27,7 @@ module Arbre
             #{tag.inspect}
           end
         end
-      EOF
+      RUBY
     end
 
     AUTO_BUILD_TAGS.each do |tag|

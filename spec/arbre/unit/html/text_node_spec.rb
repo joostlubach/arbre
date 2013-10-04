@@ -1,5 +1,5 @@
 require 'spec_helper'
 
-describe Arbre::HTML::TextNode do
+describe Arbre::TextNode do
 
 end

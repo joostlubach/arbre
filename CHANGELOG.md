@@ -1,3 +1,10 @@
+## 2.0.0
+
+* Removal of `:for`-feature in tags
+* Explicit conversion to HTML from template handler
+
+  *Joost Lubach*
+
 ## 1.0.1
 
 * Template handler converts to string to satisfy Rack::Lint (@jpmckinney, #6)
@@ -16,7 +23,7 @@
 
 ## 1.0.0.rc3
 
-* Implemented `Arbre::HTML::Tag#default_id_for_prefix`
+* Implemented `Arbre::Html::Tag#default_id_for_prefix`
 
 ## 1.0.0.rc2
 

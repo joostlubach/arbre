@@ -85,7 +85,7 @@ describe Arbre::Element do
       let(:child){ "Hello World" }
 
       it "should add as a TextNode" do
-        element.children.first.should be_instance_of(Arbre::HTML::TextNode)
+        element.children.first.should be_instance_of(Arbre::TextNode)
         element.children.first.render.should == "Hello World"
       end
 
@@ -155,7 +155,7 @@ describe Arbre::Element do
 
     before  { @separator = $, }
     after   { $, = @separator }
-    let(:collection){ element + Arbre::HTML::TextNode.from_string("hello world") }
+    let(:collection){ element + Arbre::TextNode.from_string("hello world") }
 
     it "should render the children collection" do
       element.children.should_receive(:render).and_return("content")

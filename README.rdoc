@@ -33,7 +33,7 @@ as possible. This allows OO Design to be used to implement the view layer.
     end
 
     html.children.size #=> 1
-    html.children.first #=> #<Arbre::HTML::H2>
+    html.children.first #=> #<Arbre::Html::H2>
 
 == Components
 
@@ -53,7 +53,7 @@ For example:
     end
 
 The builder_method defines the method that will be called to build this component
-when using the DSL. The arguments passed into the builder_method will be passed 
+when using the DSL. The arguments passed into the builder_method will be passed
 into the #build method for you.
 
 You can now use this panel in any Arbre context:

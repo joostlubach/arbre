@@ -1,148 +1,213 @@
 require 'erb'
+require 'arbre/html/querying'
 
 module Arbre
-  module HTML
+  module Html
 
+    # HTML tag element. Has attributes and is rendered as a HTML tag. Also provides querying
+    # functionality.
     class Tag < Element
-      attr_reader :attributes
 
-      def initialize(*)
-        super
-        @attributes = Attributes.new
-      end
+      include Querying
 
-      def build(*args)
-        super
-        attributes = extract_arguments(args)
-        self.content = args.first if args.first
+      ######
+      # Initialization
 
-        attributes.each do |key, value|
-          set_attribute(key, value)
+        def initialize(*)
+          super
+
+          @attributes = Attributes.new
         end
-      end
 
-      def extract_arguments(args)
-        if args.last.is_a?(Hash)
-          args.pop
-        else
-          {}
+      ######
+      # Attributes
+
+        # Override this to provide a proper tag name.
+        def tag_name
+          raise NotImplementedError
         end
-      end
 
-      def set_attribute(name, value)
-        @attributes[name.to_sym] = value
-      end
+        attr_reader :attributes
 
-      def get_attribute(name)
-        @attributes[name.to_sym]
-      end
-      alias :attr :get_attribute
+      ######
+      # Building
 
-      def has_attribute?(name)
-        @attributes.has_key?(name.to_sym)
-      end
+        # Builds a tag.
+        #
+        # Any remaining keyword arguments that are received by this method are merged
+        # into the attributes array. This means that in your subclass, you can use
+        # keyword arguments, if you always end with +**extra+ which you pass on to this
+        # method.
+        #
+        # @param [String] content
+        #   Any raw content for in the tag.
+        # @param [Hash] attributes
+        #   HTML attributes to render.
+        def build(content = nil, attributes = {}, **extra)
+          self.content = content
 
-      def remove_attribute(name)
-        @attributes.delete(name.to_sym)
-      end
-
-      def id
-        get_attribute(:id)
-      end
-
-      # Generates and id for the object if it doesn't exist already
-      def id!
-        return id if id
-        self.id = object_id.to_s
-        id
-      end
-
-      def id=(id)
-        set_attribute(:id, id)
-      end
-
-      def add_class(class_names)
-        class_list.add class_names
-      end
-
-      def remove_class(class_names)
-        class_list.delete(class_names)
-      end
-
-      # Returns a string of classes
-      def class_names
-        class_list.to_s
-      end
-
-      def class_list
-        list = get_attribute(:class)
-
-        case list
-        when ClassList
-          list
-        when String
-          set_attribute(:class, ClassList.build_from_string(list))
-        else
-          set_attribute(:class, ClassList.new)
+          attributes.update attributes
+          attributes.update extra
         end
-      end
 
-      def render
-        indent(opening_tag, content, closing_tag).html_safe
-      end
+      ######
+      # Attributes
 
-      private
+        class << self
 
-      def opening_tag
-        "<#{tag_name}#{attributes_html}>"
-      end
-
-      def closing_tag
-        "</#{tag_name}>"
-      end
-
-      INDENT_SIZE = 2
-
-      def indent(open_tag, child_content, close_tag)
-        spaces = ' ' * indent_level * INDENT_SIZE
-
-        html = ""
-
-        if no_child? || child_is_text?
-          if self_closing_tag?
-            html << spaces << open_tag.sub( />$/, '/>' )
-          else
-            # one line
-            html << spaces << open_tag << child_content << close_tag
+          # Defines an HTML attribute accessor.
+          #
+          # == Example
+          #
+          #   class CheckBox < Tag
+          #
+          #     def tag_name
+          #       'input'
+          #     end
+          #
+          #     attribute :value
+          #     attribute :checked, boolean: true
+          #
+          #     def build
+          #       self[:type] = 'checkbox'
+          #       self.value = '1'         # equivalent to self[:value] = '1'
+          #       self.checked = true      # equivalent to self[:checked] = 'checked'
+          #       self.checked = false     # equivalent to self[:checked] = nil, i.e. removes the attribute
+          #     end
+          #
+          #   end
+          def attribute(*attributes, boolean: false)
+            attributes.each do |attribute|
+              if boolean
+                class_eval <<-RUBY, __FILE__, __LINE__+1
+                  def #{attribute}
+                    has_attribute? :#{attribute}
+                  end
+                  def #{attribute}=(value)
+                    self[:#{attribute}] = !!value
+                  end
+                RUBY
+              else
+                class_eval <<-RUBY, __FILE__, __LINE__+1
+                  def #{attribute}
+                    self[:#{attribute}]
+                  end
+                  def #{attribute}=(value)
+                    self[:#{attribute}] = value.to_s
+                  end
+                RUBY
+              end
+            end
           end
-        else
-          # multiple lines
-          html << spaces << open_tag << "\n"
-          html << child_content # the child takes care of its own spaces
-          html << spaces << close_tag
+
         end
 
-        html << "\n"
+        def [](attribute)
+          attributes[attribute]
+        end
 
-        html
-      end
+        def []=(attribute, value)
+          attributes[attribute] = value
+        end
 
-      def self_closing_tag?
-        %w|meta link|.include?(tag_name)
-      end
+        def has_attribute?(name)
+          attributes.has_key? name
+        end
 
-      def no_child?
-        children.empty?
-      end
+      ######
+      # ID, class, style
 
-      def child_is_text?
-        children.size == 1 && children.first.is_a?(TextNode)
-      end
+        attribute :id
+        def generate_id!
+          self.id = object_id
+        end
 
+        def add_class(classes)
+          self[:class] << classes
+        end
 
-      def attributes_html
-        attributes.any? ? " " + attributes.render : nil
-      end
+        def remove_class(classes)
+          self[:class].remove classes
+        end
+
+        def classes
+          self[:class]
+        end
+
+        def has_class?(klass)
+          respond_to?(:has_attribute?) && has_attribute?(:class) &&
+          respond_to?(:class_list) && class_list.include?(klass)
+        end
+
+      ######
+      # Rendering
+
+        def to_s
+          indent opening_tag, content, closing_tag
+        end
+
+        private
+
+        def opening_tag
+          attrs = " #{attributes}" unless attributes.empty?
+          "<#{tag_name}#{attrs}>".html_safe
+        end
+
+        def closing_tag
+          "</#{tag_name}>".html_safe
+        end
+
+        def self_closing_tag
+          attrs = " #{attributes}" unless attributes.empty?
+          "<#{tag_name}#{attrs}/>".html_safe
+        end
+
+        INDENT_SIZE = 2
+
+        def indent(open_tag, child_content, close_tag)
+          spaces = (' ' * indent_level * INDENT_SIZE)
+
+          html = ActiveSupport::SafeBuffer.new
+
+          if self_closing_tag?
+            html << spaces << self_closing_tag
+          elsif one_line?
+            html << spaces << open_tag << child_content << close_tag
+          else
+            html << spaces << open_tag << "\n"
+            html << child_content
+            html << spaces << close_tag
+          end
+
+          html << "\n"
+        end
+
+        public
+
+        def empty?
+          children.empty?
+        end
+
+        def one_line?
+          children.length == 1 &&
+          children.first.is_a?(TextNode) &&
+          !children.first.text.include?("\n")
+        end
+
+        def self_closing_tag?
+          false
+        end
+
+      ######
+      # Misc
+
+        def inspect
+          if self.class.name != tag_name.camelize
+            "<#{tag_name}>"
+          else
+            "<#{tag_name}(#{self.class.name})>"
+          end
+        end
 
     end
 
