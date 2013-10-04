@@ -44,10 +44,10 @@ module Arbre
           attributes = args.extract_options!
           self.content = args.first unless args.empty?
 
-          attributes.update attributes
-          attributes.update extra
+          self.attributes.update attributes
+          self.attributes.update extra
 
-          super
+          super()
         end
 
       ######
@@ -171,15 +171,15 @@ module Arbre
 
           if self_closing_tag?
             html << spaces << self_closing_tag
-          elsif one_line?
+          elsif empty? || one_line?
             html << spaces << open_tag << child_content << close_tag
           else
             html << spaces << open_tag << "\n"
-            html << child_content
+            html << child_content << "\n"
             html << spaces << close_tag
           end
 
-          html << "\n"
+          html
         end
 
         public

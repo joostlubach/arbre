@@ -96,7 +96,14 @@ module Arbre
 
       def content=(content)
         children.clear
-        children << TextNode.from_string(content)
+        case content
+        when Element
+          children << content
+        when ElementCollection
+          children.concat content
+        else
+          children << TextNode.from_string(content.to_s)
+        end
       end
 
       def content

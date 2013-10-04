@@ -8,7 +8,7 @@ describe Arbre do
   it "should render a single element" do
     arbre {
       span "Hello World"
-    }.to_s.should == "<span>Hello World</span>\n"
+    }.to_s.should == "<span>Hello World</span>"
   end
 
   it "should render a child element" do
@@ -16,7 +16,7 @@ describe Arbre do
       span do
         span "Hello World"
       end
-    }.to_s.should == <<-HTML
+    }.to_s.should == <<-HTML.chomp
 <span>
   <span>Hello World</span>
 </span>
@@ -30,7 +30,7 @@ HTML
         li "Second"
         li "Third"
       end
-    }.to_s.should == <<-HTML
+    }.to_s.should == <<-HTML.chomp
 <ul>
   <li>First</li>
   <li>Second</li>
@@ -47,7 +47,7 @@ HTML
          li first
          li second
        end
-     }.to_s.should == <<-HTML
+     }.to_s.should == <<-HTML.chomp
 <ul>
   <li>First</li>
   <li>Second</li>
@@ -64,7 +64,7 @@ HTML
           li
         end
       end
-    }.to_s.should == <<-HTML
+    }.to_s.should == <<-HTML.chomp
 <div>
   <ul></ul>
   <li>
@@ -82,7 +82,7 @@ HTML
           li
         end
       end
-    }.to_s.should == <<-HTML
+    }.to_s.should == <<-HTML.chomp
 <div>
   <ul>
     <li></li>
@@ -97,7 +97,7 @@ HTML
       div do
         span(ul(li))
       end
-    }.to_s.should == <<-HTML
+    }.to_s.should == <<-HTML.chomp
 <div>
   <span>
     <ul>
@@ -116,7 +116,7 @@ HTML
           li
         end
       end
-    }.to_s.should == <<-HTML
+    }.to_s.should == <<-HTML.chomp
 <div id="my-tag">
   <ul>
     <li></li>
@@ -136,64 +136,12 @@ HTML
     }
   end
 
-  it "should set a string content return value with no children" do
-    arbre {
-      li do
-        "Hello World"
-      end
-    }.to_s.should == <<-HTML
-<li>Hello World</li>
-HTML
-  end
-
-  it "should turn string return values into text nodes" do
-    arbre {
-      list = li do
-        "Hello World"
-      end
-      node = list.children.first
-      node.class.should == Arbre::TextNode
-    }
-  end
-
-  it "should not render blank arrays" do
-    arbre {
-      tbody do
-        []
-      end
-    }.to_s.should == <<-HTML
-<tbody></tbody>
-HTML
-  end
-
-  describe "self-closing nodes" do
-
-    it "should not self-close script tags" do
-      arbre {
-        script :type => 'text/javascript'
-      }.to_s.should == "<script type=\"text/javascript\"></script>\n"
-    end
-
-    it "should self-close meta tags" do
-      arbre {
-        meta :content => "text/html; charset=utf-8"
-      }.to_s.should == "<meta content=\"text/html; charset=utf-8\"/>\n"
-    end
-
-    it "should self-close link tags" do
-      arbre {
-        link :rel => "stylesheet"
-      }.to_s.should == "<link rel=\"stylesheet\"/>\n"
-    end
-
-  end
-
   describe "html safe" do
 
     it "should escape the contents" do
       arbre {
         span("<br />")
-      }.to_s.should == <<-HTML
+      }.to_s.should == <<-HTML.chomp
 <span>&lt;br /&gt;</span>
 HTML
     end
@@ -207,21 +155,7 @@ HTML
     it "should not escape html passed in" do
       arbre {
         span(span("<br />"))
-      }.to_s.should == <<-HTML
-<span>
-  <span>&lt;br /&gt;</span>
-</span>
-HTML
-    end
-
-    it "should escape string contents when passed in block" do
-      arbre {
-        span {
-          span {
-            "<br />"
-          }
-        }
-      }.to_s.should == <<-HTML
+      }.to_s.should == <<-HTML.chomp
 <span>
   <span>&lt;br /&gt;</span>
 </span>
@@ -231,7 +165,7 @@ HTML
     it "should escape the contents of attributes" do
       arbre {
         span(:class => "<br />")
-      }.to_s.should == <<-HTML
+      }.to_s.should == <<-HTML.chomp
 <span class="&lt;br /&gt;"></span>
 HTML
     end

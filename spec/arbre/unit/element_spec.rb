@@ -150,6 +150,25 @@ describe Element do
         expect(element.content).to eql('(CONTENT)')
       end
 
+      it "should clear any children and add a given element" do
+        element << Element.new << Element.new
+        child = Element.new
+        element.content = child
+
+        expect(element).to have(1).child
+        expect(element.children[0]).to be(child)
+      end
+
+      it "should clear any children and add a given element collection" do
+        element << Element.new << Element.new
+
+        child1 = Element.new
+        child2 = Element.new
+        children = ElementCollection.new([child1, child2])
+        element.content = children
+        expect(element.children).to eq([child1, child2])
+      end
+
     end
 
   ######
