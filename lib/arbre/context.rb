@@ -48,7 +48,7 @@ module Arbre
       end
 
       def indent_level
-        0
+        -1
       end
 
     ######
@@ -62,9 +62,9 @@ module Arbre
         @_flow_stack.last
       end
 
-      def within_element(element)
+      def within(element)
         raise ArgumentError, "block required" unless block_given?
-        raise ArgumentError, "Can't be in the context of nil" unless element
+        raise ArgumentError, "can't be in the context of nil" unless element
 
         @_element_stack.push element
         yield

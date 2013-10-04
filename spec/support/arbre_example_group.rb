@@ -1,7 +1,9 @@
 module ArbreExampleGroup
 
   def arbre(&block)
-    Arbre::Context.new assigns, helpers, &block
+    @context ||= Arbre::Context.new(assigns, helpers)
+    @context.instance_exec &block if block_given?
+    @context
   end
 
   def assigns

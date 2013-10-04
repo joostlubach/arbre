@@ -8,7 +8,7 @@ describe Arbre do
   it "should render a single element" do
     arbre {
       span "Hello World"
-    }.render.should == "<span>Hello World</span>\n"
+    }.to_s.should == "<span>Hello World</span>\n"
   end
 
   it "should render a child element" do
@@ -16,7 +16,7 @@ describe Arbre do
       span do
         span "Hello World"
       end
-    }.render.should == <<-HTML
+    }.to_s.should == <<-HTML
 <span>
   <span>Hello World</span>
 </span>
@@ -30,7 +30,7 @@ HTML
         li "Second"
         li "Third"
       end
-    }.render.should == <<-HTML
+    }.to_s.should == <<-HTML
 <ul>
   <li>First</li>
   <li>Second</li>
@@ -47,7 +47,7 @@ HTML
          li first
          li second
        end
-     }.render.should == <<-HTML
+     }.to_s.should == <<-HTML
 <ul>
   <li>First</li>
   <li>Second</li>
@@ -64,7 +64,7 @@ HTML
           li
         end
       end
-    }.render.should == <<-HTML
+    }.to_s.should == <<-HTML
 <div>
   <ul></ul>
   <li>
@@ -82,7 +82,7 @@ HTML
           li
         end
       end
-    }.render.should == <<-HTML
+    }.to_s.should == <<-HTML
 <div>
   <ul>
     <li></li>
@@ -97,7 +97,7 @@ HTML
       div do
         span(ul(li))
       end
-    }.render.should == <<-HTML
+    }.to_s.should == <<-HTML
 <div>
   <span>
     <ul>
@@ -116,7 +116,7 @@ HTML
           li
         end
       end
-    }.render.should == <<-HTML
+    }.to_s.should == <<-HTML
 <div id="my-tag">
   <ul>
     <li></li>
@@ -141,7 +141,7 @@ HTML
       li do
         "Hello World"
       end
-    }.render.should == <<-HTML
+    }.to_s.should == <<-HTML
 <li>Hello World</li>
 HTML
   end
@@ -161,7 +161,7 @@ HTML
       tbody do
         []
       end
-    }.render.should == <<-HTML
+    }.to_s.should == <<-HTML
 <tbody></tbody>
 HTML
   end
@@ -171,19 +171,19 @@ HTML
     it "should not self-close script tags" do
       arbre {
         script :type => 'text/javascript'
-      }.render.should == "<script type=\"text/javascript\"></script>\n"
+      }.to_s.should == "<script type=\"text/javascript\"></script>\n"
     end
 
     it "should self-close meta tags" do
       arbre {
         meta :content => "text/html; charset=utf-8"
-      }.render.should == "<meta content=\"text/html; charset=utf-8\"/>\n"
+      }.to_s.should == "<meta content=\"text/html; charset=utf-8\"/>\n"
     end
 
     it "should self-close link tags" do
       arbre {
         link :rel => "stylesheet"
-      }.render.should == "<link rel=\"stylesheet\"/>\n"
+      }.to_s.should == "<link rel=\"stylesheet\"/>\n"
     end
 
   end
@@ -193,7 +193,7 @@ HTML
     it "should escape the contents" do
       arbre {
         span("<br />")
-      }.render.should == <<-HTML
+      }.to_s.should == <<-HTML
 <span>&lt;br /&gt;</span>
 HTML
     end
@@ -201,13 +201,13 @@ HTML
     it "should return html safe strings" do
       arbre {
         span("<br />")
-      }.render.should be_html_safe
+      }.to_s.should be_html_safe
     end
 
     it "should not escape html passed in" do
       arbre {
         span(span("<br />"))
-      }.render.should == <<-HTML
+      }.to_s.should == <<-HTML
 <span>
   <span>&lt;br /&gt;</span>
 </span>
@@ -221,7 +221,7 @@ HTML
             "<br />"
           }
         }
-      }.render.should == <<-HTML
+      }.to_s.should == <<-HTML
 <span>
   <span>&lt;br /&gt;</span>
 </span>
@@ -231,7 +231,7 @@ HTML
     it "should escape the contents of attributes" do
       arbre {
         span(:class => "<br />")
-      }.render.should == <<-HTML
+      }.to_s.should == <<-HTML
 <span class="&lt;br /&gt;"></span>
 HTML
     end

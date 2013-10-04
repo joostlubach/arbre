@@ -59,14 +59,14 @@ module Arbre
         # Executes a block within the context of the given element, or DOM query.
         def within(element, &block)
           element = find(element).first if element.is_a?(String)
-          arbre_context.within_element element, &block
+          arbre_context.within element, &block
         end
 
         # Executes a block within the context of the given element, or DOM query. All elements
         # are prepended.
         def prepend_within(element, &block)
           element = find(element).first if element.is_a?(String)
-          arbre_context.within_element element do
+          arbre_context.within element do
             arbre_context.with_flow :prepend, &block
           end
         end
@@ -113,17 +113,17 @@ module Arbre
 
             # Update the flow - the next element should be added after this one, not be
             # prepended.
-            arbre_context.replace_current_flow :after => child
+            arbre_context.replace_current_flow [:after, child]
 
           else
             # flow: [ :before, element ] or [ :after, element ]
-            operation, element = flow
+            operation, element = current_flow
             children.send :"insert_#{operation}", element, child
 
             if operation == :after
               # Now that we've inserted something after the element, we need to
               # make sure that the next element we insert will be after this one.
-              arbre_context.replace_current_flow :after => child
+              arbre_context.replace_current_flow [:after, child]
             end
           end
         end
@@ -141,7 +141,7 @@ module Arbre
           arbre_context.current_element
         end
 
-        def current_arbre_flow
+        def current_flow
           arbre_context.current_flow
         end
 

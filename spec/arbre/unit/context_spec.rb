@@ -10,9 +10,9 @@ describe Context do
       expect{ Context.new.parent = Element.new }.to raise_error(NotImplementedError)
     end
 
-    it "should always have an indentation level of 0" do
+    it "should always have an indentation level of -1" do
       context = Context.new
-      expect(context.indent_level).to eql(0)
+      expect(context.indent_level).to eql(-1)
     end
 
     describe '#assigns' do
