@@ -14,10 +14,24 @@ module Arbre
 
       include Enumerable
       delegate :each, :empty?, :length, :size, :count, :to => :@elements
-      delegate :add, :<<, :clear, :concat, :to => :@elements
+      delegate :clear, :to => :@elements
 
       def [](index)
         @elements[index]
+      end
+
+      def add(element)
+        @elements << element unless include?(element)
+        self
+      end
+      def <<(element)
+        add element
+      end
+
+      def concat(elements)
+        elements.each do |element|
+          self << element
+        end
       end
 
       def remove(element)

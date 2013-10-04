@@ -26,13 +26,11 @@ module Arbre
     # Adding and removing
 
       def add(element)
-        assign_to_parent element unless include?(element)
-        @elements << element
-      end
-      alias << add
+        return if include?(element)
 
-      def concat(collection)
-        collection.each { |element| self << element }
+        assign_to_parent element
+        @elements << element
+        self
       end
 
       def remove(element)
@@ -50,6 +48,15 @@ module Arbre
     ######
     # Inserting
 
+      def insert_at(index, element)
+        if include?(element)
+          @elements.delete element
+        else
+          assign_to_parent element
+        end
+        @elements.insert index, element
+      end
+
       def insert_after(existing, element)
         index = @elements.index(existing) or
           raise ArgumentError, "existing element #{existing} not found"
@@ -61,12 +68,7 @@ module Arbre
         index = @elements.index(existing) or
           raise ArgumentError, "existing element #{existing} not found"
 
-        insert_at index+1, element
-      end
-
-      def insert_at(index, element)
-        assign_to_parent element unless include?(element)
-        @elements.insert index, element
+        insert_at index, element
       end
 
     ######

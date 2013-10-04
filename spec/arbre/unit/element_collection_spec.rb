@@ -116,6 +116,13 @@ describe ElementCollection do
 
     end
 
+    it "should not add the same element more than once" do
+      collection = ElementCollection.new
+      element = Element.new
+      collection << element << element
+      expect(collection).to have(1).element
+    end
+
   ######
   # Rendering
 
