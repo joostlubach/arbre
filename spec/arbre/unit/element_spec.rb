@@ -44,6 +44,14 @@ describe Element do
   ######
   # Hierarchy
 
+    describe '#remove!' do
+      it "should remove itself from its parent children" do
+        element.parent = Element.new
+        expect(element.parent.children).to receive(:remove).with(element)
+        element.remove!
+      end
+    end
+
     describe '#children' do
 
       specify { expect(element.children).to be_a(ChildElementCollection) }

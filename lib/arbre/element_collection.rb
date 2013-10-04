@@ -41,7 +41,7 @@ module Arbre
     # Set operations
 
       def +(other)
-        self.class.new(@elements + other)
+        self.class.new((@elements + other).uniq)
       end
 
       def -(other)
@@ -56,14 +56,14 @@ module Arbre
     # String conversion
 
       def to_s
-        html_safe_join(map(&:to_s))
+        html_safe_join(map(&:to_s), "\n")
       end
 
       private
 
-      def html_safe_join(delimiter = '')
+      def html_safe_join(array, delimiter = '')
         ActiveSupport::SafeBuffer.new.tap do |str|
-          each_with_index do |element, i|
+          array.each_with_index do |element, i|
             str << delimiter if i > 0
             str << element
           end

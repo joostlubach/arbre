@@ -18,12 +18,8 @@ module Arbre
     ######
     # Equality
 
-      def ==(other)
-        parent == other.parent && super
-      end
-
       def eql?(other)
-        parent == other.parent && super
+        super && parent == other.parent
       end
 
     ######
