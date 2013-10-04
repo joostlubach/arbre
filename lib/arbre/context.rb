@@ -43,10 +43,18 @@ module Arbre
         @_helpers
       end
 
+      def parent=(*)
+        raise NotImplementedError, "Context cannot have a parent"
+      end
+
+      def indent_level
+        0
+      end
+
     ######
     # Element & flow stack
 
-      def current_arbre_element
+      def current_element
         @_element_stack.last
       end
 

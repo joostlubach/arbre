@@ -14,8 +14,8 @@ module Arbre
 
       # Initializes a new Arbre element. Pass an existing Arbre context to re-use it.
       def initialize(arbre_context = Arbre::Context.new)
-        @arbre_context = arbre_context
-        @children = ChildElementCollection.new(self)
+        @_arbre_context = arbre_context
+        @_children = ChildElementCollection.new(self)
 
         expose_assigns
       end
@@ -23,7 +23,9 @@ module Arbre
     ######
     # Context
 
-      attr_reader :arbre_context
+      def arbre_context
+        @_arbre_context
+      end
 
       def assigns
         arbre_context.assigns
@@ -36,9 +38,16 @@ module Arbre
     ######
     # Hierarchy
 
-      attr_accessor :parent
+      def parent
+        @_parent
+      end
+      def parent=(parent)
+        @_parent = parent
+      end
 
-      attr_reader :children
+      def children
+        @_children
+      end
 
       # Removes this element from its parent.
       def remove!
@@ -50,11 +59,11 @@ module Arbre
       end
 
       def children?
-        @children.any?
+        children.any?
       end
 
       def orphan?
-        !@parent
+        !parent
       end
 
       # Retrieves all ancestors (ordered from near to far) for this element.
@@ -113,7 +122,7 @@ module Arbre
       end
 
       def indent_level
-        if parent?
+        if parent
           parent.indent_level + 1
         else
           0

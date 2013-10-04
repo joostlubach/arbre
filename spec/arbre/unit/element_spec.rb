@@ -189,6 +189,16 @@ describe Element do
       expect(element.inspect).to match(/#<Arbre::Element:0x[0-9a-f]+>/)
     end
 
+    it "should have an indentation level of 0 by default" do
+      expect(element.indent_level).to eql(0)
+    end
+
+    it "should have an indentation level of 1 higher than its parent, if it has a parent" do
+      element.parent = Element.new
+      expect(element.parent).to receive(:indent_level).and_return(5)
+      expect(element.indent_level).to eql(6)
+    end
+
   ######
   # Helpers & assigns access
 

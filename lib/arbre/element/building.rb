@@ -130,11 +130,11 @@ module Arbre
           build_element Element, &block
         end
 
-        def current_arbre_element
-          arbre_context.current_arbre_element
+        def current_element
+          arbre_context.current_element
         end
 
-        def current_flow
+        def current_arbre_flow
           arbre_context.current_flow
         end
 

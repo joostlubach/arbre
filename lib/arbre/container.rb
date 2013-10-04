@@ -9,7 +9,11 @@ module Arbre
     end
 
     def indent_level
-      super - 1
+      if parent
+        parent.indent_level
+      else
+        0
+      end
     end
   end
 
