@@ -21,5 +21,6 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency "bundler", "~> 1.3"
   s.add_development_dependency "rake"
+  s.add_development_dependency "combustion"
   s.add_development_dependency "rspec-rails", "~> 2.14"
 end

@@ -1,13 +1,9 @@
 module Arbre
   module Rails
 
-    # Adds the concept of partials to Arbre.
+    # Template rendering strategies for Arbre.
     #
-    # In fact, the standard ActionView method +render+ is used, but an Arbre context is passed
-    # as a local variable into the template. Arbre's template handler will pick this up and
-    # re-use it. This allows you to build in the current Arbre context from a partial template.
-    #
-    # == Usage
+    # == Partials
     #
     # Simply use the method {#partial} instead of +render :partial => '...'+.
     #
@@ -39,7 +35,7 @@ module Arbre
     #   label :something
     #   text_field :something
     #
-    module Partials
+    module Rendering
 
       # Inserts a partial into the current flow.
       #
@@ -51,6 +47,20 @@ module Arbre
       #   +self+.
       def partial(name, locals = {}, context: self)
         render :partial => name, :locals => locals.merge(:arbre_context => context)
+      end
+
+      # Uses the given arguments to perform an ActionView render. If the result is an Arbre
+      # context, instead of treating it as a string, its children are added to the current
+      # element.
+      def render(*args)
+        result = helper.render(*args)
+
+        case result
+        when Arbre::Element
+          children.concat result.children
+        else
+          children << TextNode.from_string(result) if result.length > 0
+        end
       end
 
     end
