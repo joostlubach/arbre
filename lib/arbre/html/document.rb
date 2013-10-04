@@ -1,6 +1,9 @@
 module Arbre
   module Html
 
+    # Root tag for any Html document.
+    #
+    # Represents the combination of a doctype, a +head+ tag and a +body+ tag.
     class Document < Tag
 
       ######
@@ -8,7 +11,6 @@ module Arbre
 
         def initialize(*)
           super
-          arbre_context.try :expose_assigns, self
         end
 
       ######
@@ -19,10 +21,12 @@ module Arbre
           append_body
         end
 
+        private
+
         # Builds up a default head tag.
         def append_head
           @_head = append(Head) do
-            meta :"http-equiv" => "Content-type", :content => "text/html; charset=utf-8"
+            meta :"http-equiv" => "Content-Type", :content => "text/html; charset=utf-8"
           end
         end
 
@@ -31,7 +35,7 @@ module Arbre
           @_body = append(Body)
         end
 
-        private :build_head, :build_body
+        public
 
       ######
       # Head & body accessors

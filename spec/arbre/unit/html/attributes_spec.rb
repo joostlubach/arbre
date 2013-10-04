@@ -17,12 +17,6 @@ describe Attributes do
       expect(attributes).to eq({ 'one' => '1' })
     end
 
-    it "should be able to be created using Attributes() just like Hash()" do
-      expect(self).to receive(:Hash).with(:one => '1').and_return(:one => '1')
-      attributes = Attributes(:one => '1')
-      expect(attributes).to eq({ 'one' => '1' })
-    end
-
     it "should be able to be created using Attributes[] just like Hash[]" do
       expect(Hash).to receive(:[]).with(:one, '1').and_return(:one => '1')
       attributes = Attributes[:one, '1']
@@ -66,14 +60,14 @@ describe Attributes do
     end
 
     it "should remove an attribute that is set to false" do
-      attributes = Attributes('one' => '1')
+      attributes = Attributes.new('one' => '1')
       attributes[:one] = false
 
       expect(attributes).to be_empty
     end
 
     it "should remove an attribute that is set to nil" do
-      attributes = Attributes('one' => '1')
+      attributes = Attributes.new('one' => '1')
       attributes[:one] = nil
 
       expect(attributes).to be_empty
@@ -84,13 +78,13 @@ describe Attributes do
   describe '#remove' do
 
     it "should remove the attribute with the given name" do
-      attributes = Attributes(:one => '1')
+      attributes = Attributes.new(:one => '1')
       attributes.remove 'one'
       expect(attributes).to be_empty
     end
 
     it "should remove the attribute with the given name (access indifferent)" do
-      attributes = Attributes(:one => '1')
+      attributes = Attributes.new(:one => '1')
       attributes.remove :one
       expect(attributes).to be_empty
     end
@@ -100,14 +94,14 @@ describe Attributes do
   describe '#update' do
 
     it "should update the attributes hash with new attributes" do
-      attributes = Attributes(:one => '1', :two => '2')
+      attributes = Attributes.new(:one => '1', :two => '2')
 
       attributes.update 'one' => '2', :three => '3'
       expect(attributes).to eq('one' => '2', 'two' => '2', 'three' => '3')
     end
 
     it "should be able to remove attributes by updating them to nil" do
-      attributes = Attributes(:one => '1', :two => '2')
+      attributes = Attributes.new(:one => '1', :two => '2')
 
       attributes.update 'one' => '2', :two => nil, :three => '3'
       expect(attributes).to eq('one' => '2', 'three' => '3')
@@ -134,11 +128,21 @@ describe Attributes do
     specify { expect(Attributes).to include(Enumerable) }
 
     it "should enumerate through all attributes using #each" do
-      attributes = Attributes(:one => '1', :two => '2')
+      attributes = Attributes.new(:one => '1', :two => '2')
 
       result = []
       attributes.each { |k, v| result << [ k, v] }
       expect(result).to eql([ ['one', '1'], ['two', '2'] ])
+    end
+
+  end
+
+  describe '#length, #size and #count' do
+
+    it "should all report the number of the attributes" do
+      expect(Attributes.new(:one => '2').length).to eql(1)
+      expect(Attributes.new(:one => '2').size).to eql(1)
+      expect(Attributes.new(:one => '2').count).to eql(1)
     end
 
   end

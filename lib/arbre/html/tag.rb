@@ -1,5 +1,4 @@
 require 'erb'
-require 'arbre/html/querying'
 
 module Arbre
   module Html
@@ -7,8 +6,6 @@ module Arbre
     # HTML tag element. Has attributes and is rendered as a HTML tag. Also provides querying
     # functionality.
     class Tag < Element
-
-      include Querying
 
       ######
       # Initialization
@@ -43,8 +40,9 @@ module Arbre
         #   Any raw content for in the tag.
         # @param [Hash] attributes
         #   HTML attributes to render.
-        def build(content = nil, attributes = {}, **extra)
-          self.content = content
+        def build(*args, **extra)
+          attributes = args.extract_options!
+          self.content = args.first unless args.empty?
 
           attributes.update attributes
           attributes.update extra

@@ -30,5 +30,3 @@ module Arbre
 
   end
 end
-
-ActionView::Template.register_template_handler :arb, Arbre::Rails::TemplateHandler.new

@@ -1,227 +1,215 @@
 require 'spec_helper'
+include Arbre
 
-describe Arbre::Element do
+describe Element do
 
-  let(:element){ Arbre::Element.new }
+  let(:element) { Element.new }
 
-  context "when initialized" do
+  ######
+  # Context
 
-    it "should have no children" do
-      element.children.should be_empty
-    end
+    describe '#arbre_context' do
 
-    it "should have no parent" do
-      element.parent.should be_nil
-    end
-
-    it "should respond to the HTML builder methods" do
-      element.should respond_to(:span)
-    end
-
-    it "should have a set of local assigns" do
-      context = Arbre::Context.new :hello => "World"
-      element = Arbre::Element.new(context)
-      element.assigns[:hello].should == "World"
-    end
-
-    it "should have an empty hash with no local assigns" do
-      element.assigns.should == {}
-    end
-
-  end
-
-  describe "passing in a helper object" do
-
-    let(:helper) do
-      Class.new do
-        def helper_method
-          "helper method"
-        end
+      it "should be a new one if none was specified" do
+        context = Element.new.arbre_context
+        expect(context).to be_a(Context)
       end
-    end
 
-    let(:element){ Arbre::Element.new(Arbre::Context.new(nil, helper.new)) }
-
-    it "should call methods on the helper object and return TextNode objects" do
-      element.helper_method.should == "helper method"
-    end
-
-    it "should raise a NoMethodError if not found" do
-      lambda {
-        element.a_method_that_doesnt_exist
-      }.should raise_error(NoMethodError)
-    end
-
-  end
-
-  describe "adding a child" do
-
-    let(:child){ Arbre::Element.new }
-
-    before do
-      element.add_child child
-    end
-
-    it "should add the child to the parent" do
-      element.children.first.should == child
-    end
-
-    it "should set the parent of the child" do
-      child.parent.should == element
-    end
-
-    context "when the child is nil" do
-
-      let(:child){ nil }
-
-      it "should not add the child" do
-        element.children.should be_empty
+      it "should the specified one if one was specified" do
+        context = Context.new
+        expect(Element.new(context).arbre_context).to be(context)
       end
 
     end
 
-    context "when the child is a string" do
+    describe '#assigns' do
 
-      let(:child){ "Hello World" }
-
-      it "should add as a TextNode" do
-        element.children.first.should be_instance_of(Arbre::TextNode)
-        element.children.first.render.should == "Hello World"
+      it "should take assigns from the context" do
+        expect(element.arbre_context).to receive(:assigns).and_return(:variable => :value)
+        expect(element.assigns).to eql(:variable => :value)
       end
 
     end
-  end
 
-  describe "setting the content" do
+    describe '#helpers' do
 
-    context "when a string" do
-
-      before do
-        element.add_child "Hello World"
-        element.content = "Goodbye"
+      it "should take helpers from the context" do
+        helpers = double()
+        expect(element.arbre_context).to receive(:helpers).and_return(helpers)
+        expect(element.helpers).to be(helpers)
       end
 
-      it "should clear the existing children" do
-        element.children.size.should == 1
-      end
-
-      it "should add the string as a child" do
-        element.children.first.render.should == "Goodbye"
-      end
-
-      it "should html escape the string" do
-        string = "Goodbye <br />"
-        element.content = string
-        element.content.should == "Goodbye &lt;br /&gt;"
-      end
     end
 
-    context "when an element" do
-      let(:content_element){ Arbre::Element.new }
+  ######
+  # Hierarchy
 
-      before do
-        element.content = content_element
+    describe '#children' do
+
+      specify { expect(element.children).to be_a(ChildElementCollection) }
+
+      it "should be empty by default" do
+        expect(element.children).to be_empty
       end
 
-      it "should set the content tag" do
-        element.children.first.should == content_element
-      end
-
-      it "should set the tags parent" do
-        content_element.parent.should == element
-      end
     end
 
-    context "when an array of tags" do
-      let(:first){ Arbre::Element.new }
-      let(:second){ Arbre::Element.new }
+    describe '#<<' do
 
-      before do
-        element.content = [first, second]
+      it "should add a child element" do
+        child = Element.new
+        element << child
+
+        expect(element).to have(1).child
+        expect(element.children[0]).to be(child)
       end
 
-      it "should set the content tag" do
-        element.children.first.should == first
-      end
-
-      it "should set the tags parent" do
-        element.children.first.parent.should == element
-      end
     end
 
-  end
+    describe '#orphan?' do
 
-  describe "rendering to html" do
+      it "should be true if the element has no parent" do
+        expect(element).to be_orphan
+      end
 
-    before  { @separator = $, }
-    after   { $, = @separator }
-    let(:collection){ element + Arbre::TextNode.from_string("hello world") }
+      it "should be false if the element has a parent" do
+        element.parent = Element.new
+        expect(element).not_to be_orphan
+      end
 
-    it "should render the children collection" do
-      element.children.should_receive(:render).and_return("content")
-      element.render.should == "content"
     end
 
-    it "should render collection" do
-      collection.render.should == "hello world"
+    describe '#ancestors' do
+
+      specify { expect(element.ancestors).to be_a(ElementCollection) }
+
+      it "should be empty if the element is an orphan" do
+        expect(element.ancestors).to be_empty
+      end
+
+      it "should list all ancestors from near to far" do
+        element.parent = Element.new
+        element.parent.parent = Element.new
+        element.parent.parent.parent = Element.new
+        expect(element.ancestors.to_a).to eql([ element.parent, element.parent.parent, element.parent.parent.parent ])
+      end
+
     end
 
-  end
+    describe '#descendants' do
 
-  describe "adding elements together" do
+      specify { expect(element.descendants).to be_a(ElementCollection) }
 
-    context "when both elements are tags" do
-      let(:first){ Arbre::Element.new }
-      let(:second){ Arbre::Element.new }
-      let(:collection){ first + second }
-
-      it "should return an instance of Collection" do
-        collection.should be_an_instance_of(Arbre::ElementCollection)
+      it "should be empty if the element has no children" do
+        expect(element.descendants).to be_empty
       end
 
-      it "should return the elements in the collection" do
-        collection.size.should == 2
-        collection.first.should == first
-        collection[1].should == second
+      it "should list all descendants, where each element is appended after its parent" do
+        child1, child2, grandchild11, grandchild21, grandchild22 = 5.times.collect { Element.new }
+
+        element << child1 << child2
+        child1 << grandchild11
+        child2 << grandchild21 << grandchild22
+
+        expect(element.descendants).to eq([
+          child1, grandchild11,
+          child2, grandchild21, grandchild22
+        ])
       end
+
     end
 
-    context "when the left is a collection and the right is a tag" do
-      let(:first){ Arbre::Element.new }
-      let(:second){ Arbre::Element.new }
-      let(:third){ Arbre::Element.new }
-      let(:collection){ Arbre::ElementCollection.new([first, second]) + third}
+  ######
+  # Content
 
-      it "should return an instance of Collection" do
-        collection.should be_an_instance_of(Arbre::ElementCollection)
+    describe '#content' do
+
+      it "should be the string output by #children" do
+        expect(element.children).to receive(:to_s).and_return('(CONTENT)')
+        expect(element.content).to eql('(CONTENT)')
       end
 
-      it "should return the elements in the collection flattened" do
-        collection.size.should == 3
-        collection[0].should == first
-        collection[1].should == second
-        collection[2].should == third
-      end
     end
 
-    context "when the right is a collection and the left is a tag" do
-      let(:first){ Arbre::Element.new }
-      let(:second){ Arbre::Element.new }
-      let(:third){ Arbre::Element.new }
-      let(:collection){ first + Arbre::ElementCollection.new([second,third]) }
+    describe '#content=' do
 
-      it "should return an instance of Collection" do
-        collection.should be_an_instance_of(Arbre::ElementCollection)
+      it "should clear any children and add a text node with the given string" do
+        element << Element.new << Element.new
+        element.content = "(CONTENT)"
+
+        expect(element).to have(1).child
+        expect(element.children[0]).to be_a(TextNode)
+        expect(element.content).to eql('(CONTENT)')
       end
 
-      it "should return the elements in the collection flattened" do
-        collection.size.should == 3
-        collection[0].should == first
-        collection[1].should == second
-        collection[2].should == third
-      end
     end
 
-  end
+  ######
+  # Set operations
+
+    describe '#+' do
+
+      it "should wrap itself in a collection and add the other element" do
+        element2 = Element.new
+
+        elements = element + element2
+        expect(elements).to be_a(ElementCollection)
+        expect(elements).to have(2).items
+        expect(elements[0]).to be(element)
+        expect(elements[1]).to be(element2)
+      end
+
+      it "should wrap itself in a collection and add the other elements" do
+        element2 = Element.new
+        element3 = Element.new
+
+        elements = element + [ element2, element3 ]
+        expect(elements).to be_a(ElementCollection)
+        expect(elements).to have(3).items
+        expect(elements[0]).to be(element)
+        expect(elements[1]).to be(element2)
+        expect(elements[2]).to be(element3)
+      end
+
+    end
+
+  ######
+  # Building & rendering
+
+    it "should not support rendering by itself" do
+      expect{ element.to_s }.to raise_error(NotImplementedError)
+    end
+
+    it "should alias to_s as to_html" do
+      expect(element).to receive(:to_s).and_return('(CONTENT)')
+      expect(element.to_html).to eql('(CONTENT)')
+    end
+
+    it "should provide a terse description using #inspect" do
+      expect(element.inspect).to match(/#<Arbre::Element:0x[0-9a-f]+>/)
+    end
+
+  ######
+  # Helpers & assigns access
+
+    it "should pass any missing method to a helper method" do
+      result = double()
+      allow(element).to receive(:helpers).and_return(double(:helpers))
+      expect(element.helpers).to receive(:respond_to?).with(:my_helper).and_return(true)
+      expect(element.helpers).to receive(:my_helper).and_return(result)
+      expect(element.my_helper).to be(result)
+    end
+
+    it "should not try a helper method if no helpers were found" do
+      expect{ element.my_helper }.to raise_error(NoMethodError)
+    end
+
+    it "should offer any assigns as instance variables when the element is initialized with a context" do
+      assigns = { :my_assign => :value }
+      context = Context.new(assigns, double(:helpers))
+      element = Element.new(context)
+
+      expect(element.instance_variable_get("@my_assign")).to be(:value)
+    end
 
 end

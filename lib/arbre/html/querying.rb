@@ -9,7 +9,24 @@ module Arbre
 
         # Finds elements by running a query.
         def find(query)
-          Query(current_arbre_element, query)
+          Query.new(self).execute(query)
+        end
+
+        # Finds all child tags of this element. This operation sees through all elements that
+        # are not a tag.
+        # @return [ElementCollection]
+        def descendant_tags
+          result = ElementCollection.new
+
+          children.each do |child|
+            if child.is_a?(Html::Tag)
+              result << child
+            else
+              result.concat child.descendant_tags
+            end
+          end
+
+          result
         end
 
         # Finds elements by a combination of tag and / or classes.
@@ -106,7 +123,7 @@ module Arbre
             query = query.downcase.squeeze(' ')
 
             # Start with all child tags of the root element.
-            tags = root.child_tags
+            tags = root.descendant_tags
 
             # Run through all segments in the query and process them one by one.
             query.scan CSS_SCAN do |operator, all, tag, id, classes, pseudos, attributes|
@@ -135,7 +152,7 @@ module Arbre
           private
 
           def find_children(tags, tag, id, classes)
-            children = tags.inject([]) { |result, tag| result += tag.child_tags }
+            children = tags.inject([]) { |result, tag| result += tag.descendant_tags }
 
             children.select! { |tag| tag.tag_name == tag } if tag
             children.select! { |tag| classes.all? { |cls| tag.has_class?(cls) } } if classes
@@ -194,11 +211,6 @@ module Arbre
             end
           end
 
-      end
-
-      # Query method access.
-      def Query(root, query)
-        Query.new(root).execute(query)
       end
 
   end

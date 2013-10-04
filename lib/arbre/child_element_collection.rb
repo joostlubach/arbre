@@ -9,8 +9,21 @@ module Arbre
     # Initialization
 
       def initialize(parent)
-        super
+        super([])
         @parent = parent
+      end
+
+      attr_reader :parent
+
+    ######
+    # Equality
+
+      def ==(other)
+        parent == other.parent && super
+      end
+
+      def eql?(other)
+        parent == other.parent && super
       end
 
     ######
@@ -34,7 +47,7 @@ module Arbre
       end
 
       def clear
-        elements.each { |element| element.parent = nil }
+        @elements.each { |element| element.parent = nil }
         super
       end
 
@@ -42,15 +55,15 @@ module Arbre
     # Inserting
 
       def insert_after(existing, element)
-        index = @elements.index(existing)
-          or raise ArgumentError, "existing element #{existing} not found"
+        index = @elements.index(existing) or
+          raise ArgumentError, "existing element #{existing} not found"
 
         insert_at index+1, element
       end
 
       def insert_before(existing, element)
-        index = @elements.index(existing)
-          or raise ArgumentError, "existing element #{existing} not found"
+        index = @elements.index(existing) or
+          raise ArgumentError, "existing element #{existing} not found"
 
         insert_at index+1, element
       end

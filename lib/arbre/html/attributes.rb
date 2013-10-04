@@ -14,6 +14,10 @@ module Arbre
         update attributes
       end
 
+      def self.[](*args)
+        Attributes.new(Hash[*args])
+      end
+
       def [](attribute)
         @attributes[attribute.to_s]
       end
@@ -44,7 +48,7 @@ module Arbre
       end
 
       include Enumerable
-      delegate :each, :empty?, :to => :@attributes
+      delegate :each, :empty?, :length, :size, :count, :to => :@attributes
 
       def pairs
         map do |name, value|
@@ -66,13 +70,6 @@ module Arbre
         ERB::Util.html_escape(s)
       end
 
-    end
-
-    def Attributes(*args)
-      Attributes.new(Hash(*args))
-    end
-    def Attributes.[](*args)
-      Attributes.new(Hash[*args])
     end
 
   end

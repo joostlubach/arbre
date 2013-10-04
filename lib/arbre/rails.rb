@@ -1,1 +1,0 @@
-require 'arbre/rails/template_handler'

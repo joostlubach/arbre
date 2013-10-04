@@ -1,8 +1,13 @@
 require 'spec_helper'
+include Arbre::Html
 
-describe Arbre::Html::Tag do
+describe Tag do
 
-  let(:tag){ Arbre::Html::Tag.new }
+  let(:tag) { Arbre::Html::Tag.new }
+
+  describe '#build' do
+
+  end
 
   describe "building a new tag" do
     before { tag.build "Hello World", :id => "my_id" }

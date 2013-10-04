@@ -7,13 +7,13 @@ module Arbre
   class TextNode < Element
     builder_method :text_node
 
-    # Builds a raw element from a string
+    # Builds a raw element from a string.
     def self.from_string(string)
       new.tap { |node| node.build(string) }
     end
 
     def children
-      raise NotImplementedError, "TextNodes do not have children"
+      ElementCollection.new
     end
 
     attr_reader :text
@@ -29,7 +29,7 @@ module Arbre
   end
 
   def TextNode(text)
-    TextNode.from_string
+    TextNode.from_string(text)
   end
 
 end

@@ -1,12 +1,13 @@
 require 'arbre/element/building'
+require 'arbre/html/querying'
 
 module Arbre
 
   # Base class for all Arbre elements. Rendering is not implemented, and should be implemented
   # by subclasses.
   class Element
-
     include Building
+    include Html::Querying
 
     ######
     # Initialization
@@ -14,7 +15,9 @@ module Arbre
       # Initializes a new Arbre element. Pass an existing Arbre context to re-use it.
       def initialize(arbre_context = Arbre::Context.new)
         @arbre_context = arbre_context
-        @children = ChildElementCollection.new
+        @children = ChildElementCollection.new(self)
+
+        expose_assigns
       end
 
     ######
@@ -50,51 +53,33 @@ module Arbre
         @children.any?
       end
 
-      def parent?
-        !!@parent
-      end
-
       def orphan?
-        !parent?
+        !@parent
       end
 
       # Retrieves all ancestors (ordered from near to far) for this element.
       # @return [ElementCollection]
       def ancestors
-        if parent?
-          ElementCollection([parent]) + parent.ancestors
-        else
-          ElementCollection.new
+        ancestors = ElementCollection.new
+
+        unless orphan?
+          ancestors << parent
+          ancestors.concat parent.ancestors
         end
+
+        ancestors
       end
 
       # Retrieves all descendants (in prefix form) for this element.
       # @return [ElementCollection]
       def descendants
-        descendants = []
+        descendants = ElementCollection.new
         children.each do |child|
-          next if child.is_a?(TextNode)
-
           descendants << child
-          descendants += child.descendants
+          descendants.concat child.descendants
         end
 
-        ElementCollection.new(descendants)
-      end
-
-      # Finds all child tags of this element. This operation sees through all elements that
-      # are not a tag.
-      # @return [ElementCollection]
-      def child_tags
-        result = []
-        children.each do |child|
-          if child.is_a?(Html::Tag)
-            result << child
-          else
-            result += child.child_tags
-          end
-        end
-        ElementCollection.new(result)
+        descendants
       end
 
     ######
@@ -102,7 +87,7 @@ module Arbre
 
       def content=(content)
         children.clear
-        children << TextNode(content)
+        children << TextNode.from_string(content)
       end
 
       def content
@@ -113,11 +98,11 @@ module Arbre
     # Set operations
 
       def +(element)
-        to_a + element
-      end
-
-      def to_a
-        ElementCollection.new([self])
+        if element.is_a?(Enumerable)
+          ElementCollection.new([self] + element)
+        else
+          ElementCollection.new([ self, element])
+        end
       end
 
     ######
@@ -139,7 +124,9 @@ module Arbre
         raise NotImplementedError
       end
 
-      alias to_html to_s
+      def to_html
+        to_s
+      end
 
       # Provide a clean element description when inspect is used.
       def inspect
@@ -147,13 +134,20 @@ module Arbre
       end
 
     ######
-    # Method missing
+    # Helpers & assigns accessing
 
       private
 
+      # Exposes the assigns from the context as instance variables to the given target.
+      def expose_assigns
+        assigns.each do |key, value|
+          instance_variable_set "@#{key}", value
+        end
+      end
+
       # Access helper methods from any Arbre element through its context.
       def method_missing(name, *args, &block)
-        if helpers.respond_to?(name)
+        if helpers && helpers.respond_to?(name)
           helpers.send(name, *args, &block)
         else
           super

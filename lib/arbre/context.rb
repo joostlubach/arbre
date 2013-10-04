@@ -1,4 +1,5 @@
 require 'arbre/element'
+require 'active_support/core_ext/hash/keys'
 
 module Arbre
 
@@ -21,8 +22,6 @@ module Arbre
       #   view.
       def initialize(assigns = nil, helpers = nil, &block)
         @_assigns = (assigns || {}).symbolize_keys
-        expose_assigns self
-
         @_helpers = helpers
         @_element_stack = [ self ]
         @_flow_stack = [ :append ]
@@ -42,16 +41,6 @@ module Arbre
 
       def helpers
         @_helpers
-      end
-
-    ######
-    # Expose assigns
-
-      # Exposes the assigns from the context as instance variables to the given target.
-      def expose_assigns(target)
-        assigns.each do |key, value|
-          target.instance_variable_set "@#{key}", value
-        end
       end
 
     ######

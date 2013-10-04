@@ -4,25 +4,23 @@ require 'active_support/core_ext/module/delegation'
 require 'active_support/core_ext/string/output_safety'
 
 module Arbre
-  extend ActiveSupport::Autoload
-
-  autoload :Element
-  autoload :Context
-  autoload :TextNode
-  autoload :Container
-
   module Html
-    extend ActiveSupport::Autoload
-
-    autoload :Attributes
-    autoload :ClassList
-    autoload :Tag
-    autoload :Document
-    autoload :Query, 'arbre/html/querying'
-
-    require 'arbre/html/html_tags'
   end
-
 end
+
+require 'arbre/element'
+require 'arbre/container'
+require 'arbre/context'
+require 'arbre/text_node'
+
+require 'arbre/element_collection'
+require 'arbre/child_element_collection'
+
+require 'arbre/html/attributes'
+require 'arbre/html/class_list'
+require 'arbre/html/querying'
+require 'arbre/html/tag'
+require 'arbre/html/document'
+require 'arbre/html/html_tags'
 
 require 'arbre/railtie' if defined?(Rails)
