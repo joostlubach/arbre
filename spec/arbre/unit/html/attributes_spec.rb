@@ -195,6 +195,18 @@ describe Attributes do
       expect(attributes.to_s).to eql('dangerous="&lt;&gt;&quot;"')
     end
 
+    it "should be HTML safe" do
+      attributes = Attributes.new(:dangerous => '<>"')
+      expect(attributes.to_s).to be_html_safe
+    end
+
+    it "should not render an empty class attribute" do
+      attributes = Attributes.new(:class => 'test')
+      expect(attributes.to_s).to eql('class="test"')
+      attributes[:class] = nil
+      expect(attributes.to_s).to eql('')
+    end
+
   end
 
 end

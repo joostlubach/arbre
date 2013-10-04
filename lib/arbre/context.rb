@@ -44,7 +44,7 @@ module Arbre
       end
 
       def parent=(*)
-        raise NotImplementedError, "Context cannot have a parent"
+        raise NotImplementedError, "Arbre::Context cannot have a parent"
       end
 
       def indent_level
@@ -62,7 +62,7 @@ module Arbre
         @_flow_stack.last
       end
 
-      def within(element)
+      def within_element(element)
         raise ArgumentError, "block required" unless block_given?
         raise ArgumentError, "can't be in the context of nil" unless element
 

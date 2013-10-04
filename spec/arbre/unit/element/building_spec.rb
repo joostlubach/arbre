@@ -53,10 +53,10 @@ describe Element::Building do
   # Within
 
     describe '#within' do
-      it "should just pass it on to arbre_context" do
+      it "should call within_element on to arbre_context" do
         block = proc{}
         element = Element.new
-        expect(arbre).to receive(:within).with(element) do |&blk|
+        expect(arbre).to receive(:within_element).with(element) do |&blk|
           expect(blk).to be(block)
         end
 
@@ -68,7 +68,7 @@ describe Element::Building do
       it "should resolve any string into an element using 'find'" do
         block = proc{}
         element = Element.new
-        expect(arbre).to receive(:within).with(element)
+        expect(arbre).to receive(:within_element).with(element)
 
         context_element = Element.new(arbre)
         expect(context_element).to receive(:find).with('fieldset#username').and_return([element])
@@ -158,10 +158,15 @@ describe Element::Building do
   # After / before
 
     describe '#after' do
+      let(:parent) { Element.new }
       let(:element) { Element.new }
+      before { parent << element }
 
       it "should insert an element of the given class using the :after flow" do
         block = proc {}
+        expect(arbre).to receive(:within_element).with(parent) do |&blk|
+          blk.call
+        end
         expect(arbre).to receive(:insert_element).with(element_class, :one, :two) do |&blk|
           expect(blk).to be(block)
           expect(arbre.current_flow).to eql([:after, element])
@@ -171,6 +176,9 @@ describe Element::Building do
       end
 
       it "should run the given block :after flow if no block is given" do
+        expect(arbre).to receive(:within_element).with(parent) do |&blk|
+          blk.call
+        end
         block = proc do
           expect(arbre.current_flow).to eql([:after, element])
         end
@@ -181,10 +189,15 @@ describe Element::Building do
     end
 
     describe '#before' do
+      let(:parent) { Element.new }
       let(:element) { Element.new }
+      before { parent << element }
 
       it "should insert an element of the given class using the :before flow" do
         block = proc {}
+        expect(arbre).to receive(:within_element).with(parent) do |&blk|
+          blk.call
+        end
         expect(arbre).to receive(:insert_element).with(element_class, :one, :two) do |&blk|
           expect(blk).to be(block)
           expect(arbre.current_flow).to eql([:before, element])
@@ -194,6 +207,9 @@ describe Element::Building do
       end
 
       it "should run the given block :before flow if no block is given" do
+        expect(arbre).to receive(:within_element).with(parent) do |&blk|
+          blk.call
+        end
         block = proc do
           expect(arbre.current_flow).to eql([:before, element])
         end

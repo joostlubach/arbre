@@ -19,6 +19,8 @@ module Arbre
         def build
           append_head
           append_body
+
+          super
         end
 
         private
@@ -64,7 +66,10 @@ module Arbre
         end
 
         def to_s
-          "#{doctype}\n\n#{super}"
+          out = ActiveSupport::SafeBuffer.new
+          out << doctype
+          out << "\n\n"
+          out << super
         end
 
     end

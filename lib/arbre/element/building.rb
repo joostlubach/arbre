@@ -59,7 +59,7 @@ module Arbre
         # Executes a block within the context of the given element, or DOM query.
         def within(element, &block)
           element = find(element).first if element.is_a?(String)
-          arbre_context.within element, &block
+          arbre_context.within_element element, &block
         end
 
         # Executes a block within the context of the given element, or DOM query. All elements
@@ -85,8 +85,11 @@ module Arbre
           class_eval <<-RUBY, __FILE__, __LINE__+1
             def #{flow}(element, klass = nil, *args, &block)
               element = find(element).first if element.is_a?(String)
-              arbre_context.with_flow [ :#{flow}, element ] do
-                insert_element_or_call_block klass, *args, &block
+
+              arbre_context.within element.parent do
+                arbre_context.with_flow [ :#{flow}, element ] do
+                  insert_element_or_call_block klass, *args, &block
+                end
               end
             end
           RUBY

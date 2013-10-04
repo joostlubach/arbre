@@ -62,6 +62,7 @@ module Arbre
 
       def pairs
         map do |name, value|
+          next if name == 'class' && value.blank?
           "#{html_escape(name)}=\"#{html_escape(value)}\""
         end
       end
@@ -71,7 +72,7 @@ module Arbre
       end
 
       def to_s
-        pairs.join(' ')
+        pairs.join(' ').html_safe
       end
 
       protected
