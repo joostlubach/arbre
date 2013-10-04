@@ -135,8 +135,7 @@ module Arbre
         end
 
         def has_class?(klass)
-          respond_to?(:has_attribute?) && has_attribute?(:class) &&
-          respond_to?(:class_list) && class_list.include?(klass)
+          klass.split(' ').all? { |cls| classes.include?(cls) }
         end
 
       ######
@@ -202,10 +201,15 @@ module Arbre
       # Misc
 
         def inspect
+          tag_desc = tag_name
+          tag_desc << "##{id}" if id
+          tag_desc << classes.map{ |cls| ".#{cls}" }.join
+          tag_desc << "[type=#{self[:type]}]" if has_attribute?(:type)
+
           if self.class.name != tag_name.camelize
-            "<#{tag_name}>"
+            "<#{tag_desc}>"
           else
-            "<#{tag_name}(#{self.class.name})>"
+            "<#{tag_desc}(#{self.class.name})>"
           end
         end
 

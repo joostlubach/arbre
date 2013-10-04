@@ -75,6 +75,30 @@ describe Attributes do
 
   end
 
+  describe "class attribute" do
+
+    it "should return a ClassList when the class attribute is accessed" do
+      expect(attributes[:class]).to be_a(ClassList)
+      expect(attributes[:class]).to be_empty
+      expect(attributes['class']).to be_a(ClassList)
+      expect(attributes['class']).to be_empty
+    end
+
+    it "should wrap things into a class list when the attribute is set" do
+      attributes[:class] = 'one'
+      expect(attributes[:class].to_s).to eql('one')
+
+      attributes[:class] = 'one two'
+      expect(attributes[:class].to_s).to eql('one two')
+
+      attributes[:class] = %[one two]
+      expect(attributes[:class].to_s).to eql('one two')
+      attributes[:class] << 'three four'
+      expect(attributes[:class].to_s).to eql('one two three four')
+    end
+
+  end
+
   describe '#remove' do
 
     it "should remove the attribute with the given name" do

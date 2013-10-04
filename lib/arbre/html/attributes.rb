@@ -19,10 +19,16 @@ module Arbre
       end
 
       def [](attribute)
-        @attributes[attribute.to_s]
+        if attribute.to_s == 'class'
+          @attributes['class'] ||= ClassList.new
+        else
+          @attributes[attribute.to_s]
+        end
       end
       def []=(attribute, value)
-        if value == true
+        if attribute.to_s == 'class'
+          @attributes['class'] = ClassList.new(value)
+        elsif value == true
           @attributes[attribute.to_s] = attribute.to_s
         elsif value
           @attributes[attribute.to_s] = value.to_s
@@ -45,6 +51,10 @@ module Arbre
 
       def eql?(other)
         other.is_a?(Attributes) && self == other
+      end
+
+      def has_key?(key)
+        @attributes.has_key?(key.to_s)
       end
 
       include Enumerable

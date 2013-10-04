@@ -13,7 +13,7 @@ module Arbre
     # Array proxy
 
       include Enumerable
-      delegate :each, :empty?, :length, :size, :count, :to => :@elements
+      delegate :each, :empty?, :length, :size, :count, :last, :to => :@elements
       delegate :clear, :to => :@elements
 
       def [](index)

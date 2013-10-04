@@ -1,3 +1,5 @@
+require 'active_support/core_ext/object/blank'
+
 module Arbre
   module Html
 
@@ -15,15 +17,29 @@ module Arbre
         # Finds all child tags of this element. This operation sees through all elements that
         # are not a tag.
         # @return [ElementCollection]
+        def child_tags
+          result = ElementCollection.new
+
+          children.each do |child|
+            if child.is_a?(Tag)
+              result << child
+            else
+              result.concat child.child_tags
+            end
+          end
+
+          result
+        end
+
+        # Finds all descendant tags of this element. This operation sees through all elements that
+        # are not a tag.
+        # @return [ElementCollection]
         def descendant_tags
           result = ElementCollection.new
 
           children.each do |child|
-            if child.is_a?(Html::Tag)
-              result << child
-            else
-              result.concat child.descendant_tags
-            end
+            result << child if child.is_a?(Tag)
+            result.concat child.descendant_tags
           end
 
           result
@@ -32,12 +48,15 @@ module Arbre
         # Finds elements by a combination of tag and / or classes.
         def find_by_tag_and_classes(tag = nil, classes = nil)
           tag_matches = ->(el) { tag.nil? || el.tag_name == tag }
-          classes_match = ->(el) { classes.nil? || classes.all? { |c| el.has_class?(c) } }
+          classes_match = ->(el) { classes.nil? || classes.all? { |cls| el.has_class?(cls) } }
 
           found = []
           children.each do |child|
-            found << child if tag_matches[child] && classes_match[child]
-            found += find_by_tag_and_classes(child, tag, classes)
+            if child.is_a?(Tag)
+              found << child if tag_matches[child] && classes_match[child]
+            end
+
+            found += child.find_by_tag_and_classes(tag, classes)
           end
 
           ElementCollection.new(found)
@@ -47,9 +66,7 @@ module Arbre
         # is retrieved.
         def find_by_id(id)
           children.each do |child|
-            next if child.is_a?(TextNode)
-
-            found = if child.respond_to?(:id) && child.id == id
+            found = if child.is_a?(Tag) && child.id == id
               child
             else
               child.find_by_id(id)
@@ -74,6 +91,8 @@ module Arbre
           def initialize(root)
             @root = root
           end
+
+          attr_reader :root
 
         ######
         # Constants
@@ -122,8 +141,7 @@ module Arbre
             # Sanitize the query for processing.
             query = query.downcase.squeeze(' ')
 
-            # Start with all child tags of the root element.
-            tags = root.descendant_tags
+            tags = [ root ]
 
             # Run through all segments in the query and process them one by one.
             query.scan CSS_SCAN do |operator, all, tag, id, classes, pseudos, attributes|
@@ -134,8 +152,8 @@ module Arbre
 
               # First process combinations of operator, all and id.
               tags = case operator
-              when '>' then find_children(tag, id, classes)
-              else find_descendant(tag, id, classes)
+              when '>' then find_children(tags, tag, id, classes)
+              else find_descendants(tags, tag, id, classes)
               end
 
               filter_by_pseudos tags, pseudos if pseudos
@@ -151,32 +169,32 @@ module Arbre
 
           private
 
-          def find_children(tags, tag, id, classes)
-            children = tags.inject([]) { |result, tag| result += tag.descendant_tags }
+          def find_children(tags, tag_name, id, classes)
+            children = tags.inject([]) { |result, tag| result += tag.child_tags }
 
-            children.select! { |tag| tag.tag_name == tag } if tag
+            children.select! { |tag| tag.tag_name == tag_name } if tag_name
             children.select! { |tag| classes.all? { |cls| tag.has_class?(cls) } } if classes
             children.select! { |tag| tag.id == id } if id
 
             children
           end
 
-          def find_descendants(tags, tag, id, classes)
+          def find_descendants(tags, tag_name, id, classes)
             if id
               # Find all children by ID.
-              children = tags.map{ |t| t.find_by_id(tag, id) }.compact
+              children = tags.map{ |tag| tag.find_by_id(id) }.compact
 
               # If a tag or classes are specified as well, filter the children.
-              children.select! { |t| t.tag_name == tag } if tag
-              children.select! { |t| classes.all? { |cls| t.has_class?(cls) } } if classes
+              children.select! { |tag| tag.tag_name == tag_name } if tag_name
+              children.select! { |tag| classes.all? { |cls| tag.has_class?(cls) } } if classes
 
               children
-            elsif tag || classes
+            elsif tag_name || classes
               # All descendants matching tag and/or classes.
-              tags.inject([]) { |r, t| r += t.find_by_tag_and_classes(tag, classes) }
+              tags.inject([]) { |result, tag| result += tag.find_by_tag_and_classes(tag_name, classes) }
             else
               # All descendants.
-              tags.inject([]) { |r, t| r += t.descendants }
+              tags.inject([]) { |result, tag| result += tag.descendant_tags }
             end
           end
 
