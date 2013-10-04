@@ -46,6 +46,8 @@ module Arbre
 
           attributes.update attributes
           attributes.update extra
+
+          super
         end
 
       ######
