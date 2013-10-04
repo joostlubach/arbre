@@ -108,5 +108,20 @@ describe Context do
 
     end
 
+  ######
+  # HTML caching
+
+    it "should not cause an infinite loop to call a missing method in a #to_s" do
+      element_class = Class.new(Arbre::Element) do
+        def to_s
+          missing_method
+        end
+      end
+
+      context = Arbre::Context.new({}, nil)
+      context.insert_element element_class
+
+      expect{ context.to_s }.to raise_error(NameError)
+    end
 
 end

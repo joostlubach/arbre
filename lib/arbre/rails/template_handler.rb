@@ -17,13 +17,13 @@ module Arbre
       # _arbre_ctx.instance_exec { <template source> }
       #
       # if _arbre_output
-      #   _arbre_ctx.to_html
+      #   _arbre_ctx
       # else
       #   ''
       # end
 
       def call(template)
-        "_arbre_ctx = arbre_context rescue nil; _arbre_output = _arbre_ctx.nil?; _arbre_ctx ||= Arbre::Context.new(assigns, self); _arbre_ctx.instance_exec { #{template.source}\n}; _arbre_output ? _arbre_ctx.to_html : ''"
+        "_arbre_ctx = arbre_context rescue nil; _arbre_output = _arbre_ctx.nil?; _arbre_ctx ||= Arbre::Context.new(assigns, self); _arbre_ctx.instance_exec { #{template.source}\n}; _arbre_output ? _arbre_ctx : ''"
       end
 
     end
