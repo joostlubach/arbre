@@ -86,42 +86,5 @@ module Arbre
         @_flow_stack.push flow
       end
 
-    ######
-    # String masquerading
-
-      # ActionView expects the output of any template to be a string. These methods
-      # are to ensure the context acts as a string.
-
-      def respond_to?(method)
-        super || (!rendering? && cached_html.respond_to?(method))
-      end
-
-      def to_s
-        @_rendering = true
-        super
-      ensure
-        @_rendering = false
-      end
-
-      alias to_str to_s
-
-      private
-
-      def method_missing(method, *args, &block)
-        if !rendering? && cached_html.respond_to?(method)
-          cached_html.send method, *args, &block
-        else
-          super
-        end
-      end
-
-      def rendering?
-        @_rendering
-      end
-
-      def cached_html
-        @_cached_html ||= to_s
-      end
-
   end
 end

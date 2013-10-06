@@ -10,4 +10,3 @@ Combustion.initialize! :action_controller, :action_view do
 end
 
 require 'rspec/rails'
-require 'capybara/rails'

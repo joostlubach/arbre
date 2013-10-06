@@ -108,30 +108,4 @@ describe Context do
 
     end
 
-  ######
-  # HTML caching
-
-    it "should forward methods to the rendered string, and cache it" do
-      expect(arbre).to receive(:content).once.and_return('<span>(Test)</span>')
-
-      expect(arbre).to respond_to(:length)
-      expect(arbre).to respond_to(:bytesize)
-      expect(arbre).to respond_to(:gsub)
-
-      expect(arbre.length).to eql(19)
-      expect(arbre.bytesize).to eql(19)
-      expect(arbre.gsub(/span/, 'div')).to eql('<div>(Test)</div>')
-    end
-
-    it "should not pass a method on to cached_html if the context has not finished rendering" do
-      expect(arbre).to receive(:content) do
-        # Arbre is now in the process of being rendered
-        expect(arbre).not_to respond_to(:length)
-        expect(arbre).not_to respond_to(:bytesize)
-        expect(arbre).not_to respond_to(:gsub)
-      end
-
-      arbre.to_html
-    end
-
 end

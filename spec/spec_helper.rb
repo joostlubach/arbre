@@ -1,4 +1,9 @@
 require 'arbre'
+require 'simplecov'
+
+SimpleCov.start do
+  add_filter 'spec/support'
+end
 
 RSpec.configure do |config|
 

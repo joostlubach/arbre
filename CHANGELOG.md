@@ -1,7 +1,9 @@
-## 2.0.0
+## 2.0.0.rc1
 
 * Removal of `:for`-feature in tags
-* Explicit conversion to HTML from template handler
+* Rails: added content-layout structure
+* Rails: optimized template output handling, removed need for String masquerading
+* Increased RSpec coverage to 100%
 
   *Joost Lubach*
 
