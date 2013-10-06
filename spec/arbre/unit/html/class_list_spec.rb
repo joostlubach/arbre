@@ -43,6 +43,12 @@ describe ClassList do
       expect(list.to_a).to match_array(%w[one two three four five])
     end
 
+    it "should add a class using a symbol" do
+      list = ClassList.new('one')
+      list << :two
+      expect(list.to_a).to match_array(%w[one two])
+    end
+
   end
 
   describe "#remove" do

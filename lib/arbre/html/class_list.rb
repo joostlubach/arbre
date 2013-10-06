@@ -21,7 +21,7 @@ module Arbre
       # Adds one ore more classes to the list. You can pass in a string which is split by space, or
       # an array of some kind.
       def add(classes)
-        classes = classes.split(' ')
+        classes = classes.to_s.split(' ')
         classes.each { |cls| super cls }
         self
       end

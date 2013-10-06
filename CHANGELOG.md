@@ -1,9 +1,14 @@
 ## 2.0.0.rc1
 
-* Removal of `:for`-feature in tags
 * Rails: added content-layout structure
 * Rails: optimized template output handling, removed need for String masquerading
 * Increased RSpec coverage to 100%
+
+### Breaking changes
+
+* Removal of `:for`-feature in tags
+* Renamed `current_arbre_element` to `current_element`
+* Renamed `Arbre::HTML` into `Arbre::Html`
 
   *Joost Lubach*
 
