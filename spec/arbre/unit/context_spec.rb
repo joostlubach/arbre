@@ -111,17 +111,27 @@ describe Context do
   ######
   # HTML caching
 
-    it "should not cause an infinite loop to call a missing method in a #to_s" do
-      element_class = Class.new(Arbre::Element) do
-        def to_s
-          missing_method
-        end
+    it "should forward methods to the rendered string, and cache it" do
+      expect(arbre).to receive(:content).once.and_return('<span>(Test)</span>')
+
+      expect(arbre).to respond_to(:length)
+      expect(arbre).to respond_to(:bytesize)
+      expect(arbre).to respond_to(:gsub)
+
+      expect(arbre.length).to eql(19)
+      expect(arbre.bytesize).to eql(19)
+      expect(arbre.gsub(/span/, 'div')).to eql('<div>(Test)</div>')
+    end
+
+    it "should not pass a method on to cached_html if the context has not finished rendering" do
+      expect(arbre).to receive(:content) do
+        # Arbre is now in the process of being rendered
+        expect(arbre).not_to respond_to(:length)
+        expect(arbre).not_to respond_to(:bytesize)
+        expect(arbre).not_to respond_to(:gsub)
       end
 
-      context = Arbre::Context.new({}, nil)
-      context.insert_element element_class
-
-      expect{ context.to_s }.to raise_error(NameError)
+      arbre.to_html
     end
 
 end

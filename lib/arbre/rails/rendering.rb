@@ -45,22 +45,24 @@ module Arbre
       #   The context which is used to render the partial. This can be any element, and
       #   is typically the calling element. The partial template may refer to this as
       #   +self+.
-      def partial(name, locals = {}, context: self)
+      def partial(name, context: self, **locals)
         render :partial => name, :locals => locals.merge(:arbre_context => context)
       end
 
       # Uses the given arguments to perform an ActionView render. If the result is an Arbre
       # context, instead of treating it as a string, its children are added to the current
       # element.
-      def render(*args)
-        result = helper.render(*args)
+      def render(*args, locals: {}, **options)
+        locals = locals.merge(:arbre_output_context => true)
+        result = helpers.render(*args, locals: locals, **options)
 
         case result
         when Arbre::Element
-          children.concat result.children
+          current_element.children.concat result.children
         else
-          children << TextNode.from_string(result) if result.length > 0
+          current_element.children << TextNode.from_string(result) if result.length > 0
         end
+        result
       end
 
     end

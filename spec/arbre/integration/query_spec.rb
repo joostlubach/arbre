@@ -1,7 +1,7 @@
 require 'spec_helper'
 include Arbre
 
-describe 'Querying' do
+describe Arbre::Html::Query do
 
   let(:arbre) do
     Arbre::Context.new do

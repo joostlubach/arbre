@@ -1,0 +1,3 @@
+render :partial => 'arbre_partial'
+
+para "The previous element is a #{current_element.children.first.class}"

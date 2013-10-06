@@ -45,58 +45,28 @@ module Arbre
     #   end
     module Layouts
 
-      class DocumentAlreadySet < RuntimeError; end
-      class DocumentNotFound < RuntimeError; end
-
-      ######
-      # ContentDocument class
-
-        # Describes a content document and build options.
-        # @api internal
-        class ContentDocument
-
-          def initialize(klass_or_reference, build_arguments, content_block)
-            @klass_or_reference = klass_or_reference
-            @build_arguments = build_arguments
-            @content_block = content_block
-          end
-
-          def klass
-            case @klass_or_reference
-            when Class then @klass_or_reference
-            else DocumentFactory[@klass_or_reference] or
-              raise DocumentNotFound, "document :#{@klass_or_reference} not found"
-            end
-          end
-
-          attr_reader :build_arguments, :content_block
-
-        end
+      # Describes a content document and build options.
+      # @api internal
+      class ContentDocument < Struct.new(:klass, :build_arguments, :content_block); end
 
       ######
       # ControllerMethods concern
 
         module ControllerMethods
-          extend ActiveSupport::Concern
 
           protected
 
           # See {ContextMethods#document} below.
           # @api internal
-          def arbre_document(klass_or_reference = nil, *build_arguments, &content_block)
-            if klass_or_reference
-              raise DocumentAlreadySet if @arbre_document
-
-              @arbre_document = ContentDocument.new(klass_or_reference, build_arguments, content_block)
-            else
-              @arbre_document
-            end
+          def arbre_document(klass = nil, *build_arguments, &content_block)
+            @arbre_document = ContentDocument.new(klass, build_arguments, content_block) if klass
+            @arbre_document
           end
 
         end
 
       ######
-      # HelperMethods
+      # ContextMethods
 
         module ContextMethods
 
@@ -105,18 +75,15 @@ module Arbre
           # @overload document
           #   Gets an object representing the content document to create. This is mostly for internal use.
           #
-          # @overload document(klass_or_reference, *build_arguments, &content_block)
+          # @overload document(klass, *build_arguments, &content_block)
           #   Specifies a document class and arguments to use. You may optionally customize it using a block.
           #
-          #   @param [Symbol|Class] klass_or_reference
-          #     The document class to use. Specify a class or a symbol, which is resolved to a class using
-          #     {DocumentFactory}.
-          #   @param [Array]        build_arguments
-          #     Any arguments passed to the document's +build+ method.
-          #   @param [Proc]         content_block
-          #     A block to be executed as the content block. See {Layouts above} for more info.
-          def document(klass_or_reference = nil, *build_arguments, &content_block)
-            controller.send :arbre_document, klass_or_reference, *build_arguments, &content_block
+          #   @param [Class] klass            The document class to use.
+          #   @param [Array] build_arguments  Any arguments to pass to the document's +build+ method.
+          #   @param [Proc] content_block     A block to be executed as the content block. See {Layouts above}
+          #                                   for more info.
+          def document(klass = nil, *build_arguments, &content_block)
+            controller.send :arbre_document, klass, *build_arguments, &content_block
           end
 
           # Provides a layout block to the current view and appends the current document
@@ -136,19 +103,19 @@ module Arbre
               end
 
               # Call the block anyway if it hasn't been called yet.
-              doc.instance_exec &document.block unless block_called
+              doc.instance_exec &document.content_block unless block_called
               doc
 
             elsif document
               # Use the specified document.
               append document.klass, *document.build_arguments
             else
-              # Append a generic layout container.
-              append Arbre::Rails::DocumentFactory[:layout]
+              # Append an empty document.
+              append Arbre::Rails.legacy_document
             end
 
             # Run the layout block unless this is an AJAX request.
-            doc.instance_exec &layout_block if layout_block && !doc.xhr?
+            doc.instance_exec &layout_block if layout_block && !request.xhr?
             doc
           end
 

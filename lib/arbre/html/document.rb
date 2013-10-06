@@ -20,7 +20,9 @@ module Arbre
           append_head
           append_body
 
-          super
+          within body do
+            yield self if block_given?
+          end
         end
 
         private

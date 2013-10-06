@@ -1,0 +1,5 @@
+layout do
+  head do
+    prepend { title "Application Title" }
+  end
+end

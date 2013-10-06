@@ -63,11 +63,10 @@ module Arbre
       end
 
       def within_element(element)
-        raise ArgumentError, "block required" unless block_given?
         raise ArgumentError, "can't be in the context of nil" unless element
 
         @_element_stack.push element
-        yield
+        yield if block_given?
       ensure
         @_element_stack.pop
       end
@@ -75,10 +74,8 @@ module Arbre
       # Executes a given block with the specified flow. You typically do not need to call this,
       # but instead you want to use any of the flow methods in {BuildMethods}.
       def with_flow(flow)
-        raise ArgumentError, "block required" unless block_given?
-
         @_flow_stack.push flow
-        yield
+        yield if block_given?
       ensure
         @_flow_stack.pop
       end
@@ -95,33 +92,31 @@ module Arbre
       # ActionView expects the output of any template to be a string. These methods
       # are to ensure the context acts as a string.
 
-      def bytesize
-        cached_html.bytesize
-      end
-      alias :length :bytesize
-
       def respond_to?(method)
-        super || (rendered? && cached_html.respond_to?(method))
+        super || (!rendering? && cached_html.respond_to?(method))
       end
 
       def to_s
+        @_rendering = true
         super
       ensure
-        @_rendered = true
+        @_rendering = false
       end
+
+      alias to_str to_s
 
       private
 
       def method_missing(method, *args, &block)
-        if rendered? && cached_html.respond_to?(method)
+        if !rendering? && cached_html.respond_to?(method)
           cached_html.send method, *args, &block
         else
           super
         end
       end
 
-      def rendered?
-        @_rendered
+      def rendering?
+        @_rendering
       end
 
       def cached_html

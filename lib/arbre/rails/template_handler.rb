@@ -10,20 +10,20 @@ module Arbre
 
       # Readable version:
       #
-      # _arbre_ctx      = arbre_context rescue nil
-      # _arbre_output   = _arbre_ctx.nil?
-      # _arbre_ctx    ||= Arbre::Context.new(assigns, self)
-      #
+      # _arbre_reuse_context = defined?(arbre_context)
+      # _arbre_ctx = _arbre_reuse_context ? arbre_context : Arbre::Context.new(assigns, self)
       # _arbre_ctx.instance_exec { <template source> }
       #
-      # if _arbre_output
+      # if _arbre_reuse_context
+      #   ''
+      # elsif defined?(arbre_output_context)
       #   _arbre_ctx
       # else
-      #   ''
+      #   _arbre_ctx.to_html
       # end
 
       def call(template)
-        "_arbre_ctx = arbre_context rescue nil; _arbre_output = _arbre_ctx.nil?; _arbre_ctx ||= Arbre::Context.new(assigns, self); _arbre_ctx.instance_exec { #{template.source}\n}; _arbre_output ? _arbre_ctx : ''"
+        "_arbre_reuse_context = defined?(arbre_context); _arbre_ctx = _arbre_reuse_context ? arbre_context : Arbre::Context.new(assigns, self); _arbre_ctx.instance_exec { #{template.source} }; _arbre_reuse_context ? '' : defined?(arbre_output_context) ? _arbre_ctx : _arbre_ctx.to_html"
       end
 
     end

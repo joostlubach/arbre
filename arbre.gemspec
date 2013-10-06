@@ -6,8 +6,8 @@ Gem::Specification.new do |s|
   s.name        = "arbre"
   s.version     = Arbre::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["Greg Bell"]
-  s.email       = ["gregdbell@gmail.com"]
+  s.authors     = ["Greg Bell", "Joost Lubach"]
+  s.email       = ["gregdbell@gmail.com", "joostlubach@gmail.com"]
   s.homepage    = ""
   s.summary     = %q{An Object Oriented DOM Tree in Ruby}
   s.description = %q{An Object Oriented DOM Tree in Ruby}
@@ -21,6 +21,8 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency "bundler", "~> 1.3"
   s.add_development_dependency "rake"
-  s.add_development_dependency "combustion"
+  s.add_development_dependency "tzinfo"
+  s.add_development_dependency "combustion", "~> 0.3"
   s.add_development_dependency "rspec-rails", "~> 2.14"
+  s.add_development_dependency "capybara"
 end

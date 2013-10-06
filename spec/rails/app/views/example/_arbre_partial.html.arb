@@ -1,0 +1,5 @@
+if defined?(local1)
+  para "Partial: Local1=#{local1}, Context Object ID=#{arbre_context.object_id}"
+else
+  para "Partial: Context Object ID=#{arbre_context.object_id}"
+end

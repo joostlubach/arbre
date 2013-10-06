@@ -20,7 +20,7 @@ require 'arbre/html/attributes'
 require 'arbre/html/class_list'
 require 'arbre/html/querying'
 require 'arbre/html/tag'
-require 'arbre/html/document'
 require 'arbre/html/html_tags'
+require 'arbre/html/document'
 
-require 'arbre/railtie' if defined?(Rails)
+require 'arbre/rails' if defined?(Rails)
