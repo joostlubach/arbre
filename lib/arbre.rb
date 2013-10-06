@@ -20,6 +20,7 @@ require 'arbre/html/attributes'
 require 'arbre/html/class_list'
 require 'arbre/html/querying'
 require 'arbre/html/tag'
+require 'arbre/html/comment'
 require 'arbre/html/html_tags'
 require 'arbre/html/document'
 
