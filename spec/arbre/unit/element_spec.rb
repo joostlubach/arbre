@@ -62,6 +62,26 @@ describe Element do
 
     end
 
+    describe '#has_children?' do
+      it "should be false if the element has no children" do
+        expect(element).not_to have_children
+      end
+      it "should be true if the element has children" do
+        element << Element.new
+        expect(element).to have_children
+      end
+    end
+
+    describe '#empty?' do
+      it "should be true if the element has no children" do
+        expect(element).to be_empty
+      end
+      it "should be false if the element has children" do
+        element << Element.new
+        expect(element).not_to be_empty
+      end
+    end
+
     describe '#<<' do
 
       it "should add a child element" do
@@ -211,8 +231,9 @@ describe Element do
       expect(receiver).to be(self)
     end
 
-    it "should not support rendering by itself" do
-      expect{ element.to_s }.to raise_error(NotImplementedError)
+    it "should render its content by default" do
+      expect(element).to receive(:content).and_return('(CONTENT)')
+      expect(element.to_s).to eql('(CONTENT)')
     end
 
     it "should alias to_s as to_html" do
@@ -240,9 +261,9 @@ describe Element do
     it "should pass any missing method to a helper method" do
       result = double()
       allow(element).to receive(:helpers).and_return(double(:helpers))
-      expect(element.helpers).to receive(:respond_to?).with(:my_helper).and_return(true)
       expect(element.helpers).to receive(:my_helper).and_return(result)
       expect(element.my_helper).to be(result)
+      expect{element.my_other_helper}.to raise_error(NoMethodError)
     end
 
     it "should actually define the method when it is first found on the helpers" do
@@ -258,6 +279,7 @@ describe Element do
       allow(element).to receive(:helpers).and_return(double(:helpers))
       allow(element.helpers).to receive(:my_helper).and_return(result)
       expect(element).to respond_to(:my_helper)
+      expect(element).not_to respond_to(:my_other_helper)
     end
 
     it "should not try a helper method if no helpers were found" do

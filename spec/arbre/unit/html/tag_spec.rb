@@ -32,6 +32,10 @@ describe Tag do
       expect(tag.classes.to_a).to eql(['custom'])
     end
 
+    it "should require #tag_name to be implemented" do
+      expect{ tag.tag_name }.to raise_error(NotImplementedError)
+    end
+
   ######
   # Attributes
 
@@ -165,5 +169,39 @@ describe Tag do
     end
 
   ## Rendering is exemplified in the integration HTML spec.
+
+  ######
+  # Inspection
+
+    it "should provide a terse description when using #inspect" do
+      table = Arbre::Html::Table.new
+      expect(table.inspect).to eql('<table>')
+
+      table.id = 'test'
+      expect(table.inspect).to eql('<table#test>')
+
+      table.classes << 'one' << 'two'
+      expect(table.inspect).to eql('<table#test.one.two>')
+
+      table.id = nil
+      expect(table.inspect).to eql('<table.one.two>')
+
+      input = Arbre::Html::Input.new
+      input.type = 'text'
+      expect(input.inspect).to eql('<input[type=text]>')
+    end
+
+    it "should append the class name if this is different from the tag name" do
+      klass = Class.new(Html::Tag) do
+        def tag_name
+          'table'
+        end
+        def self.name
+          'Datagrid'
+        end
+      end
+
+      expect(klass.new.inspect).to eql('<table(Datagrid)>')
+    end
 
 end

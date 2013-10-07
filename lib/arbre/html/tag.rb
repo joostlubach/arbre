@@ -207,15 +207,12 @@ module Arbre
 
         def inspect
           tag_desc = tag_name
+          tag_desc << "(#{self.class.name})" if self.class.name.demodulize != tag_name.camelize
           tag_desc << "##{id}" if id
           tag_desc << classes.map{ |cls| ".#{cls}" }.join
           tag_desc << "[type=#{self[:type]}]" if has_attribute?(:type)
 
-          if self.class.name != tag_name.camelize
-            "<#{tag_desc}>"
-          else
-            "<#{tag_desc}(#{self.class.name})>"
-          end
+          "<#{tag_desc}>"
         end
 
     end

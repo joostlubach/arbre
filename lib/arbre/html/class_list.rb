@@ -39,6 +39,10 @@ module Arbre
         self
       end
 
+      def ==(other)
+        to_a.sort == other.to_a.sort
+      end
+
       def to_s
         to_a.join(' ')
       end

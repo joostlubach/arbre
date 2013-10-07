@@ -25,6 +25,13 @@ describe ClassList do
     end
   end
 
+  describe '#classes' do
+    it "should be an alias to itself" do
+      list = ClassList.new('one two')
+      expect(list.classes).to be(list)
+    end
+  end
+
   describe "#add" do
 
     it "should add one class" do
@@ -73,6 +80,18 @@ describe ClassList do
       list = ClassList.new('one two three')
       list.remove 'one three'
       expect(list.to_a).to eql(['two'])
+    end
+
+  end
+
+  describe "equality" do
+
+    it "should be equal to another ClassList with the same classes" do
+      expect(ClassList.new('one two')).to eq(ClassList.new('two one'))
+    end
+
+    it "should be equal to an array with the same classes" do
+      expect(ClassList.new('one two')).to eq(['two', 'one'])
     end
 
   end

@@ -58,8 +58,12 @@ module Arbre
         children << child
       end
 
-      def children?
+      def has_children?
         children.any?
+      end
+
+      def empty?
+        !has_children?
       end
 
       def orphan?
@@ -138,7 +142,7 @@ module Arbre
       end
 
       def to_s
-        raise NotImplementedError
+        content
       end
 
       def to_html

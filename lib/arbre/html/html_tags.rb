@@ -46,7 +46,11 @@ module Arbre
 
     create_tag_class 'p', :para
 
-    class Table < Tag
+    Input.class_eval do
+      attribute :type
+    end
+
+    Table.class_eval do
       def initialize(*)
         super
         set_table_tag_defaults

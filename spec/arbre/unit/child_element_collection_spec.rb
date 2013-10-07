@@ -98,9 +98,15 @@ describe ChildElementCollection do
       it "should move, and not duplicate, an element that already existed in the collection" do
         collection << element1 << element3 << element2
         collection.insert_at 1, element2
-
         expect(collection).to eq([element1, element2, element3])
       end
+
+      it "should be able to move an element towards the back" do
+        collection << element2 << element1 << element3
+        collection.insert_at 2, element2
+        expect(collection).to eq([element1, element2, element3])
+      end
+
     end
 
     describe '#insert_after' do

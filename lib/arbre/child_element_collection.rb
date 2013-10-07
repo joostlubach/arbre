@@ -26,11 +26,7 @@ module Arbre
     # Adding and removing
 
       def add(element)
-        return if include?(element)
-
-        assign_to_parent element
-        @elements << element
-        self
+        insert_at length, element
       end
 
       def remove(element)
@@ -50,11 +46,13 @@ module Arbre
 
       def insert_at(index, element)
         if include?(element)
+          index -= 1 if @elements.index(element) <= index
           @elements.delete element
         else
           assign_to_parent element
         end
         @elements.insert index, element
+        self
       end
 
       def insert_after(existing, element)

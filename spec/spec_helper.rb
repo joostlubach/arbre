@@ -1,9 +1,10 @@
-require 'arbre'
 require 'simplecov'
 
 SimpleCov.start do
-  add_filter 'spec/support'
+  add_filter '/spec'
 end
+
+require 'arbre'
 
 RSpec.configure do |config|
 
