@@ -44,6 +44,19 @@ module Arbre
       ######
       # Head & body accessors
 
+        def title
+          @title ||= title_tag.content
+        end
+
+        def title=(title)
+          @title = title_tag.content = title
+        end
+
+        def title_tag
+          head.find_first('> title') || within(head) { prepend Title }
+        end
+        private :title_tag
+
         # Adds content to the head tag and/or returns it.
         def head(&block)
           within @_head, &block if block_given?

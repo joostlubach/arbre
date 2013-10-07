@@ -1,5 +1,5 @@
 layout do
-  head do
-    prepend { title "Application Title" }
-  end
+
+  self.title = "Application Title"
+
 end

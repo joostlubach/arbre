@@ -2657,3 +2657,507 @@ Processing by ExampleController#show as HTML
   Parameters: {"template"=>"erb_partial_result", "layout"=>"false"}
   Rendered example/_erb_partial.html.erb (0.2ms)
 Completed 200 OK in 2ms (Views: 1.5ms)
+Started GET "/?template=erb&layout=false" for 127.0.0.1 at 2013-10-07 11:34:27 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"erb", "layout"=>"false"}
+  Rendered example/erb.html.erb (0.7ms)
+Completed 200 OK in 4ms (Views: 3.6ms)
+Started GET "/?template=arbre&layout=false" for 127.0.0.1 at 2013-10-07 11:34:27 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"arbre", "layout"=>"false"}
+Completed 200 OK in 1ms (Views: 0.9ms)
+Started GET "/?template=erb&layout=empty" for 127.0.0.1 at 2013-10-07 11:34:27 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"erb", "layout"=>"empty"}
+Completed 200 OK in 1ms (Views: 1.2ms)
+Started GET "/?template=erb&layout=with_title" for 127.0.0.1 at 2013-10-07 11:34:27 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"erb", "layout"=>"with_title"}
+Completed 200 OK in 1ms (Views: 1.2ms)
+Started GET "/?template=erb&layout=empty" for 127.0.0.1 at 2013-10-07 11:34:27 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"erb", "layout"=>"empty"}
+Completed 200 OK in 1ms (Views: 0.7ms)
+Started GET "/?template=arbre&layout=empty" for 127.0.0.1 at 2013-10-07 11:34:27 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"arbre", "layout"=>"empty"}
+Completed 200 OK in 1ms (Views: 0.7ms)
+Started GET "/?template=arbre&layout=with_title" for 127.0.0.1 at 2013-10-07 11:34:27 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"arbre", "layout"=>"with_title"}
+Completed 200 OK in 1ms (Views: 0.9ms)
+Started GET "/?template=partials&layout=false" for 127.0.0.1 at 2013-10-07 11:34:27 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"partials", "layout"=>"false"}
+  Rendered example/_arbre_partial.html.arb (0.3ms)
+  Rendered example/_arbre_partial.html.arb (0.3ms)
+  Rendered example/_erb_partial.html.erb (0.2ms)
+Completed 200 OK in 5ms (Views: 4.5ms)
+Started GET "/partial?context=true" for 127.0.0.1 at 2013-10-07 11:34:27 +0200
+Processing by ExampleController#partial as HTML
+  Parameters: {"context"=>"true"}
+  Rendered example/_arbre_partial.html.arb (0.3ms)
+Completed 200 OK in 1ms (Views: 0.9ms)
+Started GET "/partial?context=false" for 127.0.0.1 at 2013-10-07 11:34:27 +0200
+Processing by ExampleController#partial as HTML
+  Parameters: {"context"=>"false"}
+  Rendered example/_arbre_partial.html.arb (0.4ms)
+Completed 200 OK in 1ms (Views: 0.9ms)
+Started GET "/?template=arbre_partial_result&layout=false" for 127.0.0.1 at 2013-10-07 11:34:27 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"arbre_partial_result", "layout"=>"false"}
+  Rendered example/_arbre_partial.html.arb (0.1ms)
+Completed 200 OK in 1ms (Views: 1.1ms)
+Started GET "/?template=erb_partial_result&layout=false" for 127.0.0.1 at 2013-10-07 11:34:27 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"erb_partial_result", "layout"=>"false"}
+  Rendered example/_erb_partial.html.erb (0.2ms)
+Completed 200 OK in 1ms (Views: 1.4ms)
+Started GET "/?template=erb&layout=false" for 127.0.0.1 at 2013-10-07 11:34:53 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"erb", "layout"=>"false"}
+  Rendered example/erb.html.erb (0.7ms)
+Completed 200 OK in 4ms (Views: 3.5ms)
+Started GET "/?template=arbre&layout=false" for 127.0.0.1 at 2013-10-07 11:34:53 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"arbre", "layout"=>"false"}
+Completed 200 OK in 1ms (Views: 0.8ms)
+Started GET "/?template=erb&layout=empty" for 127.0.0.1 at 2013-10-07 11:34:53 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"erb", "layout"=>"empty"}
+Completed 200 OK in 1ms (Views: 1.2ms)
+Started GET "/?template=erb&layout=with_title" for 127.0.0.1 at 2013-10-07 11:34:53 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"erb", "layout"=>"with_title"}
+Completed 200 OK in 1ms (Views: 1.3ms)
+Started GET "/?template=erb&layout=empty" for 127.0.0.1 at 2013-10-07 11:34:53 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"erb", "layout"=>"empty"}
+Completed 200 OK in 1ms (Views: 0.8ms)
+Started GET "/?template=arbre&layout=empty" for 127.0.0.1 at 2013-10-07 11:34:53 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"arbre", "layout"=>"empty"}
+Completed 200 OK in 1ms (Views: 0.8ms)
+Started GET "/?template=arbre&layout=with_title" for 127.0.0.1 at 2013-10-07 11:34:53 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"arbre", "layout"=>"with_title"}
+Completed 200 OK in 1ms (Views: 0.9ms)
+Started GET "/?template=partials&layout=false" for 127.0.0.1 at 2013-10-07 11:34:53 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"partials", "layout"=>"false"}
+  Rendered example/_arbre_partial.html.arb (0.3ms)
+  Rendered example/_arbre_partial.html.arb (0.3ms)
+  Rendered example/_erb_partial.html.erb (0.2ms)
+Completed 200 OK in 4ms (Views: 4.1ms)
+Started GET "/partial?context=true" for 127.0.0.1 at 2013-10-07 11:34:53 +0200
+Processing by ExampleController#partial as HTML
+  Parameters: {"context"=>"true"}
+  Rendered example/_arbre_partial.html.arb (0.3ms)
+Completed 200 OK in 1ms (Views: 0.9ms)
+Started GET "/partial?context=false" for 127.0.0.1 at 2013-10-07 11:34:53 +0200
+Processing by ExampleController#partial as HTML
+  Parameters: {"context"=>"false"}
+  Rendered example/_arbre_partial.html.arb (0.4ms)
+Completed 200 OK in 1ms (Views: 1.0ms)
+Started GET "/?template=arbre_partial_result&layout=false" for 127.0.0.1 at 2013-10-07 11:34:53 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"arbre_partial_result", "layout"=>"false"}
+  Rendered example/_arbre_partial.html.arb (0.1ms)
+Completed 200 OK in 1ms (Views: 1.2ms)
+Started GET "/?template=erb_partial_result&layout=false" for 127.0.0.1 at 2013-10-07 11:34:53 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"erb_partial_result", "layout"=>"false"}
+  Rendered example/_erb_partial.html.erb (0.2ms)
+Completed 200 OK in 2ms (Views: 1.5ms)
+Started GET "/?template=erb&layout=false" for 127.0.0.1 at 2013-10-07 11:36:39 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"erb", "layout"=>"false"}
+  Rendered example/erb.html.erb (0.7ms)
+Completed 200 OK in 4ms (Views: 3.6ms)
+Started GET "/?template=arbre&layout=false" for 127.0.0.1 at 2013-10-07 11:36:39 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"arbre", "layout"=>"false"}
+Completed 200 OK in 1ms (Views: 0.8ms)
+Started GET "/?template=erb&layout=empty" for 127.0.0.1 at 2013-10-07 11:36:39 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"erb", "layout"=>"empty"}
+Completed 200 OK in 1ms (Views: 1.2ms)
+Started GET "/?template=erb&layout=with_title" for 127.0.0.1 at 2013-10-07 11:36:39 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"erb", "layout"=>"with_title"}
+Completed 200 OK in 1ms (Views: 1.4ms)
+Started GET "/?template=erb&layout=empty" for 127.0.0.1 at 2013-10-07 11:36:39 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"erb", "layout"=>"empty"}
+Completed 200 OK in 1ms (Views: 0.8ms)
+Started GET "/?template=arbre&layout=empty" for 127.0.0.1 at 2013-10-07 11:36:39 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"arbre", "layout"=>"empty"}
+Completed 200 OK in 1ms (Views: 0.7ms)
+Started GET "/?template=arbre&layout=with_title" for 127.0.0.1 at 2013-10-07 11:36:39 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"arbre", "layout"=>"with_title"}
+Completed 200 OK in 1ms (Views: 0.7ms)
+Started GET "/?template=partials&layout=false" for 127.0.0.1 at 2013-10-07 11:36:39 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"partials", "layout"=>"false"}
+  Rendered example/_arbre_partial.html.arb (0.3ms)
+  Rendered example/_arbre_partial.html.arb (0.3ms)
+  Rendered example/_erb_partial.html.erb (0.2ms)
+Completed 200 OK in 4ms (Views: 4.2ms)
+Started GET "/partial?context=true" for 127.0.0.1 at 2013-10-07 11:36:39 +0200
+Processing by ExampleController#partial as HTML
+  Parameters: {"context"=>"true"}
+  Rendered example/_arbre_partial.html.arb (0.3ms)
+Completed 200 OK in 1ms (Views: 0.8ms)
+Started GET "/partial?context=false" for 127.0.0.1 at 2013-10-07 11:36:39 +0200
+Processing by ExampleController#partial as HTML
+  Parameters: {"context"=>"false"}
+  Rendered example/_arbre_partial.html.arb (0.4ms)
+Completed 200 OK in 1ms (Views: 1.0ms)
+Started GET "/?template=arbre_partial_result&layout=false" for 127.0.0.1 at 2013-10-07 11:36:39 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"arbre_partial_result", "layout"=>"false"}
+  Rendered example/_arbre_partial.html.arb (0.1ms)
+Completed 200 OK in 1ms (Views: 1.2ms)
+Started GET "/?template=erb_partial_result&layout=false" for 127.0.0.1 at 2013-10-07 11:36:39 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"erb_partial_result", "layout"=>"false"}
+  Rendered example/_erb_partial.html.erb (0.2ms)
+Completed 200 OK in 2ms (Views: 1.6ms)
+Started GET "/?template=erb&layout=false" for 127.0.0.1 at 2013-10-07 11:38:58 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"erb", "layout"=>"false"}
+  Rendered example/erb.html.erb (0.7ms)
+Completed 200 OK in 4ms (Views: 3.7ms)
+Started GET "/?template=arbre&layout=false" for 127.0.0.1 at 2013-10-07 11:38:58 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"arbre", "layout"=>"false"}
+Completed 200 OK in 1ms (Views: 0.9ms)
+Started GET "/?template=erb&layout=empty" for 127.0.0.1 at 2013-10-07 11:38:58 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"erb", "layout"=>"empty"}
+Completed 200 OK in 1ms (Views: 1.2ms)
+Started GET "/?template=erb&layout=with_title" for 127.0.0.1 at 2013-10-07 11:38:58 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"erb", "layout"=>"with_title"}
+Completed 200 OK in 1ms (Views: 1.3ms)
+Started GET "/?template=erb&layout=empty" for 127.0.0.1 at 2013-10-07 11:38:58 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"erb", "layout"=>"empty"}
+Completed 200 OK in 1ms (Views: 0.7ms)
+Started GET "/?template=arbre&layout=empty" for 127.0.0.1 at 2013-10-07 11:38:58 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"arbre", "layout"=>"empty"}
+Completed 200 OK in 1ms (Views: 0.8ms)
+Started GET "/?template=arbre&layout=with_title" for 127.0.0.1 at 2013-10-07 11:38:58 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"arbre", "layout"=>"with_title"}
+Completed 200 OK in 1ms (Views: 0.8ms)
+Started GET "/?template=partials&layout=false" for 127.0.0.1 at 2013-10-07 11:38:58 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"partials", "layout"=>"false"}
+  Rendered example/_arbre_partial.html.arb (0.3ms)
+  Rendered example/_arbre_partial.html.arb (0.3ms)
+  Rendered example/_erb_partial.html.erb (0.2ms)
+Completed 200 OK in 4ms (Views: 4.3ms)
+Started GET "/partial?context=true" for 127.0.0.1 at 2013-10-07 11:38:58 +0200
+Processing by ExampleController#partial as HTML
+  Parameters: {"context"=>"true"}
+  Rendered example/_arbre_partial.html.arb (0.3ms)
+Completed 200 OK in 1ms (Views: 0.9ms)
+Started GET "/partial?context=false" for 127.0.0.1 at 2013-10-07 11:38:58 +0200
+Processing by ExampleController#partial as HTML
+  Parameters: {"context"=>"false"}
+  Rendered example/_arbre_partial.html.arb (0.4ms)
+Completed 200 OK in 1ms (Views: 0.9ms)
+Started GET "/?template=arbre_partial_result&layout=false" for 127.0.0.1 at 2013-10-07 11:38:58 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"arbre_partial_result", "layout"=>"false"}
+  Rendered example/_arbre_partial.html.arb (0.1ms)
+Completed 200 OK in 1ms (Views: 1.1ms)
+Started GET "/?template=erb_partial_result&layout=false" for 127.0.0.1 at 2013-10-07 11:38:58 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"erb_partial_result", "layout"=>"false"}
+  Rendered example/_erb_partial.html.erb (0.2ms)
+Completed 200 OK in 2ms (Views: 1.6ms)
+Started GET "/?template=erb&layout=false" for 127.0.0.1 at 2013-10-07 11:40:21 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"erb", "layout"=>"false"}
+  Rendered example/erb.html.erb (0.7ms)
+Completed 200 OK in 4ms (Views: 3.8ms)
+Started GET "/?template=arbre&layout=false" for 127.0.0.1 at 2013-10-07 11:40:21 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"arbre", "layout"=>"false"}
+Completed 200 OK in 1ms (Views: 0.8ms)
+Started GET "/?template=erb&layout=empty" for 127.0.0.1 at 2013-10-07 11:40:21 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"erb", "layout"=>"empty"}
+Completed 200 OK in 1ms (Views: 1.2ms)
+Started GET "/?template=erb&layout=with_title" for 127.0.0.1 at 2013-10-07 11:40:21 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"erb", "layout"=>"with_title"}
+Completed 200 OK in 2ms (Views: 1.4ms)
+Started GET "/?template=erb&layout=empty" for 127.0.0.1 at 2013-10-07 11:40:21 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"erb", "layout"=>"empty"}
+Completed 200 OK in 1ms (Views: 0.9ms)
+Started GET "/?template=arbre&layout=empty" for 127.0.0.1 at 2013-10-07 11:40:21 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"arbre", "layout"=>"empty"}
+Completed 200 OK in 1ms (Views: 0.8ms)
+Started GET "/?template=arbre&layout=with_title" for 127.0.0.1 at 2013-10-07 11:40:21 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"arbre", "layout"=>"with_title"}
+Completed 200 OK in 1ms (Views: 0.7ms)
+Started GET "/?template=partials&layout=false" for 127.0.0.1 at 2013-10-07 11:40:21 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"partials", "layout"=>"false"}
+  Rendered example/_arbre_partial.html.arb (0.3ms)
+  Rendered example/_arbre_partial.html.arb (0.3ms)
+  Rendered example/_erb_partial.html.erb (0.2ms)
+Completed 200 OK in 5ms (Views: 4.4ms)
+Started GET "/partial?context=true" for 127.0.0.1 at 2013-10-07 11:40:21 +0200
+Processing by ExampleController#partial as HTML
+  Parameters: {"context"=>"true"}
+  Rendered example/_arbre_partial.html.arb (0.3ms)
+Completed 200 OK in 1ms (Views: 1.0ms)
+Started GET "/partial?context=false" for 127.0.0.1 at 2013-10-07 11:40:21 +0200
+Processing by ExampleController#partial as HTML
+  Parameters: {"context"=>"false"}
+  Rendered example/_arbre_partial.html.arb (0.4ms)
+Completed 200 OK in 1ms (Views: 1.0ms)
+Started GET "/?template=arbre_partial_result&layout=false" for 127.0.0.1 at 2013-10-07 11:40:21 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"arbre_partial_result", "layout"=>"false"}
+  Rendered example/_arbre_partial.html.arb (0.1ms)
+Completed 200 OK in 2ms (Views: 1.8ms)
+Started GET "/?template=erb_partial_result&layout=false" for 127.0.0.1 at 2013-10-07 11:40:21 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"erb_partial_result", "layout"=>"false"}
+  Rendered example/_erb_partial.html.erb (0.2ms)
+Completed 200 OK in 2ms (Views: 1.7ms)
+Started GET "/?template=erb&layout=false" for 127.0.0.1 at 2013-10-07 11:40:58 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"erb", "layout"=>"false"}
+  Rendered example/erb.html.erb (0.7ms)
+Completed 200 OK in 4ms (Views: 3.4ms)
+Started GET "/?template=arbre&layout=false" for 127.0.0.1 at 2013-10-07 11:40:58 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"arbre", "layout"=>"false"}
+Completed 200 OK in 1ms (Views: 0.9ms)
+Started GET "/?template=erb&layout=empty" for 127.0.0.1 at 2013-10-07 11:40:58 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"erb", "layout"=>"empty"}
+Completed 200 OK in 1ms (Views: 1.4ms)
+Started GET "/?template=erb&layout=with_title" for 127.0.0.1 at 2013-10-07 11:40:58 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"erb", "layout"=>"with_title"}
+Completed 200 OK in 2ms (Views: 1.5ms)
+Started GET "/?template=erb&layout=empty" for 127.0.0.1 at 2013-10-07 11:40:58 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"erb", "layout"=>"empty"}
+Completed 200 OK in 1ms (Views: 0.8ms)
+Started GET "/?template=arbre&layout=empty" for 127.0.0.1 at 2013-10-07 11:40:58 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"arbre", "layout"=>"empty"}
+Completed 200 OK in 1ms (Views: 0.8ms)
+Started GET "/?template=arbre&layout=with_title" for 127.0.0.1 at 2013-10-07 11:40:58 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"arbre", "layout"=>"with_title"}
+Completed 200 OK in 1ms (Views: 0.9ms)
+Started GET "/?template=partials&layout=false" for 127.0.0.1 at 2013-10-07 11:40:58 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"partials", "layout"=>"false"}
+  Rendered example/_arbre_partial.html.arb (0.3ms)
+  Rendered example/_arbre_partial.html.arb (0.3ms)
+  Rendered example/_erb_partial.html.erb (0.2ms)
+Completed 200 OK in 4ms (Views: 4.1ms)
+Started GET "/partial?context=true" for 127.0.0.1 at 2013-10-07 11:40:58 +0200
+Processing by ExampleController#partial as HTML
+  Parameters: {"context"=>"true"}
+  Rendered example/_arbre_partial.html.arb (0.3ms)
+Completed 200 OK in 1ms (Views: 0.9ms)
+Started GET "/partial?context=false" for 127.0.0.1 at 2013-10-07 11:40:58 +0200
+Processing by ExampleController#partial as HTML
+  Parameters: {"context"=>"false"}
+  Rendered example/_arbre_partial.html.arb (0.3ms)
+Completed 200 OK in 1ms (Views: 0.9ms)
+Started GET "/?template=arbre_partial_result&layout=false" for 127.0.0.1 at 2013-10-07 11:40:58 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"arbre_partial_result", "layout"=>"false"}
+  Rendered example/_arbre_partial.html.arb (0.1ms)
+Completed 200 OK in 1ms (Views: 1.1ms)
+Started GET "/?template=erb_partial_result&layout=false" for 127.0.0.1 at 2013-10-07 11:40:58 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"erb_partial_result", "layout"=>"false"}
+  Rendered example/_erb_partial.html.erb (0.2ms)
+Completed 200 OK in 1ms (Views: 1.4ms)
+Started GET "/?template=erb&layout=false" for 127.0.0.1 at 2013-10-07 11:58:48 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"erb", "layout"=>"false"}
+  Rendered example/erb.html.erb (0.7ms)
+Completed 200 OK in 4ms (Views: 3.8ms)
+Started GET "/?template=arbre&layout=false" for 127.0.0.1 at 2013-10-07 11:58:48 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"arbre", "layout"=>"false"}
+Completed 200 OK in 1ms (Views: 0.9ms)
+Started GET "/?template=erb&layout=empty" for 127.0.0.1 at 2013-10-07 11:58:48 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"erb", "layout"=>"empty"}
+Completed 200 OK in 1ms (Views: 1.4ms)
+Started GET "/?template=erb&layout=with_title" for 127.0.0.1 at 2013-10-07 11:58:48 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"erb", "layout"=>"with_title"}
+Completed 500 Internal Server Error in 2ms
+Started GET "/?template=erb&layout=empty" for 127.0.0.1 at 2013-10-07 11:58:48 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"erb", "layout"=>"empty"}
+Completed 200 OK in 1ms (Views: 0.8ms)
+Started GET "/?template=arbre&layout=empty" for 127.0.0.1 at 2013-10-07 11:58:48 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"arbre", "layout"=>"empty"}
+Completed 200 OK in 1ms (Views: 0.8ms)
+Started GET "/?template=arbre&layout=with_title" for 127.0.0.1 at 2013-10-07 11:58:48 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"arbre", "layout"=>"with_title"}
+Completed 500 Internal Server Error in 1ms
+Started GET "/?template=partials&layout=false" for 127.0.0.1 at 2013-10-07 11:58:48 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"partials", "layout"=>"false"}
+  Rendered example/_arbre_partial.html.arb (0.4ms)
+  Rendered example/_arbre_partial.html.arb (0.3ms)
+  Rendered example/_erb_partial.html.erb (0.2ms)
+Completed 200 OK in 25ms (Views: 25.4ms)
+Started GET "/partial?context=true" for 127.0.0.1 at 2013-10-07 11:58:48 +0200
+Processing by ExampleController#partial as HTML
+  Parameters: {"context"=>"true"}
+  Rendered example/_arbre_partial.html.arb (0.3ms)
+Completed 200 OK in 1ms (Views: 0.9ms)
+Started GET "/partial?context=false" for 127.0.0.1 at 2013-10-07 11:58:48 +0200
+Processing by ExampleController#partial as HTML
+  Parameters: {"context"=>"false"}
+  Rendered example/_arbre_partial.html.arb (0.3ms)
+Completed 200 OK in 1ms (Views: 0.9ms)
+Started GET "/?template=arbre_partial_result&layout=false" for 127.0.0.1 at 2013-10-07 11:58:48 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"arbre_partial_result", "layout"=>"false"}
+  Rendered example/_arbre_partial.html.arb (0.1ms)
+Completed 200 OK in 1ms (Views: 1.1ms)
+Started GET "/?template=erb_partial_result&layout=false" for 127.0.0.1 at 2013-10-07 11:58:48 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"erb_partial_result", "layout"=>"false"}
+  Rendered example/_erb_partial.html.erb (0.2ms)
+Completed 200 OK in 2ms (Views: 1.5ms)
+Started GET "/?template=erb&layout=false" for 127.0.0.1 at 2013-10-07 11:58:59 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"erb", "layout"=>"false"}
+  Rendered example/erb.html.erb (0.7ms)
+Completed 200 OK in 4ms (Views: 3.5ms)
+Started GET "/?template=arbre&layout=false" for 127.0.0.1 at 2013-10-07 11:58:59 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"arbre", "layout"=>"false"}
+Completed 200 OK in 1ms (Views: 0.9ms)
+Started GET "/?template=erb&layout=empty" for 127.0.0.1 at 2013-10-07 11:58:59 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"erb", "layout"=>"empty"}
+Completed 200 OK in 1ms (Views: 1.3ms)
+Started GET "/?template=erb&layout=with_title" for 127.0.0.1 at 2013-10-07 11:58:59 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"erb", "layout"=>"with_title"}
+Completed 500 Internal Server Error in 2ms
+Started GET "/?template=erb&layout=empty" for 127.0.0.1 at 2013-10-07 11:58:59 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"erb", "layout"=>"empty"}
+Completed 200 OK in 1ms (Views: 0.8ms)
+Started GET "/?template=arbre&layout=empty" for 127.0.0.1 at 2013-10-07 11:58:59 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"arbre", "layout"=>"empty"}
+Completed 200 OK in 1ms (Views: 0.9ms)
+Started GET "/?template=arbre&layout=with_title" for 127.0.0.1 at 2013-10-07 11:58:59 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"arbre", "layout"=>"with_title"}
+Completed 500 Internal Server Error in 2ms
+Started GET "/?template=partials&layout=false" for 127.0.0.1 at 2013-10-07 11:58:59 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"partials", "layout"=>"false"}
+  Rendered example/_arbre_partial.html.arb (0.3ms)
+  Rendered example/_arbre_partial.html.arb (0.3ms)
+  Rendered example/_erb_partial.html.erb (0.2ms)
+Completed 200 OK in 5ms (Views: 4.5ms)
+Started GET "/partial?context=true" for 127.0.0.1 at 2013-10-07 11:58:59 +0200
+Processing by ExampleController#partial as HTML
+  Parameters: {"context"=>"true"}
+  Rendered example/_arbre_partial.html.arb (0.3ms)
+Completed 200 OK in 1ms (Views: 0.9ms)
+Started GET "/partial?context=false" for 127.0.0.1 at 2013-10-07 11:58:59 +0200
+Processing by ExampleController#partial as HTML
+  Parameters: {"context"=>"false"}
+  Rendered example/_arbre_partial.html.arb (0.4ms)
+Completed 200 OK in 1ms (Views: 0.9ms)
+Started GET "/?template=arbre_partial_result&layout=false" for 127.0.0.1 at 2013-10-07 11:58:59 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"arbre_partial_result", "layout"=>"false"}
+  Rendered example/_arbre_partial.html.arb (0.1ms)
+Completed 200 OK in 1ms (Views: 1.3ms)
+Started GET "/?template=erb_partial_result&layout=false" for 127.0.0.1 at 2013-10-07 11:58:59 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"erb_partial_result", "layout"=>"false"}
+  Rendered example/_erb_partial.html.erb (0.3ms)
+Completed 200 OK in 2ms (Views: 2.1ms)
+Started GET "/?template=erb&layout=false" for 127.0.0.1 at 2013-10-07 11:59:22 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"erb", "layout"=>"false"}
+  Rendered example/erb.html.erb (0.7ms)
+Completed 200 OK in 4ms (Views: 3.8ms)
+Started GET "/?template=arbre&layout=false" for 127.0.0.1 at 2013-10-07 11:59:22 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"arbre", "layout"=>"false"}
+Completed 200 OK in 1ms (Views: 0.9ms)
+Started GET "/?template=erb&layout=empty" for 127.0.0.1 at 2013-10-07 11:59:22 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"erb", "layout"=>"empty"}
+Completed 200 OK in 1ms (Views: 1.4ms)
+Started GET "/?template=erb&layout=with_title" for 127.0.0.1 at 2013-10-07 11:59:22 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"erb", "layout"=>"with_title"}
+Completed 200 OK in 2ms (Views: 1.6ms)
+Started GET "/?template=erb&layout=empty" for 127.0.0.1 at 2013-10-07 11:59:22 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"erb", "layout"=>"empty"}
+Completed 200 OK in 1ms (Views: 0.8ms)
+Started GET "/?template=arbre&layout=empty" for 127.0.0.1 at 2013-10-07 11:59:22 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"arbre", "layout"=>"empty"}
+Completed 200 OK in 1ms (Views: 0.9ms)
+Started GET "/?template=arbre&layout=with_title" for 127.0.0.1 at 2013-10-07 11:59:22 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"arbre", "layout"=>"with_title"}
+Completed 200 OK in 1ms (Views: 1.0ms)
+Started GET "/?template=partials&layout=false" for 127.0.0.1 at 2013-10-07 11:59:22 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"partials", "layout"=>"false"}
+  Rendered example/_arbre_partial.html.arb (0.3ms)
+  Rendered example/_arbre_partial.html.arb (0.3ms)
+  Rendered example/_erb_partial.html.erb (0.2ms)
+Completed 200 OK in 5ms (Views: 4.4ms)
+Started GET "/partial?context=true" for 127.0.0.1 at 2013-10-07 11:59:22 +0200
+Processing by ExampleController#partial as HTML
+  Parameters: {"context"=>"true"}
+  Rendered example/_arbre_partial.html.arb (0.5ms)
+Completed 200 OK in 2ms (Views: 1.6ms)
+Started GET "/partial?context=false" for 127.0.0.1 at 2013-10-07 11:59:22 +0200
+Processing by ExampleController#partial as HTML
+  Parameters: {"context"=>"false"}
+  Rendered example/_arbre_partial.html.arb (0.4ms)
+Completed 200 OK in 1ms (Views: 1.1ms)
+Started GET "/?template=arbre_partial_result&layout=false" for 127.0.0.1 at 2013-10-07 11:59:22 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"arbre_partial_result", "layout"=>"false"}
+  Rendered example/_arbre_partial.html.arb (0.1ms)
+Completed 200 OK in 1ms (Views: 1.3ms)
+Started GET "/?template=erb_partial_result&layout=false" for 127.0.0.1 at 2013-10-07 11:59:22 +0200
+Processing by ExampleController#show as HTML
+  Parameters: {"template"=>"erb_partial_result", "layout"=>"false"}
+  Rendered example/_erb_partial.html.erb (0.3ms)
+Completed 200 OK in 2ms (Views: 1.7ms)
