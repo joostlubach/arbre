@@ -62,22 +62,15 @@ module Arbre
         @_flow_stack.last
       end
 
-      def within_element(element)
+      def with_current(element: nil, flow: :append)
         raise ArgumentError, "can't be in the context of nil" unless element
 
         @_element_stack.push element
-        yield if block_given?
-      ensure
-        @_element_stack.pop
-      end
-
-      # Executes a given block with the specified flow. You typically do not need to call this,
-      # but instead you want to use any of the flow methods in {BuildMethods}.
-      def with_flow(flow)
         @_flow_stack.push flow
         yield if block_given?
       ensure
         @_flow_stack.pop
+        @_element_stack.pop
       end
 
       # Replaces the current flow. For internal usie!

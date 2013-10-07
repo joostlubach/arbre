@@ -9,7 +9,7 @@ module Arbre
 
     # Builds a raw element from a string.
     def self.from_string(string)
-      new.tap { |node| node.build(string) }
+      new.tap { |node| node.build!(string) }
     end
 
     def children
@@ -22,7 +22,7 @@ module Arbre
 
     attr_reader :text
 
-    def build(text)
+    def build!(text)
       @text = text.to_s
     end
 

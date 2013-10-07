@@ -40,7 +40,7 @@ describe Arbre::Rails::Layouts do
     context "having specified a document but not a content block" do
       it "should use the document class and arguments" do
         document_class = Class.new(Arbre::Html::Document)
-        expect_any_instance_of(document_class).to receive(:build).with(:one, :two)
+        expect_any_instance_of(document_class).to receive(:build!).with(:one, :two)
 
         arbre.document document_class, :one, :two
         arbre.layout
@@ -66,7 +66,7 @@ describe Arbre::Rails::Layouts do
 
         called = false
         block = proc { called = true }
-        expect_any_instance_of(document_class).to receive(:build).with(:one, :two) do |&blk|
+        expect_any_instance_of(document_class).to receive(:build!).with(:one, :two) do |&blk|
           blk.call
         end
 
@@ -76,13 +76,13 @@ describe Arbre::Rails::Layouts do
         expect(called).to be_true
       end
 
-      it "should execute the content block on the document if it was not called from its build method" do
+      it "should execute the content block on the document if it was not called from its build! method" do
         document_class = Class.new(Arbre::Html::Document)
 
         called = false
         receiver = nil
         block = proc { called = true; receiver = self }
-        expect_any_instance_of(document_class).to receive(:build).with(:one, :two)
+        expect_any_instance_of(document_class).to receive(:build!).with(:one, :two)
 
         arbre.document document_class, :one, :two, &block
         arbre.layout
@@ -93,7 +93,7 @@ describe Arbre::Rails::Layouts do
 
       it "should run a given layout block on it, but after the content block" do
         document_class = Class.new(Arbre::Html::Document)
-        expect_any_instance_of(document_class).to receive(:build)
+        expect_any_instance_of(document_class).to receive(:build!)
 
         called = []; receivers = []
         content_block = proc { called << :content; receivers << self }

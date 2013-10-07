@@ -25,7 +25,7 @@ module Arbre
           def builder_method(method_name)
             BuilderMethods.class_eval <<-EOF, __FILE__, __LINE__
               def #{method_name}(*args, &block)
-                insert_element ::#{self.name}, *args, &block
+                insert ::#{self.name}, *args, &block
               end
             EOF
           end
@@ -37,19 +37,19 @@ module Arbre
 
         # Builds an element of the given class using the given arguments and block, in the
         # same arbre context as this element.
-        def build_element(klass, *args, &block)
+        def build(klass, *args, &block)
           element = klass.new(arbre_context)
-          within(element) { element.build *args, &block }
+          within(element) { element.build! *args, &block }
           element
         end
 
         # Builds an element of the given class using the given arguments and block, in the
         # same arbre context as this element, and adds it to the current arbre element's
         # children.
-        def insert_element(klass, *args, &block)
+        def insert(klass, *args, &block)
           element = klass.new(arbre_context)
           current_element.insert_child element
-          within(element) { element.build *args, &block }
+          within(element) { element.build! *args, &block }
           element
         end
 
@@ -57,25 +57,24 @@ module Arbre
       # Flow
 
         # Executes a block within the context of the given element, or DOM query.
-        def within(element, &block)
+        def append_within(element, &block)
           element = find(element).first if element.is_a?(String)
-          arbre_context.within_element element, &block
+          arbre_context.with_current element: element, flow: :append, &block
         end
+        alias_method :within, :append_within
 
         # Executes a block within the context of the given element, or DOM query. All elements
         # are prepended.
         def prepend_within(element, &block)
           element = find(element).first if element.is_a?(String)
-          arbre_context.within element do
-            arbre_context.with_flow :prepend, &block
-          end
+          arbre_context.with_current element: element, flow: :prepend, &block
         end
 
         %w(append prepend).each do |flow|
           class_eval <<-RUBY, __FILE__, __LINE__+1
             def #{flow}(klass = nil, *args, &block)
-              arbre_context.with_flow :#{flow} do
-                insert_element_or_call_block klass, *args, &block
+              arbre_context.with_current element: current_element, flow: :#{flow} do
+                insert_or_call_block klass, *args, &block
               end
             end
           RUBY
@@ -86,23 +85,21 @@ module Arbre
             def #{flow}(element, klass = nil, *args, &block)
               element = find(element).first if element.is_a?(String)
 
-              arbre_context.within element.parent do
-                arbre_context.with_flow [ :#{flow}, element ] do
-                  insert_element_or_call_block klass, *args, &block
-                end
+              arbre_context.with_current element: element.parent, flow: [ :#{flow}, element ] do
+                insert_or_call_block klass, *args, &block
               end
             end
           RUBY
         end
 
-        def insert_element_or_call_block(klass, *args, &block)
+        def insert_or_call_block(klass, *args, &block)
           if klass
-            insert_element klass, *args, &block
+            insert klass, *args, &block
           else
             yield
           end
         end
-        private :insert_element_or_call_block
+        private :insert_or_call_block
 
         # Inserts a child element at the right place in the child array, taking the current
         # flow into account.
@@ -137,7 +134,7 @@ module Arbre
         # Builds a temporary container using the given block, but doesn't add it to the tree.
         # The block is executed within the current context.
         def temporary(&block)
-          build_element Element, &block
+          build Element, &block
         end
 
         def current_element

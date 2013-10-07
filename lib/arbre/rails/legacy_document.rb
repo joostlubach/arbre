@@ -4,7 +4,7 @@ module Arbre
     # This document adds "legacy" ActionView content to the right places.
     class LegacyDocument < Html::Document
 
-      def build
+      def build!
         super
 
         head do

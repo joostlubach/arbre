@@ -46,47 +46,31 @@ describe Context do
       expect(context.current_flow).to be(:append)
     end
 
-    it "should change the current element temporarily using #within" do
+    it "should change the current element and flow temporarily using #with_current" do
       element1 = Element.new
       element2 = Element.new
 
       expect(context.current_element).to be(context)
-      context.within element1 do
+      expect(context.current_flow).to be(:append)
+      context.with_current element: element1, flow: :prepend do
         expect(context.current_element).to be(element1)
-        context.within element2 do
+        expect(context.current_flow).to be(:prepend)
+        context.with_current element: element2, flow: [ :after, element1 ] do
           expect(context.current_element).to be(element2)
+          expect(context.current_flow).to eql([ :after, element1 ])
         end
         expect(context.current_element).to be(element1)
+        expect(context.current_flow).to be(:prepend)
       end
       expect(context.current_element).to be(context)
+      expect(context.current_flow).to be(:append)
     end
 
     it "should replace the original element if an error occurs" do
       begin
-        context.within(Element.new) { raise 'test' }
+        context.with_current(element: Element.new, flow: :prepend) { raise 'test' }
       rescue
         expect(context.current_element).to be(context)
-      end
-    end
-
-    it "should change the current flow temporarily using #with_flow" do
-      element = Element.new
-
-      expect(context.current_flow).to be(:append)
-      context.with_flow :prepend do
-        expect(context.current_flow).to be(:prepend)
-        context.with_flow [ :after, element ] do
-          expect(context.current_flow).to eql([:after, element])
-        end
-        expect(context.current_flow).to be(:prepend)
-      end
-      expect(context.current_flow).to be(:append)
-    end
-
-    it "should replace the original element if an error occurs" do
-      begin
-        context.with_flow(:prepend) { raise 'test' }
-      rescue
         expect(context.current_flow).to be(:append)
       end
     end
@@ -98,7 +82,7 @@ describe Context do
         element = Element.new
 
         expect(context.current_flow).to be(:append)
-        context.with_flow :prepend do
+        context.with_current element: element, flow: :prepend do
           expect(context.current_flow).to be(:prepend)
           context.replace_current_flow [ :after, element ]
           expect(context.current_flow).to eql([:after, element])

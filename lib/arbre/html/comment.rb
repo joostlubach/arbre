@@ -6,7 +6,7 @@ module Arbre
 
       attr_accessor :comment
 
-      def build(comment = nil)
+      def build!(comment = nil)
         @comment = comment
       end
 

@@ -206,7 +206,7 @@ describe Element do
     it "should call any block passed into the #build method with the element as an argument, but not instance-exec'd" do
       receiver = nil
       received_arg = nil
-      element.build { |arg| receiver = self; received_arg = arg }
+      element.build! { |arg| receiver = self; received_arg = arg }
       expect(received_arg).to be(element)
       expect(receiver).to be(self)
     end

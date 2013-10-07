@@ -58,7 +58,7 @@ describe Arbre::Rails, :type => :request do
 
     it "should allow the legacy document class to be overridden" do
       Arbre::Rails.legacy_document = Class.new(Arbre::Html::Document) do
-        def build
+        def build!
           super
 
           head do

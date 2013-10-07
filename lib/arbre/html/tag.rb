@@ -39,7 +39,7 @@ module Arbre
         #   Any raw content for in the tag.
         # @param [Hash] attributes
         #   HTML attributes to render.
-        def build(*args, **extra)
+        def build!(*args, **extra)
           attributes = args.extract_options!
           self.content = args.first unless args.empty?
 

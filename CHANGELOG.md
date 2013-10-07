@@ -1,7 +1,18 @@
+## 2.0.0.rc2
+
+* Support for symbolic classes
+
+### Breaking changes
+
+* Renaming `build` to `build!`
+* Renaming `build_tag`/`build_element` to `build`
+* Renaming `insert_tag`/`insert_element` to `insert`
+
 ## 2.0.0.rc1
 
 * Rails: added content-layout structure
 * Rails: optimized template output handling, removed need for String masquerading
+* Added querying
 * Increased RSpec coverage to 100%
 
 ### Breaking changes

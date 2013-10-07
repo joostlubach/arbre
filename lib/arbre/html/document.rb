@@ -16,7 +16,7 @@ module Arbre
       ######
       # Building
 
-        def build
+        def build!
           append_head
           append_body
 

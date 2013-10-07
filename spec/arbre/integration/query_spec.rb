@@ -12,7 +12,7 @@ describe Arbre::Html::Query do
         input :type => :checkbox, 'data-attribute' => 'some_value'
         input :type => 'file'
 
-        insert_element Container do
+        insert Container do
           span :id => 'in_container'
           a 'Link 2', :href => '/blah', :class => 'external two', :target => '_blank'
         end

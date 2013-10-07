@@ -9,24 +9,24 @@ describe Tag do
   # Building
 
     it "should use the first argument as content if it is given" do
-      tag.build "Content"
+      tag.build! "Content"
       expect(tag.content).to eql('Content')
     end
 
     it "should accept attributes" do
-      tag.build 'id' => 'my-tag'
+      tag.build! 'id' => 'my-tag'
       expect(tag.content).to eql('')
       expect(tag.id).to eql('my-tag')
     end
 
     it "should accept content and attributes" do
-      tag.build "Content", 'id' => 'my-tag'
+      tag.build! "Content", 'id' => 'my-tag'
       expect(tag.content).to eql('Content')
       expect(tag.id).to eql('my-tag')
     end
 
     it "should accept symbolic keyword arguments as attributes as well" do
-      tag.build "Content", 'id' => 'my-tag', :class => 'custom'
+      tag.build! "Content", 'id' => 'my-tag', :class => 'custom'
       expect(tag.content).to eql('Content')
       expect(tag.id).to eql('my-tag')
       expect(tag.classes.to_a).to eql(['custom'])
