@@ -34,6 +34,11 @@ module Arbre
       end
       private :delete
 
+      def concat(classes)
+        classes.each { |cls| add cls }
+        self
+      end
+
       def to_s
         to_a.join(' ')
       end

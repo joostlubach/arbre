@@ -35,6 +35,21 @@ describe ElementCollection do
       expect(elements).to be_empty
     end
 
+    it "should wrap any enumerable indexing result in another element collection" do
+      collection = ElementCollection.new([element1, element2, element3])
+
+      expect(collection[0]).to be_a(Element)
+
+      expect(collection[0..1]).to be_a(ElementCollection)
+      expect(collection[0..1]).to have(2).items
+      expect(collection[0..1][0]).to be(element1)
+      expect(collection[0..1][1]).to be(element2)
+
+      expect(collection[0, 1]).to be_a(ElementCollection)
+      expect(collection[0, 1]).to have(1).items
+      expect(collection[0, 1][0]).to be(element1)
+    end
+
     it "should equate to an array" do
       expect(ElementCollection.new([element1, element2])).to eq([element1, element2])
       expect(ElementCollection.new([element1, element2])).not_to eq([element2, element1])

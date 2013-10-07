@@ -16,8 +16,10 @@ module Arbre
       delegate :each, :empty?, :length, :size, :count, :last, :to => :@elements
       delegate :clear, :to => :@elements
 
-      def [](index)
-        @elements[index]
+      def [](*args)
+        result = @elements[*args]
+        result = self.class.new(result) if result.is_a?(Enumerable)
+        result
       end
 
       def add(element)

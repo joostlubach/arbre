@@ -20,7 +20,7 @@ module Arbre
 
         # Override this to provide a proper tag name.
         def tag_name
-          raise NotImplementedError
+          raise NotImplementedError, "method `tag_name' not implemented for #{self.class.name}"
         end
 
         attr_reader :attributes
@@ -92,7 +92,7 @@ module Arbre
                     self[:#{attribute}]
                   end
                   def #{attribute}=(value)
-                    self[:#{attribute}] = value.to_s
+                    self[:#{attribute}] = value
                   end
                 RUBY
               end

@@ -51,6 +51,16 @@ describe ClassList do
 
   end
 
+  describe '#concat' do
+
+    it "should append all classes in the given array" do
+      list = ClassList.new('one two')
+      list.concat [ 'three', 'four five' ]
+      expect(list.to_a).to match_array(%w[one two three four five])
+    end
+
+  end
+
   describe "#remove" do
 
     it "should remove one class" do

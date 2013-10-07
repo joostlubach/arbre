@@ -245,6 +245,21 @@ describe Element do
       expect(element.my_helper).to be(result)
     end
 
+    it "should actually define the method when it is first found on the helpers" do
+      allow(element).to receive(:helpers).and_return(double(:helpers))
+      expect(element.helpers).to receive(:my_helper)
+      element.my_helper
+
+      expect(element.method(:my_helper)).not_to be_nil
+    end
+
+    it "should respond to any helper method" do
+      result = double()
+      allow(element).to receive(:helpers).and_return(double(:helpers))
+      allow(element.helpers).to receive(:my_helper).and_return(result)
+      expect(element).to respond_to(:my_helper)
+    end
+
     it "should not try a helper method if no helpers were found" do
       expect{ element.my_helper }.to raise_error(NoMethodError)
     end

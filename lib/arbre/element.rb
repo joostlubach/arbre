@@ -153,6 +153,10 @@ module Arbre
     ######
     # Helpers & assigns accessing
 
+      def respond_to?(method, include_private = false)
+        super || (helpers && helpers.respond_to?(method))
+      end
+
       private
 
       # Exposes the assigns from the context as instance variables to the given target.
@@ -165,10 +169,19 @@ module Arbre
       # Access helper methods from any Arbre element through its context.
       def method_missing(name, *args, &block)
         if helpers && helpers.respond_to?(name)
-          helpers.send(name, *args, &block)
+          define_helper_method name
+          send name, *args, &block
         else
           super
         end
+      end
+
+      def define_helper_method(name)
+        self.class.class_eval <<-RUBY, __FILE__, __LINE__+1
+          def #{name}(*args, &block)
+            helpers.send :#{name}, *args, &block
+          end
+        RUBY
       end
 
   end

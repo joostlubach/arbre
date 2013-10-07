@@ -81,8 +81,15 @@ describe Tag do
       it "should allow access to the :value attribute through a method" do
         tag.value = 'Test'
         expect(tag[:value]).to eql('Test')
+
         tag[:value] = 'Test'
         expect(tag.value).to eql('Test')
+      end
+
+      it "should allow an attribute to be removed if set to nil" do
+        tag[:value] = 'Test'
+        tag.value = nil
+        expect(tag).not_to have_attribute(:value)
       end
 
       it "should allow access to the boolean attribute :autocomplete through a method" do
