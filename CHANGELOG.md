@@ -1,6 +1,12 @@
+## 2.0.0
+
+* Increased RSpec coverage to 100%
+* Clear of specs failing when integrating into Flux framework
+
 ## 2.0.0.rc2
 
 * Support for symbolic classes
+* Various fixes & spec upgrades after integration into Flux framework
 
 ### Breaking changes
 
@@ -13,7 +19,7 @@
 * Rails: added content-layout structure
 * Rails: optimized template output handling, removed need for String masquerading
 * Added querying
-* Increased RSpec coverage to 100%
+* Increased RSpec coverage to near 100%
 
 ### Breaking changes
 
