@@ -14,6 +14,11 @@ module Arbre
           Query.new(self).execute(query)
         end
 
+        # Finds the first element from the given query.
+        def find_first(query)
+          find(query).first
+        end
+
         # Finds all child tags of this element. This operation sees through all elements that
         # are not a tag.
         # @return [ElementCollection]
@@ -60,6 +65,14 @@ module Arbre
           end
 
           ElementCollection.new(found)
+        end
+
+        def find_by_tag(tag)
+          find_by_tag_and_classes tag
+        end
+
+        def find_by_classes(classes)
+          find_by_tag_and_classes nil, classes
         end
 
         # Finds an element by an ID. Note that only the first element with the specified ID
