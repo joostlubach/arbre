@@ -3,7 +3,7 @@
 Arbre is the DOM implemented in Ruby. This project is primarily used as
 the object oriented view layer in Active Admin.
 
-{<img src="https://secure.travis-ci.org/yoazt/arbre.png?branch=master" alt="Build Status" />}[http://travis-ci.org/yoazt/arbre]
+[<img src="https://secure.travis-ci.org/yoazt/arbre.png?branch=master" alt="Build Status" />](http://travis-ci.org/yoazt/arbre)
 
 ## Simple Usage
 
