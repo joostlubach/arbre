@@ -1,3 +1,7 @@
+## 2.0.1.rc1
+
+* Added `app/views/arbre` as autoload path when using Rails
+
 ## 2.0.0
 
 * Increased RSpec coverage to 100%

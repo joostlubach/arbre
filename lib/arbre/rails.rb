@@ -15,6 +15,10 @@ module Arbre
 
   class Railtie < ::Rails::Railtie
 
+    initializer "arbre.add_autoload_paths" do |app|
+      ActiveSupport::Dependencies.autoload_paths << "#{app.config.root}/app/views/arbre"
+    end
+
     initializer "arbre.add_layout_support" do
       ActionController::Base.send :include, Arbre::Rails::Layouts::ControllerMethods
       Arbre::Context.send :include, Arbre::Rails::Layouts::ContextMethods
