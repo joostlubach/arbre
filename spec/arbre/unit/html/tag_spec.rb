@@ -63,6 +63,17 @@ describe Tag do
         superclass = Class.new(Arbre::Html::Div) { id 'my-div' }
         expect(Class.new(superclass).new.tag_id).to eql('my-div')
       end
+
+      it "should be able to be overridden in the build method" do
+        klass = Class.new(Arbre::Html::Div) do
+          id 'my-div'
+          def build!
+            self.id = 'overridden'
+            super
+          end
+        end
+        expect(klass.new.build!).to be_rendered_as('<div id="overridden"></div>')
+      end
     end
 
     describe '.classes' do
