@@ -27,7 +27,11 @@ module Arbre
       end
       def []=(attribute, value)
         if attribute.to_s == 'class'
-          @attributes['class'] = ClassList.new(value)
+          if value.present?
+            @attributes['class'] = ClassList.new(value)
+          else
+            remove 'class'
+          end
         elsif value == true
           @attributes[attribute.to_s] = attribute.to_s
         elsif value

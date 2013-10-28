@@ -131,6 +131,8 @@ module Arbre
       # Override this method to build your element.
       def build!
         yield self if block_given?
+
+        self
       end
 
       def indent_level

@@ -19,8 +19,19 @@ module Arbre
       # Attributes
 
         # Override this to provide a proper tag name.
+        # You can also use method {.tag} for the same purpose.
         def tag_name
           raise NotImplementedError, "method `tag_name' not implemented for #{self.class.name}"
+        end
+
+        # Override this if you want to give your tag a default ID.
+        # You can also use method {.id} for the same purpose.
+        def tag_id
+        end
+
+        # Override this if you want to give your tag some default classes.
+        # You can also use method {.classes} for the same purpose.
+        def tag_classes
         end
 
         attr_reader :attributes
@@ -41,7 +52,11 @@ module Arbre
         #   HTML attributes to render.
         def build!(*args, **extra)
           attributes = args.extract_options!
-          self.content = args.first unless args.empty?
+
+          self.content  = args.first unless args.empty?
+          self.id       = tag_id
+
+          add_class tag_classes.try(:join, ' ')
 
           self.attributes.update attributes
           self.attributes.update extra
@@ -99,6 +114,74 @@ module Arbre
             end
           end
 
+          # Defines the tag name for this class and derived classes. This is a DSL-alternative to
+          # defining method tag_name.
+          #
+          # == Usage
+          #
+          # The following two are equivalent:
+          #
+          #   tag 'div'
+          #
+          # and
+          #
+          #   def tag_name
+          #     'div'
+          #   end
+          def tag(tag)
+            class_eval <<-RUBY, __FILE__, __LINE__+1
+              def tag_name
+                #{tag.to_s.inspect}
+              end
+            RUBY
+          end
+
+          # Defines the tag ID attribute for this class and derived classes.
+          #
+          # == Usage
+          #
+          # The following two are equivalent:
+          #
+          #   id 'my-div'
+          #
+          # and
+          #
+          #   def build!(*)
+          #     super
+          #     self.id = 'my-div'
+          #   end
+          def id(id)
+            class_eval <<-RUBY, __FILE__, __LINE__+1
+              def tag_id
+                #{id.to_s.inspect}
+              end
+            RUBY
+          end
+
+          # Defines the tag (CSS) classes for this class and derived classes.
+          #
+          # == Usage
+          #
+          # The following two are equivalent:
+          #
+          #   classes 'dashboard', 'floatright'
+          #
+          # and
+          #
+          #   def build!(*)
+          #     super
+          #     add_class 'dashboard'
+          #     add_class 'floatright'
+          #   end
+          def classes(*classes)
+            classes = classes.flatten.map(&:to_s)
+            class_eval <<-RUBY, __FILE__, __LINE__+1
+              def tag_classes
+                #{classes.inspect}
+              end
+            RUBY
+          end
+
         end
 
         def [](attribute)
@@ -124,15 +207,16 @@ module Arbre
         end
 
         def add_class(classes)
-          self[:class].add classes
+          self[:class].add classes if classes.present?
         end
 
         def remove_class(classes)
           self[:class].remove classes
+          self[:class] = nil if self[:class].empty?
         end
 
         def classes=(classes)
-          self[:class] = classes
+          self[:class] = classes.present? ? classes : nil
         end
 
         def classes

@@ -1,6 +1,7 @@
 ## 2.0.1.rc1
 
 * Added `app/views/arbre` as autoload path when using Rails
+* Added DSL methods `Arbre::Html::Tag.tag`, `Arbre::Html::Tag.tag_id` and `Arbre::Html::Tag.tag_classes` 
 
 ## 2.0.0
 

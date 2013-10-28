@@ -97,6 +97,13 @@ describe Attributes do
       expect(attributes[:class].to_s).to eql('one two three four')
     end
 
+    it "should not set the attribute if a nil or empty array is passed" do
+      attributes[:class] = nil
+      expect(attributes).not_to have_key(:class)
+      attributes[:class] = []
+      expect(attributes).not_to have_key(:class)
+    end
+
   end
 
   describe '#remove' do

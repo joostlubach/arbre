@@ -27,12 +27,9 @@ module Arbre
       module_eval <<-RUBY, __FILE__, __LINE__+1
         class #{tag.camelize} < Tag
           builder_method #{builder_method.inspect}
+          tag #{tag.inspect}
 
           #{self_closing_method}
-
-          def tag_name
-            #{tag.inspect}
-          end
         end
       RUBY
     end

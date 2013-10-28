@@ -37,6 +37,53 @@ describe Tag do
     end
 
   ######
+  # DSL
+
+    describe '.tag' do
+      it "should define the method tag_name on the class" do
+        klass = Class.new(Arbre::Html::Tag) { tag :span }
+        expect(klass.new.tag_name).to eql('span')
+      end
+
+      it "should use the same tag name for derived classes" do
+        superclass = Class.new(Arbre::Html::Tag) { tag :span }
+        subclass   = Class.new(superclass)
+        expect(subclass.new.tag_name).to eql('span')
+      end
+    end
+
+    describe '.id' do
+      it "should add the given ID to the tag" do
+        klass = Class.new(Arbre::Html::Div) { id 'my-div' }
+        expect(klass.new.tag_id).to eql('my-div')
+        expect(klass.new.build!).to be_rendered_as('<div id="my-div"></div>')
+      end
+
+      it "should also add the ID to subclasses" do
+        superclass = Class.new(Arbre::Html::Div) { id 'my-div' }
+        expect(Class.new(superclass).new.tag_id).to eql('my-div')
+      end
+    end
+
+    describe '.classes' do
+      it "should add the given classes to the tag" do
+        klass = Class.new(Arbre::Html::Div) { classes 'time-input' }
+        expect(klass.new.tag_classes).to eql(%w[time-input])
+        expect(klass.new.build!).to be_rendered_as('<div class="time-input"></div>')
+      end
+
+      it "should flatten all given classes and allow space separated classes" do
+        klass = Class.new(Arbre::Html::Div) { classes 'one two', 'three', %w[four five] }
+        expect(klass.new.build!).to be_rendered_as('<div class="one two three four five"></div>')
+      end
+
+      it "should also add the classes to subclasses" do
+        superclass = Class.new(Arbre::Html::Div) { classes 'time-input' }
+        expect(Class.new(superclass).new.tag_classes).to eql(%w[time-input])
+      end
+    end
+
+  ######
   # Attributes
 
     specify { expect(tag.attributes).to be_a(Attributes) }
