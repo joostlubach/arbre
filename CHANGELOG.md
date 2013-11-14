@@ -1,3 +1,7 @@
+## 2.0.1.rc2
+
+* Added AJAX-rendering to `Arbre::Rails::LegacyDocument`
+
 ## 2.0.1.rc1
 
 * Added `app/views/arbre` as autoload path when using Rails

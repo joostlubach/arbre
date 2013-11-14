@@ -14,6 +14,15 @@ module Arbre
           text_node helpers.content_for(:layout)
         end
       end
+
+      def to_s
+        if request.xhr?
+          body.content
+        else
+          super
+        end
+      end
+
     end
 
   end
