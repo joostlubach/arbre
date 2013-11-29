@@ -92,6 +92,11 @@ describe Tag do
         superclass = Class.new(Arbre::Html::Div) { classes 'time-input' }
         expect(Class.new(superclass).new.tag_classes).to eql(%w[time-input])
       end
+
+      it "should combine classes with any given to the build! method" do
+        klass = Class.new(Arbre::Html::Div) { classes 'one two' }
+        expect(klass.new.build!(:class => 'three')).to be_rendered_as('<div class="one two three"></div>')
+      end
     end
 
   ######

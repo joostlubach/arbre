@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    arbre (2.0.1.rc1)
+    arbre (2.0.1.rc2)
       activesupport (~> 3.2)
 
 GEM
@@ -29,13 +29,13 @@ GEM
       activesupport (>= 3.0.0)
       railties (>= 3.0.0)
       thor (>= 0.14.6)
-    diff-lcs (1.2.4)
+    diff-lcs (1.2.5)
     erubis (2.7.0)
     hike (1.2.3)
     i18n (0.6.5)
     journey (1.0.4)
-    json (1.8.0)
-    multi_json (1.8.1)
+    json (1.8.1)
+    multi_json (1.8.2)
     rack (1.4.5)
     rack-cache (1.2)
       rack (>= 0.4)

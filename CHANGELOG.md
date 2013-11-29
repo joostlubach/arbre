@@ -1,6 +1,8 @@
 ## 2.0.1.rc2
 
 * Added AJAX-rendering to `Arbre::Rails::LegacyDocument`
+* Bug fix: classes specified in the class definition are not overwritten anymore by those passed to the
+  `build!` method.
 
 ## 2.0.1.rc1
 

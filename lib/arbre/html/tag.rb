@@ -56,10 +56,11 @@ module Arbre
           self.content  = args.first unless args.empty?
           self.id     ||= tag_id
 
-          add_class tag_classes.join(' ') if tag_classes.present?
-
           self.attributes.update attributes
           self.attributes.update extra
+
+          # Add classes now, so as to not overwrite these with a :class argument.
+          add_class tag_classes.join(' ') if tag_classes.present?
 
           super()
         end
