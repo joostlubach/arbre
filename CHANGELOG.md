@@ -3,6 +3,8 @@
 * Added AJAX-rendering to `Arbre::Rails::LegacyDocument`
 * Bug fix: classes specified in the class definition are not overwritten anymore by those passed to the
   `build!` method.
+* When using the `build!` method, any attributes that have a corresponding `<attribute>=` method on the
+  element class will cause this method to be invoked rather than the attributes array being updated.
 
 ## 2.0.1.rc1
 

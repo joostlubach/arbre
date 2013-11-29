@@ -56,8 +56,19 @@ module Arbre
           self.content  = args.first unless args.empty?
           self.id     ||= tag_id
 
+          attributes.update extra
+
+          # Take out attributes that have a corresponding '<attribute>=' method, so that
+          # they can be processed better.
+          attributes.keys.each do |name|
+            next if name.to_s == 'content'
+            next if helpers && helpers.respond_to?(:"#{name}=")
+
+            send :"#{name}=", attributes.delete(name) if respond_to?(:"#{name}=")
+          end
+
+          # Set all other attributes normally.
           self.attributes.update attributes
-          self.attributes.update extra
 
           # Add classes now, so as to not overwrite these with a :class argument.
           add_class tag_classes.join(' ') if tag_classes.present?

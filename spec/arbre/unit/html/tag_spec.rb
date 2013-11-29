@@ -173,6 +173,36 @@ describe Tag do
         expect(tag[:autocomplete]).to be_nil
       end
 
+      it "should use the value= method when passing in a value attribute to build!" do
+        allow(tag.attributes).to receive(:[]=)
+
+        value1 = double(:value); other1 = double(:other)
+        expect(tag).to receive(:value=).with(value1)
+        expect(tag.attributes).to receive(:[]=).with(:other, other1)
+        tag.build! value: value1, other: other1
+
+        value2 = double(:value); other2 = double(:other)
+        expect(tag).to receive(:value=).with(value2)
+        expect(tag.attributes).to receive(:[]=).with('other', other2)
+        tag.build! 'value' => value2, 'other' => other2
+      end
+
+      it "should not accidentally set the content this way" do
+        content = 'My Content'
+        expect(tag).not_to receive(:content=)
+        tag.build! content: content
+        expect(tag.attributes[:content]).to eql('My Content')
+      end
+
+      it "should not accidentally invoke a helper method" do
+        helpers = double(:value= => nil)
+        allow(tag).to receive(:helpers).and_return(helpers)
+        expect(helpers).not_to receive(:value=)
+
+        tag.build! value: 'My Value'
+        expect(tag.attributes[:value]).to eql('My Value')
+      end
+
     end
 
   ######
