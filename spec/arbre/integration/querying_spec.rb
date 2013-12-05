@@ -54,6 +54,11 @@ describe Arbre::Html::Querying do
       expect(result.to_a.inspect).to eql('[<a.one.two>]')
     end
 
+    it "should match multiple selectors" do
+      result = arbre.find('div#one, a')
+      expect(result.to_a.inspect).to eql('[<div#one>, <a.one.two>, <a.external.two>, <a.three>, <a.four>]')
+    end
+
     describe 'pseudo selectors' do
 
       it "should accept the :first pseudo selector" do

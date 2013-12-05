@@ -5,6 +5,7 @@
   `build!` method.
 * When using the `build!` method, any attributes that have a corresponding `<attribute>=` method on the
   element class will cause this method to be invoked rather than the attributes array being updated.
+* Bug fix: querying using multiple selectors now works (tag.find('a, button')).
 
 ## 2.0.1.rc1
 

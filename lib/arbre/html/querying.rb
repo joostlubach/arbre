@@ -154,27 +154,35 @@ module Arbre
             # Sanitize the query for processing.
             query = query.downcase.squeeze(' ')
 
-            tags = [ root ]
+            result = []
 
-            # Run through all segments in the query and process them one by one.
-            query.scan CSS_SCAN do |operator, all, tag, id, classes, pseudos, attributes|
-              next unless all || tag || id || classes || pseudos || attributes
+            selectors = query.split(',').map(&:strip).reject(&:blank?)
 
-              classes = classes.split('.').reject(&:blank?) if classes
-              pseudos = pseudos.split(':').reject(&:blank?) if pseudos
+            selectors.map do |selector|
+              tags = [ root ]
 
-              # First process combinations of operator, all and id.
-              tags = case operator
-              when '>' then find_children(tags, tag, id, classes)
-              else find_descendants(tags, tag, id, classes)
+              # Run through all segments in the selector and process them one by one.
+              selector.scan CSS_SCAN do |operator, all, tag, id, classes, pseudos, attributes|
+                next unless all || tag || id || classes || pseudos || attributes
+
+                classes = classes.split('.').reject(&:blank?) if classes
+                pseudos = pseudos.split(':').reject(&:blank?) if pseudos
+
+                # First process combinations of operator, all and id.
+                tags = case operator
+                when '>' then find_children(tags, tag, id, classes)
+                else find_descendants(tags, tag, id, classes)
+                end
+
+                filter_by_pseudos tags, pseudos if pseudos
+                filter_by_attributes tags, attributes if attributes
               end
 
-              filter_by_pseudos tags, pseudos if pseudos
-              filter_by_attributes tags, attributes if attributes
+              result.concat tags
             end
 
             # Convert to an element collection.
-            ElementCollection.new(tags)
+            ElementCollection.new(result)
           end
 
         ######
