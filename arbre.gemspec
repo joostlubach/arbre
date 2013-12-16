@@ -3,7 +3,7 @@ $:.push File.expand_path("../lib", __FILE__)
 require "arbre/version"
 
 Gem::Specification.new do |s|
-  s.name        = "arbre"
+  s.name        = "arbre2"
   s.version     = Arbre::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Greg Bell", "Joost Lubach"]
