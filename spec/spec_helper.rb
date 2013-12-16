@@ -5,6 +5,7 @@ SimpleCov.start do
 end
 
 require 'arbre'
+require 'arbre/rspec'
 
 RSpec.configure do |config|
 

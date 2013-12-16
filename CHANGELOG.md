@@ -7,11 +7,12 @@
   element class will cause this method to be invoked rather than the attributes array being updated.
 * Bug fix: querying using multiple selectors now works (tag.find('a, button')).
 * Bug fix using `render`: all child elements are now copied into the caller's element.
+* Added public RSpec API.
 
 ## 2.0.1.rc1
 
 * Added `app/views/arbre` as autoload path when using Rails
-* Added DSL methods `Arbre::Html::Tag.tag`, `Arbre::Html::Tag.tag_id` and `Arbre::Html::Tag.tag_classes` 
+* Added DSL methods `Arbre::Html::Tag.tag`, `Arbre::Html::Tag.tag_id` and `Arbre::Html::Tag.tag_classes`
 
 ## 2.0.0
 
@@ -71,4 +72,4 @@
 
 ## 1.0.0.rc1
 
-Initial release and extraction from Active Admin
+* Initial release and extraction from Active Admin

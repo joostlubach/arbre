@@ -13,17 +13,17 @@ describe Arbre::Rails, :type => :request do
 
     it "should render an ERB template without a layout" do
       get '/', :template => 'erb', :layout => false
-      expect(body).to be_rendered_as('<h1>This is an ERB template</h1>')
+      expect(body).to be_rendered_as('<h1>This is an ERB template</h1>', escape: false)
     end
 
     it "should render an Arbre template without a layout" do
       get '/', :template => 'arbre', :layout => false
-      expect(body).to be_rendered_as('<h1>This is an Arbre template</h1>')
+      expect(body).to be_rendered_as('<h1>This is an Arbre template</h1>', escape: false)
     end
 
     it "should render an ERB template with an empty Arbre layout" do
       get '/', :template => 'erb', :layout => 'empty'
-      expect(body).to be_rendered_as(<<-HTML)
+      expect(body).to be_rendered_as(<<-HTML, escape: false)
         <!DOCTYPE html>
 
         <html>
@@ -40,7 +40,7 @@ describe Arbre::Rails, :type => :request do
 
     it "should render an ERB template with an Arbre layout that sets a title" do
       get '/', :template => 'erb', :layout => 'with_title'
-      expect(body).to be_rendered_as(<<-HTML)
+      expect(body).to be_rendered_as(<<-HTML, escape: false)
         <!DOCTYPE html>
 
         <html>
@@ -74,7 +74,7 @@ describe Arbre::Rails, :type => :request do
       end
 
       get '/', :template => 'erb', :layout => 'empty'
-      expect(body).to be_rendered_as(<<-HTML)
+      expect(body).to be_rendered_as(<<-HTML, escape: false)
         <!DOCTYPE html>
 
         <html>
@@ -95,7 +95,7 @@ describe Arbre::Rails, :type => :request do
 
     it "should render an Arbre template with an empty Arbre layout" do
       get '/', :template => 'arbre', :layout => 'empty'
-      expect(body).to be_rendered_as(<<-HTML)
+      expect(body).to be_rendered_as(<<-HTML, escape: false)
         <!DOCTYPE html>
 
         <html>
@@ -111,7 +111,7 @@ describe Arbre::Rails, :type => :request do
 
     it "should render an Arbre template with an Arbre layout that sets a title" do
       get '/', :template => 'arbre', :layout => 'with_title'
-      expect(body).to be_rendered_as(<<-HTML)
+      expect(body).to be_rendered_as(<<-HTML, escape: false)
         <!DOCTYPE html>
 
         <html>
@@ -145,7 +145,7 @@ describe Arbre::Rails, :type => :request do
         <div id="erb">
           <p>ERB template.</p>
         </div>
-      ]x)
+      ]x, escape: false)
 
       # Make sure that the context is re-used between the first two, but not in the case of 'render'.
       (ctx1_id,_), (ctx2_id,_), (ctx3_id,_) = body.scan(/Context Object ID=(\d+)/)
@@ -155,12 +155,12 @@ describe Arbre::Rails, :type => :request do
 
     it "should return an empty string if an Arbre context is re-used" do
       get '/partial', :context => true
-      expect(body).to be_rendered_as('')
+      expect(body).to be_rendered_as('', escape: false)
     end
 
     it "should not return an empty string if an Arbre context is not re-used" do
       get '/partial', :context => false
-      expect(body).to be_rendered_as(%r[^<p>Partial: Context Object ID=(\d+)</p>])
+      expect(body).to be_rendered_as(%r[^<p>Partial: Context Object ID=(\d+)</p>], escape: false)
     end
 
     it "should handle an Arbre template without converting the template to a string" do
@@ -169,7 +169,7 @@ describe Arbre::Rails, :type => :request do
         <p>Partial: Context Object ID=(\d+)</p>
         <p>Paragraph 2</p>
         <p>The previous element is a Arbre::Html::P</p>
-      ]x)
+      ]x, escape: false)
     end
 
     it "should wrap any other partial in a TextNode" do
@@ -177,7 +177,7 @@ describe Arbre::Rails, :type => :request do
       expect(body).to be_rendered_as(%r[
         <p>ERB template.</p>
         <p>The previous element is a Arbre::TextNode</p>
-      ]x)
+      ]x, escape: false)
     end
 
 end
