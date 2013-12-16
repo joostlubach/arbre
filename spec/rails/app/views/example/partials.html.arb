@@ -4,7 +4,7 @@ div id: 'arbre' do
   partial 'arbre_partial', local1: 'local1'
 end
 div id: 'arbre-using-render' do
-  render :partial => 'arbre_partial'
+  render partial: 'arbre_partial'
 end
 div id: 'erb' do
   partial 'erb_partial'

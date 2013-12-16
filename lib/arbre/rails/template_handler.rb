@@ -23,7 +23,7 @@ module Arbre
       # end
 
       def call(template)
-        "_arbre_reuse_context = defined?(arbre_context); _arbre_ctx = _arbre_reuse_context ? arbre_context : Arbre::Context.new(assigns, self); _arbre_ctx.instance_exec { #{template.source} }; _arbre_reuse_context ? '' : defined?(arbre_output_context) ? _arbre_ctx : _arbre_ctx.to_html"
+        "_arbre_reuse_context = defined?(arbre_context); _arbre_ctx = _arbre_reuse_context ? arbre_context : Arbre::Context.new(assigns, self); _arbre_ctx.instance_exec { #{template.source}\n}; _arbre_reuse_context ? '' : defined?(arbre_output_context) ? _arbre_ctx : _arbre_ctx.to_html"
       end
 
     end

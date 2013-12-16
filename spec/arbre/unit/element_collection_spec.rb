@@ -138,6 +138,13 @@ describe ElementCollection do
       expect(collection).to have(1).element
     end
 
+    specify "#to_a should create a copy of the elements and #to_ary not" do
+      collection = ElementCollection.new([element1, element2])
+      expect(collection.to_ary).to be(collection.to_ary)
+      expect(collection.to_a).not_to be(collection.to_a)
+      expect(collection.to_a).to eql(collection.to_a)
+    end
+
   ######
   # Rendering
 

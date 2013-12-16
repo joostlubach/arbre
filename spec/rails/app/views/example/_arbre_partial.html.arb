@@ -1,5 +1,7 @@
 if defined?(local1)
   para "Partial: Local1=#{local1}, Context Object ID=#{arbre_context.object_id}"
+  para "Paragraph 2"
 else
   para "Partial: Context Object ID=#{arbre_context.object_id}"
+  para "Paragraph 2"
 end

@@ -136,9 +136,11 @@ describe Arbre::Rails, :type => :request do
         <p>Main template: Context Object ID=(\d+)</p>
         <div id="arbre">
           <p>Partial: Local1=local1, Context Object ID=(\d+)</p>
+          <p>Paragraph 2</p>
         </div>
         <div id="arbre-using-render">
           <p>Partial: Context Object ID=(\d+)</p>
+          <p>Paragraph 2</p>
         </div>
         <div id="erb">
           <p>ERB template.</p>
@@ -158,13 +160,14 @@ describe Arbre::Rails, :type => :request do
 
     it "should not return an empty string if an Arbre context is not re-used" do
       get '/partial', :context => false
-      expect(body).to be_rendered_as(%r[^<p>Partial: Context Object ID=(\d+)</p>$])
+      expect(body).to be_rendered_as(%r[^<p>Partial: Context Object ID=(\d+)</p>])
     end
 
     it "should handle an Arbre template without converting the template to a string" do
       get '/', :template => 'arbre_partial_result', :layout => false
       expect(body).to be_rendered_as(%r[
         <p>Partial: Context Object ID=(\d+)</p>
+        <p>Paragraph 2</p>
         <p>The previous element is a Arbre::Html::P</p>
       ]x)
     end

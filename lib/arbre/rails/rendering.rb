@@ -57,8 +57,13 @@ module Arbre
         result = helpers.render(*args, locals: locals, **options)
 
         case result
+        when Arbre::Context
+          # Append all the context's children to the current element. However, watch out as
+          # the children collection is modified during this operation. We'll first create
+          # a copy.
+          current_element.children.concat result.children.to_a
         when Arbre::Element
-          current_element.children.concat result.children
+          current_element.children << result
         else
           current_element.children << TextNode.from_string(result) if result.length > 0
         end

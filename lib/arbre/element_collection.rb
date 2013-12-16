@@ -43,7 +43,9 @@ module Arbre
       def to_ary
         @elements
       end
-      alias to_a to_ary
+      def to_a
+        @elements.dup
+      end
 
       def ==(other)
         to_a == other.to_a
