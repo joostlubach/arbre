@@ -1,4 +1,4 @@
-## 2.0.1.rc2
+## 2.1.0
 
 * Added AJAX-rendering to `Arbre::Rails::LegacyDocument`
 * Bug fix: classes specified in the class definition are not overwritten anymore by those passed to the
@@ -9,7 +9,7 @@
 * Bug fix using `render`: all child elements are now copied into the caller's element.
 * Added public RSpec API.
 
-## 2.0.1.rc1
+## 2.0.1
 
 * Added `app/views/arbre` as autoload path when using Rails
 * Added DSL methods `Arbre::Html::Tag.tag`, `Arbre::Html::Tag.tag_id` and `Arbre::Html::Tag.tag_classes`
