@@ -1,5 +1,5 @@
 source "http://rubygems.org"
 
-gem "activesupport", "~> 4.0"
+gem "rails", "~> 4.0"
 
 gemspec
