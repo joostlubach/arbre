@@ -6,7 +6,8 @@ require 'arbre/rails'
 
 Combustion.path = 'spec/rails'
 Combustion.initialize! :action_controller, :action_view do
-  config.middleware.use 'Rack::Lint'
+  # Does not seem to work with Rails 4
+  # config.middleware.use 'Rack::Lint'
 end
 
 require 'rspec/rails'
