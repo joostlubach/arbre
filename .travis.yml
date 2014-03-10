@@ -2,8 +2,8 @@ script: bundle exec rake
 rvm:
   - 2.0.0
 gemfile:
-  - gemfiles/Gemfile.rails-3.2.x
-  - gemfiles/Gemfile.rails-4.0.x
+  - builds/3.2.x/Gemfile
+  - builds/4.0.x/Gemfile
 branches:
   only:
     - master
