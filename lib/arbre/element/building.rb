@@ -61,13 +61,29 @@ module Arbre
           element = find(element).first if element.is_a?(String)
           arbre_context.with_current element: element, flow: :append, &block
         end
+
+        # Same as #{append_within}, except this doesn't do anything if the given element
+        # is +nil+ or not found.
+        def append_within?(element, &block)
+          element = find(element).first if element.is_a?(String)
+          arbre_context.with_current element: element, flow: :append, &block if element
+        end
+
         alias_method :within, :append_within
+        alias_method :within?, :append_within?
 
         # Executes a block within the context of the given element, or DOM query. All elements
         # are prepended.
         def prepend_within(element, &block)
           element = find(element).first if element.is_a?(String)
           arbre_context.with_current element: element, flow: :prepend, &block
+        end
+
+        # Same as #{prepend_within}, except this doesn't do anything if the given element
+        # is +nil+ or not found.
+        def prepend_within?(element, &block)
+          element = find(element).first if element.is_a?(String)
+          arbre_context.with_current element: element, flow: :prepend, &block if element
         end
 
         %w(append prepend).each do |flow|
