@@ -78,6 +78,29 @@ describe Element::Building do
       end
     end
 
+    describe '#append_within?' do
+      it "should call within_element on to arbre_context" do
+        block = proc{}
+        element = Element.new
+        expect(arbre).to receive(:with_current).with(element: element, flow: :append) do |&blk|
+          expect(blk).to be(block)
+        end
+
+        Element.new(arbre).instance_exec do
+          append_within? element, &block
+        end
+      end
+
+      it "should do nothing if the given element is nil" do
+        block = proc{}
+        expect(arbre).not_to receive(:with_current)
+
+        Element.new(arbre).instance_exec do
+          append_within? nil, &block
+        end
+      end
+    end
+
     describe '#prepend_within' do
       it "should call within and with_flow(:prepend) on the context" do
         block = proc {}
@@ -100,6 +123,29 @@ describe Element::Building do
         expect(context_element).to receive(:find).with('fieldset#username').and_return([element])
         context_element.instance_exec do
           prepend_within 'fieldset#username', &block
+        end
+      end
+    end
+
+    describe '#append_within?' do
+      it "should call within_element on to arbre_context" do
+        block = proc{}
+        element = Element.new
+        expect(arbre).to receive(:with_current).with(element: element, flow: :prepend) do |&blk|
+          expect(blk).to be(block)
+        end
+
+        Element.new(arbre).instance_exec do
+          prepend_within? element, &block
+        end
+      end
+
+      it "should do nothing if the given element is nil" do
+        block = proc{}
+        expect(arbre).not_to receive(:with_current)
+
+        Element.new(arbre).instance_exec do
+          prepend_within? nil, &block
         end
       end
     end
