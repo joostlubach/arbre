@@ -240,6 +240,10 @@ module Arbre
           klass.split(' ').all? { |cls| classes.include?(cls) }
         end
 
+        def style
+          self[:style]
+        end
+
       ######
       # Rendering
 

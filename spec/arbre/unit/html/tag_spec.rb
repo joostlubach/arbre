@@ -76,7 +76,7 @@ describe Tag do
       end
     end
 
-    describe '.classes' do
+    describe '.tag_classes' do
       it "should add the given classes to the tag" do
         klass = Class.new(Arbre::Html::Div) { classes 'time-input' }
         expect(klass.new.tag_classes).to eql(%w[time-input])
@@ -105,33 +105,33 @@ describe Tag do
     specify { expect(tag.attributes).to be_a(Attributes) }
 
     it "should allow setting an attribute through #set_attribute" do
-      tag.set_attribute :style, 'display: none;'
+      tag.set_attribute :autocomplete, 'off'
       tag.set_attribute 'placeholder', '(test)'
-      expect(tag.attributes).to eq('style' => 'display: none;', 'placeholder' => '(test)')
+      expect(tag.attributes).to eq('autocomplete' => 'off', 'placeholder' => '(test)')
     end
 
     it "should allow getting an attribute through #get_attribute" do
-      tag.set_attribute :style, 'display: none;'
-      expect(tag.get_attribute(:style)).to eql('display: none;')
-      expect(tag.get_attribute('style')).to eql('display: none;')
+      tag.set_attribute :autocomplete, 'off'
+      expect(tag.get_attribute(:autocomplete)).to eql('off')
+      expect(tag.get_attribute('autocomplete')).to eql('off')
     end
 
     it "should allow setting an attribute through an indexer" do
-      tag[:style] = 'display: none;'
+      tag[:autocomplete] = 'off'
       tag['placeholder'] = '(test)'
-      expect(tag.attributes).to eq('style' => 'display: none;', 'placeholder' => '(test)')
+      expect(tag.attributes).to eq('autocomplete' => 'off', 'placeholder' => '(test)')
     end
 
     it "should allow getting an attribute through an indexer" do
-      tag[:style] = 'display: none;'
-      expect(tag[:style]).to eql('display: none;')
-      expect(tag['style']).to eql('display: none;')
+      tag[:autocomplete] = 'off'
+      expect(tag[:autocomplete]).to eql('off')
+      expect(tag['autocomplete']).to eql('off')
     end
 
     it "should check whether an attribute is set through has_attribute?" do
-      tag[:style] = 'display: none;'
-      expect(tag).to have_attribute(:style)
-      expect(tag).to have_attribute('style')
+      tag[:autocomplete] = 'off'
+      expect(tag).to have_attribute(:autocomplete)
+      expect(tag).to have_attribute('autocomplete')
       expect(tag).not_to have_attribute(:placeholder)
     end
 
@@ -206,7 +206,7 @@ describe Tag do
     end
 
   ######
-  # ID & classes
+  # ID, classes & style
 
     describe '#generate_id' do
       it "should generate an ID for the tag using its object_id" do
@@ -258,6 +258,12 @@ describe Tag do
         tag.classes = 'one two three'
         expect(tag).to have_class('one two')
         expect(tag).not_to have_class('two four')
+      end
+    end
+
+    describe '#style' do
+      it "should be the same as the :style attribute" do
+        expect(tag.style).to be(tag[:style])
       end
     end
 
