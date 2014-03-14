@@ -76,7 +76,7 @@ describe Tag do
       end
     end
 
-    describe '.classes' do
+    describe '.tag_classes' do
       it "should add the given classes to the tag" do
         klass = Class.new(Arbre::Html::Div) { classes 'time-input' }
         expect(klass.new.tag_classes).to eql(%w[time-input])
@@ -206,7 +206,7 @@ describe Tag do
     end
 
   ######
-  # ID & classes
+  # ID, classes & style
 
     describe '#generate_id' do
       it "should generate an ID for the tag using its object_id" do
@@ -258,6 +258,12 @@ describe Tag do
         tag.classes = 'one two three'
         expect(tag).to have_class('one two')
         expect(tag).not_to have_class('two four')
+      end
+    end
+
+    describe '#style' do
+      it "should be the same as the :style attribute" do
+        expect(tag.style).to be(tag[:style])
       end
     end
 
