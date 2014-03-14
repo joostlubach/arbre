@@ -18,6 +18,7 @@ require 'arbre/child_element_collection'
 
 require 'arbre/html/attributes'
 require 'arbre/html/class_list'
+require 'arbre/html/style_hash'
 require 'arbre/html/querying'
 require 'arbre/html/tag'
 require 'arbre/html/comment'

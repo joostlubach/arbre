@@ -10,6 +10,15 @@ describe Arbre do
     expect(arbre).to be_rendered_as("<span>Hello World</span>")
   end
 
+  it "should render all attributes properly" do
+    arbre do
+      div "test", :class => %w(one two), :style => {'one' => 'two'}, 'one' => 'two'
+    end
+    expect(arbre).to be_rendered_as(<<-HTML)
+      <div class="one two" one="two" style="one: two;">test</div>
+    HTML
+  end
+
   it "should access assigns through instance variables" do
     assigns[:my_var] = 'Hello World'
     arbre { span @my_var }
