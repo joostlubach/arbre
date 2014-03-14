@@ -243,6 +243,9 @@ module Arbre
         def style
           self[:style]
         end
+        def style=(value)
+          self[:style] = value
+        end
 
       ######
       # Rendering
