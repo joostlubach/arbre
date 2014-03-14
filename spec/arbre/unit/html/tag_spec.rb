@@ -266,6 +266,12 @@ describe Tag do
         expect(tag.style).to be(tag[:style])
       end
     end
+    describe '#style=' do
+      it "should set the style attribute" do
+        tag.style = 'float: left;'
+        expect(tag[:style]).to eql('float' => 'left')
+      end
+    end
 
   ## Rendering is exemplified in the integration HTML spec.
 
