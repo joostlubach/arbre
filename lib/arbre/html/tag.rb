@@ -1,3 +1,4 @@
+require 'active_support/core_ext/array/extract_options'
 require 'erb'
 
 module Arbre

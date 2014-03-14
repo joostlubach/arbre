@@ -106,6 +106,32 @@ describe Attributes do
 
   end
 
+  describe "style attribute" do
+
+    it "should return a StyleHash when the class attribute is accessed" do
+      expect(attributes[:style]).to be_a(StyleHash)
+      expect(attributes[:style]).to be_empty
+      expect(attributes['style']).to be_a(StyleHash)
+      expect(attributes['style']).to be_empty
+    end
+
+    it "should wrap things into a style when the attribute is set" do
+      attributes[:style] = 'one: two;'
+      expect(attributes[:style]).to eql(StyleHash.new('one: two;'))
+
+      attributes[:style] = {'one' => 'two'}
+      expect(attributes[:style]).to eql(StyleHash.new('one' => 'two'))
+    end
+
+    it "should not set the attribute if a nil or empty hash is passed" do
+      attributes[:style] = nil
+      expect(attributes).not_to have_key(:style)
+      attributes[:style] = []
+      expect(attributes).not_to have_key(:style)
+    end
+
+  end
+
   describe '#remove' do
 
     it "should remove the attribute with the given name" do

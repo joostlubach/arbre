@@ -20,24 +20,48 @@ module Arbre
 
       def [](attribute)
         if attribute.to_s == 'class'
-          @attributes['class'] ||= ClassList.new
+          classes
+        elsif attribute.to_s == 'style'
+          style
         else
           @attributes[attribute.to_s]
         end
       end
       def []=(attribute, value)
         if attribute.to_s == 'class'
-          if value.present?
-            @attributes['class'] = ClassList.new(value)
-          else
-            remove 'class'
-          end
+          self.classes = value
+        elsif attribute.to_s == 'style'
+          self.style = value
         elsif value == true
           @attributes[attribute.to_s] = attribute.to_s
         elsif value
           @attributes[attribute.to_s] = value.to_s
         else
           remove attribute
+        end
+      end
+
+      def classes
+        @attributes['class'] ||= ClassList.new
+      end
+
+      def classes=(value)
+        if value.present?
+          @attributes['class'] = ClassList.new(value)
+        else
+          remove 'class'
+        end
+      end
+
+      def style
+        @attributes['style'] ||= StyleHash.new
+      end
+
+      def style=(value)
+        if value.present?
+          @attributes['style'] = StyleHash.new(value)
+        else
+          remove 'style'
         end
       end
 
@@ -67,6 +91,7 @@ module Arbre
       def pairs
         map do |name, value|
           next if name == 'class' && value.blank?
+          next if name == 'style' && value.blank?
           "#{html_escape(name)}=\"#{html_escape(value)}\""
         end
       end
