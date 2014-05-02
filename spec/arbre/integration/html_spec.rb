@@ -129,6 +129,7 @@ describe Arbre do
 
       within('.div1') { span 'Span 1.1', :id => 'my-span' }
       after('.div1 > #my-span') { span 'Span 1.2' }
+      after('.div1') { span 'Span 1.3' }
     end
 
     expect(arbre).to be_rendered_as(<<-HTML)
@@ -136,6 +137,7 @@ describe Arbre do
         <span id="my-span">Span 1.1</span>
         <span>Span 1.2</span>
       </div>
+      <span>Span 1.3</span>
     HTML
   end
 
