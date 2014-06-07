@@ -38,7 +38,7 @@ module Arbre
         js
       end
 
-      def failure_message_for_should
+      def failure_message
         <<-MSG.gsub(/^\s{10}/, '')
           expected that element of type #{@actual.class} contained script:
             expected: #{expected.is_a?(Regexp) ? '/' + canonize_js(expected.source) + '/' : canonize_js(expected)} (#{expected.class})
@@ -46,7 +46,7 @@ module Arbre
         MSG
       end
 
-      def failure_message_for_should_not
+      def failure_message_when_negated
         <<-MSG.gsub(/^\s{10}/, '')
           expected that element of type #{actual.class} would not contain a script:
             script: #{expected.is_a?(Regexp) ? '/' + canonize_js(expected.source) + '/' : canonize_js(expected)} (#{expected.class})

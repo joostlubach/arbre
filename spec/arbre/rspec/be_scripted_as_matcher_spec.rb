@@ -5,7 +5,7 @@ describe Arbre::RSpec::BeScriptedAsMatcher do
   it "should fail if the actual's content was not the same" do
     expect{ expect(double(:content => 'alert("test");')).to be_scripted_as('alert("something else");') }
       .to raise_error(RSpec::Expectations::ExpectationNotMetError, <<-STR.gsub(/^\s{8}/, ''))
-        expected that element of type RSpec::Mocks::Mock would be scripted differently:
+        expected that element of type RSpec::Mocks::Double would be scripted differently:
           expected: alert("something else"); (String)
                got: alert("test");
     STR
@@ -14,7 +14,7 @@ describe Arbre::RSpec::BeScriptedAsMatcher do
   it "should fail if the actual's content did not match the regular expression" do
     expect{ expect(double(:content => 'alert("test");')).to be_scripted_as(/regular* expression{1,2}/) }
       .to raise_error(RSpec::Expectations::ExpectationNotMetError, <<-STR.gsub(/^\s{8}/, ''))
-        expected that element of type RSpec::Mocks::Mock would be scripted differently:
+        expected that element of type RSpec::Mocks::Double would be scripted differently:
           expected: /regular* expression{1,2}/ (Regexp)
                got: alert("test");
     STR
@@ -40,7 +40,7 @@ describe Arbre::RSpec::BeScriptedAsMatcher do
   it "should fail if the whitespace difference was significant" do
     expect{ expect(double(:content => 'alert("test   " );')).to be_scripted_as('alert("test");') }
       .to raise_error(RSpec::Expectations::ExpectationNotMetError, <<-STR.gsub(/^\s{8}/, ''))
-        expected that element of type RSpec::Mocks::Mock would be scripted differently:
+        expected that element of type RSpec::Mocks::Double would be scripted differently:
           expected: alert("test"); (String)
                got: alert("test   " );
     STR

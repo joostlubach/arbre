@@ -59,13 +59,13 @@ describe ChildElementCollection do
     it "should not add or set the parent of the same element twice" do
       expect(element).to receive(:parent=).once.with(parent)
       collection << element << element
-      expect(collection).to have(1).item
+      expect(collection.size).to eql(1)
 
       collection = ChildElementCollection.new(parent)
       expect(element).to receive(:parent=).once.with(parent)
       collection << element
       collection.insert_at 0, element
-      expect(collection).to have(1).item
+      expect(collection.size).to eql(1)
     end
 
     it "should not unset the parent if the given element was not part of the collection" do

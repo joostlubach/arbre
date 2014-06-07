@@ -161,15 +161,15 @@ describe Tag do
 
       it "should allow access to the boolean attribute :autocomplete through a method" do
         tag.autocomplete = true
-        expect(tag.autocomplete).to be_true
+        expect(tag.autocomplete).to be_truthy
         expect(tag[:autocomplete]).to eql('autocomplete')
 
         tag.autocomplete = double(:something_trueish)
-        expect(tag.autocomplete).to be_true
+        expect(tag.autocomplete).to be_truthy
         expect(tag[:autocomplete]).to eql('autocomplete')
 
         tag.autocomplete = false
-        expect(tag.autocomplete).to be_false
+        expect(tag.autocomplete).to be_falsey
         expect(tag[:autocomplete]).to be_nil
       end
 
