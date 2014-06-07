@@ -23,7 +23,11 @@ describe Arbre::Rails::RSpec::ArbreSupport, arbre: true do
     end
   end
 
-  its(:assigns) { should eql({}) }
+  describe '#assigns' do
+    it "should be blank by default" do
+      expect(example.assigns).to eql({})
+    end
+  end
 
   describe '#helpers' do
     it "should build and memoize helpers" do
@@ -38,8 +42,18 @@ describe Arbre::Rails::RSpec::ArbreSupport, arbre: true do
     let(:helpers) { example.build_helpers }
 
     specify { expect(helpers).to be_a(ActionView::Base) }
-    specify { expect(helpers.controller).to be(controller) }
-    specify { expect(helpers.request).to be(request) }
+
+    it "should forward the controller to the helpers" do
+      controller = double()
+      allow(helpers).to receive(:controller).and_return(controller)
+      expect(helpers.controller).to be(controller)
+    end
+
+    it "should forward the request to the helpers" do
+      request = double()
+      allow(helpers).to receive(:request).and_return(request)
+      expect(helpers.request).to be(request)
+    end
 
     it "should mock an asset_path helper" do
       expect(helpers.asset_path('test')).to eql('/assets/test')

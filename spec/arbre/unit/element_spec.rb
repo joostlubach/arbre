@@ -88,8 +88,7 @@ describe Element do
         child = Element.new
         element << child
 
-        expect(element).to have(1).child
-        expect(element.children[0]).to be(child)
+        expect(element.children).to match([child])
       end
 
     end
@@ -165,8 +164,7 @@ describe Element do
         element << Element.new << Element.new
         element.content = "(CONTENT)"
 
-        expect(element).to have(1).child
-        expect(element.children[0]).to be_a(TextNode)
+        expect(element.children).to match([an_instance_of(TextNode)])
         expect(element.content).to eql('(CONTENT)')
       end
 
@@ -175,8 +173,7 @@ describe Element do
         child = Element.new
         element.content = child
 
-        expect(element).to have(1).child
-        expect(element.children[0]).to be(child)
+        expect(element.children).to match([child])
       end
 
       it "should clear any children and add a given element collection" do
@@ -201,9 +198,7 @@ describe Element do
 
         elements = element + element2
         expect(elements).to be_a(ElementCollection)
-        expect(elements).to have(2).items
-        expect(elements[0]).to be(element)
-        expect(elements[1]).to be(element2)
+        expect(elements).to match([element, element2])
       end
 
       it "should wrap itself in a collection and add the other elements" do
@@ -212,10 +207,7 @@ describe Element do
 
         elements = element + [ element2, element3 ]
         expect(elements).to be_a(ElementCollection)
-        expect(elements).to have(3).items
-        expect(elements[0]).to be(element)
-        expect(elements[1]).to be(element2)
-        expect(elements[2]).to be(element3)
+        expect(elements).to match([element, element2, element3])
       end
 
     end

@@ -76,7 +76,7 @@ module Arbre
         html
       end
 
-      def failure_message_for_should
+      def failure_message
         <<-MSG.gsub(/^\s{10}/, '')
           expected that element of type #{@actual.class} would be rendered differently:
             expected: #{expected.is_a?(Regexp) ? '/' + canonize_html(expected.source) + '/' : canonize_html(expected)} (#{expected.class})
@@ -84,7 +84,7 @@ module Arbre
         MSG
       end
 
-      def failure_message_for_should_not
+      def failure_message_when_negated
         <<-MSG.gsub(/^\s{10}/, '')
           expected that element of type #{@actual.class} would not be rendered as #{canonize_html(expected)}, but it was:
             got: #{@actual.nil? ? 'nil' : canonize_html(ERB::Util.html_escape(@actual.to_s))}

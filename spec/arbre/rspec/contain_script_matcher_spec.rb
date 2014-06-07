@@ -5,7 +5,7 @@ describe Arbre::RSpec::ContainScriptMatcher do
   it "should fail if the actual's content did not contain the given script" do
     expect{ expect(double(:to_s => '<script type="javascript">alert("test");</script>')).to contain_script('alert("something else");') }
       .to raise_error(RSpec::Expectations::ExpectationNotMetError, <<-STR.gsub(/^\s{8}/, ''))
-        expected that element of type RSpec::Mocks::Mock contained script:
+        expected that element of type RSpec::Mocks::Double contained script:
           expected: alert("something else"); (String)
                got: <script type="javascript">alert("test");</script>
     STR
@@ -31,7 +31,7 @@ describe Arbre::RSpec::ContainScriptMatcher do
   it "should fail if the whitespace difference was significant" do
     expect{ expect(double(:to_s => '<script type="javascript">alert("test   " );</script>')).to contain_script('alert("test");') }
       .to raise_error(RSpec::Expectations::ExpectationNotMetError, <<-STR.gsub(/^\s{8}/, ''))
-        expected that element of type RSpec::Mocks::Mock contained script:
+        expected that element of type RSpec::Mocks::Double contained script:
           expected: alert("test"); (String)
                got: <script type="javascript">alert("test   " );</script>
     STR

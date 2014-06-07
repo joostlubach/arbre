@@ -17,19 +17,14 @@ describe ElementCollection do
 
     it "should behave like an array" do
       elements = ElementCollection.new([element1])
-      expect(elements).to have(1).item
-      expect(elements[0]).to be(element1)
+      expect(elements).to match([element1])
 
       elements << element2
-      expect(elements).to have(2).item
-      expect(elements[0]).to be(element1)
-      expect(elements[1]).to be(element2)
+      expect(elements).to match([element1, element2])
 
       elements = ElementCollection.new
       elements.concat [ element1, element2 ]
-      expect(elements).to have(2).item
-      expect(elements[0]).to be(element1)
-      expect(elements[1]).to be(element2)
+      expect(elements).to match([element1, element2])
 
       elements.clear
       expect(elements).to be_empty
@@ -41,13 +36,10 @@ describe ElementCollection do
       expect(collection[0]).to be_a(Element)
 
       expect(collection[0..1]).to be_a(ElementCollection)
-      expect(collection[0..1]).to have(2).items
-      expect(collection[0..1][0]).to be(element1)
-      expect(collection[0..1][1]).to be(element2)
+      expect(collection[0..1]).to match([element1, element2])
 
       expect(collection[0, 1]).to be_a(ElementCollection)
-      expect(collection[0, 1]).to have(1).items
-      expect(collection[0, 1][0]).to be(element1)
+      expect(collection[0, 1]).to match([element1])
     end
 
     it "should equate to an array" do
@@ -135,7 +127,7 @@ describe ElementCollection do
       collection = ElementCollection.new
       element = Element.new
       collection << element << element
-      expect(collection).to have(1).element
+      expect(collection.size).to eql(1)
     end
 
     specify "#to_a should create a copy of the elements and #to_ary not" do

@@ -73,7 +73,7 @@ describe Arbre::Rails::Layouts do
         arbre.document document_class, :one, :two, &block
         arbre.layout
         expect(arbre.children.first).to be_a(document_class)
-        expect(called).to be_true
+        expect(called).to be_truthy
       end
 
       it "should execute the content block on the document if it was not called from its build! method" do
@@ -87,7 +87,7 @@ describe Arbre::Rails::Layouts do
         arbre.document document_class, :one, :two, &block
         arbre.layout
         expect(arbre.children.first).to be_a(document_class)
-        expect(called).to be_true
+        expect(called).to be_truthy
         expect(receiver).to be(arbre.children.first)
       end
 
