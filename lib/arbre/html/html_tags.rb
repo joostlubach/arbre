@@ -13,8 +13,8 @@ module Arbre
       code colgroup command datalist dd del details
       dfn div dl dt em embed fieldset figcaption figure
       footer form h1 h2 h3 h4 h5 h6 head header hgroup
-      hr html i iframe ins keygen kbd label
-      legend li map mark menu meter nav noscript
+      hr html i iframe ins keygen kbd label legend
+      li main map mark menu meter nav noscript
       object ol optgroup option output pre progress q
       s samp script section select small source span
       strong style sub summary sup table tbody td

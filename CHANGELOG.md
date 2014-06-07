@@ -1,3 +1,7 @@
+## 2.2.3
+
+* Added `main` tag.
+
 ## 2.1.0
 
 * Added AJAX-rendering to `Arbre::Rails::LegacyDocument`
