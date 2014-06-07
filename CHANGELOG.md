@@ -1,3 +1,7 @@
+## 2.2.4
+
+* Upgraded specs to RSpec 3.0
+
 ## 2.2.3
 
 * Added `main` tag.
