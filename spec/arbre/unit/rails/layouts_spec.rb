@@ -26,7 +26,9 @@ describe Arbre::Rails::Layouts do
       end
 
       it "should run a given layout block on it" do
-        legacy_document_class = Class.new(Arbre::Html::Document)
+        legacy_document_class = Class.new(Arbre::Html::Document) do
+          def self.name; 'LayoutsExample::LegacyDocument' end
+        end
         expect(Arbre::Rails).to receive(:legacy_document).and_return(legacy_document_class)
 
         receiver = nil
@@ -77,7 +79,9 @@ describe Arbre::Rails::Layouts do
       end
 
       it "should execute the content block on the document if it was not called from its build! method" do
-        document_class = Class.new(Arbre::Html::Document)
+        document_class = Class.new(Arbre::Html::Document) do
+          def self.name; 'LayoutsExample::MyDocumentClass' end
+        end
 
         called = false
         receiver = nil
@@ -91,17 +95,19 @@ describe Arbre::Rails::Layouts do
         expect(receiver).to be(arbre.children.first)
       end
 
-      it "should run a given layout block on it, but after the content block" do
-        document_class = Class.new(Arbre::Html::Document)
+      it "should run a given layout block on it, before the content block" do
+        document_class = Class.new(Arbre::Html::Document) do
+          def self.name; 'LayoutsExample::MyDocumentClass' end
+        end
         expect_any_instance_of(document_class).to receive(:build!)
 
         called = []; receivers = []
-        content_block = proc { called << :content; receivers << self }
         layout_block = proc { called << :layout; receivers << self }
+        content_block = proc { called << :content; receivers << self }
 
         arbre.document document_class, &content_block
         arbre.layout &layout_block
-        expect(called).to eql([ :content, :layout ])
+        expect(called).to eql([:layout, :content])
         expect(receivers[0]).to be(arbre.children.first)
         expect(receivers[1]).to be(arbre.children.first)
       end

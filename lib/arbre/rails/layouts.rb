@@ -91,31 +91,37 @@ module Arbre
           #
           # @return [Arbre::Html::Document]  The rendered document.
           def layout(&layout_block)
-            doc = if document && document.content_block
-              # Use the specified document with the specified content block.
 
-              # Detect whether the block is called.
-              block_called = false
-              content_block = document.content_block
-              doc = append(document.klass, *document.build_arguments) do |*args|
-                block_called = true
-                instance_exec *args, &content_block
-              end
-
-              # Call the block anyway if it hasn't been called yet.
-              doc.instance_exec &document.content_block unless block_called
-              doc
-
-            elsif document
-              # Use the specified document.
-              append document.klass, *document.build_arguments
-            else
-              # Append an empty document.
-              append Arbre::Rails.legacy_document
+            if document
+              document_class = document.klass
+              document_args  = document.build_arguments
+              content_block  = document.content_block
             end
 
-            # Run the layout block unless this is an AJAX request.
-            doc.instance_exec &layout_block if layout_block && !request.xhr?
+            # Create a new block that will serve as the document's build block. This block will
+            # first call the layout block, and then the document's content block.
+
+            # As some document classes may not call 'yield' in their setup method, we will detect
+            # whether our block was actually called. If not, it will be called using 'instance_exec'.
+
+            block_called = false
+            block = proc do |doc|
+              block_called = true
+
+              # Call the layout block first.
+              doc.instance_exec &layout_block if layout_block && !request.xhr?
+
+              # Then call the document's content block.
+              doc.instance_exec &content_block if content_block
+            end
+
+            # Append the document now.
+            document_class ||= Arbre::Rails.legacy_document
+            doc = append(document_class, *document_args, &block)
+
+            # If the block has not been called by the document's setup method, call it anyway.
+            doc.instance_exec doc, &block unless block_called
+
             doc
           end
 

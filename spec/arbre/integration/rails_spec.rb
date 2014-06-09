@@ -45,8 +45,8 @@ describe Arbre::Rails, :type => :request do
 
         <html>
           <head>
-            <title>Application Title</title>
             <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+            <title>Application Title</title>
             <meta http-equiv="Author" content="Me" />
           </head>
           <body>
@@ -116,8 +116,8 @@ describe Arbre::Rails, :type => :request do
 
         <html>
           <head>
-            <title>Application Title</title>
             <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+            <title>Application Title</title>
           </head>
           <body>
             <h1>This is an Arbre template</h1>

@@ -1,3 +1,8 @@
+## 2.3.0
+
+* Inversed layout-content block order in `Arbre::Rails::Layouts` - now, first the layout block is run, then the content block.
+* Removed `title` attribute accessor on `Arbre::Html::Document` class, and renamed reader to `document_title`.
+
 ## 2.2.4
 
 * Upgraded specs to RSpec 3.0

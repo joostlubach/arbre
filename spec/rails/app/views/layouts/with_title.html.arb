@@ -1,5 +1,7 @@
 layout do
 
-  self.title = "Application Title"
+  head do
+    title "Application Title"
+  end
 
 end

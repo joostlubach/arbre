@@ -44,12 +44,8 @@ module Arbre
       ######
       # Head & body accessors
 
-        def title
+        def document_title
           @title ||= title_tag.content
-        end
-
-        def title=(title)
-          @title = title_tag.content = title
         end
 
         def title_tag

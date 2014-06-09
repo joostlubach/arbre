@@ -36,9 +36,10 @@ module Arbre
         else Regexp.new('^' + Regexp.escape(canonize_html(expected)).gsub(/\\\(\\\.\\\.\\\..*?(?:\\\.\\\.\\\.)?\\\)/, '.+') + '$')
         end
 
-        html = actual.to_s
-        html = ERB::Util.html_escape(html) if @escape
-        canonize_html(html) =~ regexp
+        @html = actual.to_s
+        @html = ERB::Util.html_escape(@html) if @escape
+        @html = canonize_html(@html)
+        @html =~ regexp
       end
 
       def canonize_html(html)
@@ -80,14 +81,14 @@ module Arbre
         <<-MSG.gsub(/^\s{10}/, '')
           expected that element of type #{@actual.class} would be rendered differently:
             expected: #{expected.is_a?(Regexp) ? '/' + canonize_html(expected.source) + '/' : canonize_html(expected)} (#{expected.class})
-                 got: #{@actual.nil? ? 'nil' : canonize_html(ERB::Util.html_escape(@actual.to_s))}
+                 got: #{@actual.nil? ? 'nil' : @html}
         MSG
       end
 
       def failure_message_when_negated
         <<-MSG.gsub(/^\s{10}/, '')
           expected that element of type #{@actual.class} would not be rendered as #{canonize_html(expected)}, but it was:
-            got: #{@actual.nil? ? 'nil' : canonize_html(ERB::Util.html_escape(@actual.to_s))}
+            got: #{@actual.nil? ? 'nil' : @html}
         MSG
       end
 

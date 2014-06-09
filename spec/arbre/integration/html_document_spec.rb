@@ -61,30 +61,14 @@ describe Document do
     HTML
   end
 
-  it "should allow setting the title through a property" do
-    arbre do
-      append Document do |doc|
-        doc.title = 'My Title'
-      end
-    end
-
-    expect(arbre.find('head')).to be_rendered_as(<<-HTML)
-      <head>
-        <title>My Title</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-      </head>
-    HTML
-  end
-
   it "should allow getting the title through an attribute" do
     arbre do
       append Document do |doc|
         doc.head { title "My Title" }
       end
     end
-
     document = arbre.children[0]
-    expect(document.title).to eql('My Title')
+    expect(document.document_title).to eql('My Title')
   end
 
 end

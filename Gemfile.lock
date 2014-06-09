@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    arbre2 (2.2.3)
+    arbre2 (2.2.4)
       activesupport
 
 GEM
