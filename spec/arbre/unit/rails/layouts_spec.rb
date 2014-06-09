@@ -95,19 +95,20 @@ describe Arbre::Rails::Layouts do
         expect(receiver).to be(arbre.children.first)
       end
 
-      it "should run a given layout block on it, before the content block" do
+      it "should run a given layout block on it, before the document's build! method" do
+        called = []; receivers = []
+
         document_class = Class.new(Arbre::Html::Document) do
           def self.name; 'LayoutsExample::MyDocumentClass' end
         end
-        expect_any_instance_of(document_class).to receive(:build!)
 
-        called = []; receivers = []
+        expect_any_instance_of(document_class).to receive(:build!) { called << :build! }
         layout_block = proc { called << :layout; receivers << self }
         content_block = proc { called << :content; receivers << self }
 
         arbre.document document_class, &content_block
         arbre.layout &layout_block
-        expect(called).to eql([:layout, :content])
+        expect(called).to eql([:layout, :build!, :content])
         expect(receivers[0]).to be(arbre.children.first)
         expect(receivers[1]).to be(arbre.children.first)
       end

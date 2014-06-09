@@ -17,8 +17,8 @@ module Arbre
       # Building
 
         def build!
-          append_head
-          append_body
+          prepend_head unless @_head
+          append_body unless @_body
 
           within body do
             yield self if block_given?
@@ -28,8 +28,8 @@ module Arbre
         private
 
         # Builds up a default head tag.
-        def append_head
-          @_head = append(Head) do
+        def prepend_head
+          @_head = prepend(Head) do
             meta :"http-equiv" => "Content-Type", :content => "text/html; charset=utf-8"
           end
         end
@@ -55,12 +55,16 @@ module Arbre
 
         # Adds content to the head tag and/or returns it.
         def head(&block)
+          prepend_head unless @_head
+
           within @_head, &block if block_given?
           @_head
         end
 
         # Adds content to the body tag and/or returns it.
         def body(&block)
+          append_body unless @_body
+
           within @_body, &block if block_given?
           @_body
         end

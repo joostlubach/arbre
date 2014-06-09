@@ -98,29 +98,35 @@ module Arbre
               content_block  = document.content_block
             end
 
-            # Create a new block that will serve as the document's build block. This block will
-            # first call the layout block, and then the document's content block.
+            # Build the document manually to make sure that the layout block is run before the document
+            # is built.
+            document_class ||= Arbre::Rails.legacy_document
+            doc = document_class.new(arbre_context)
+            current_element.children << doc
 
-            # As some document classes may not call 'yield' in their setup method, we will detect
-            # whether our block was actually called. If not, it will be called using 'instance_exec'.
+            # Call the layout block first.
+            if layout_block && !request.xhr?
+              within(doc) { doc.instance_exec &layout_block }
+            end
 
+            # Create a new block that will serve as the document's build block. As some document classes
+            # may not call 'yield' in their setup method, we will detect whether our block was actually
+            # called. If not, it will be called using 'instance_exec'.
             block_called = false
             block = proc do |doc|
               block_called = true
-
-              # Call the layout block first.
-              doc.instance_exec &layout_block if layout_block && !request.xhr?
 
               # Then call the document's content block.
               doc.instance_exec &content_block if content_block
             end
 
-            # Append the document now.
-            document_class ||= Arbre::Rails.legacy_document
-            doc = append(document_class, *document_args, &block)
+            # Build the document now.
+            within(doc) do
+              doc.build! *document_args, &block
 
-            # If the block has not been called by the document's setup method, call it anyway.
-            doc.instance_exec doc, &block unless block_called
+              # If the block has not been called by the document's setup method, call it anyway.
+              doc.instance_exec doc, &block unless block_called
+            end
 
             doc
           end
