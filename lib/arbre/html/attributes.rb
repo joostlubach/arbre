@@ -33,7 +33,7 @@ module Arbre
         elsif attribute.to_s == 'style'
           self.style = value
         elsif value == true
-          @attributes[attribute.to_s] = attribute.to_s
+          @attributes[attribute.to_s] = true
         elsif value
           @attributes[attribute.to_s] = value.to_s
         else
@@ -92,7 +92,12 @@ module Arbre
         map do |name, value|
           next if name == 'class' && value.blank?
           next if name == 'style' && value.blank?
-          "#{html_escape(name)}=\"#{html_escape(value)}\""
+
+          if value == true
+            html_escape(name)
+          else
+            "#{html_escape(name)}=\"#{html_escape(value)}\""
+          end
         end
       end
 

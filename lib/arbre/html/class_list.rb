@@ -40,6 +40,8 @@ module Arbre
       end
 
       def ==(other)
+        return false unless other.respond_to?(:to_a)
+
         to_a.sort == other.to_a.sort
       end
 

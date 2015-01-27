@@ -1,3 +1,7 @@
+## 2.3.1
+
+* Proper support for HTML5 boolean attributes
+
 ## 2.3.0
 
 * Inversed layout-content block order in `Arbre::Rails::Layouts` - now, first the layout block is run, then the content block.

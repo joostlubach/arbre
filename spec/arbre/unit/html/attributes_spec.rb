@@ -49,9 +49,9 @@ describe Attributes do
       expect(attributes).to eq({ 'one' => '1', 'two' => '2', '3' => '3' })
     end
 
-    it "should store a 'true' value as the name of the attribute itself" do
+    it "should keep a true value" do
       attributes[:checked] = true
-      expect(attributes).to eq({ 'checked' => 'checked' })
+      expect(attributes).to eq({ 'checked' => true })
     end
 
     it "should store any value as its string version" do
@@ -238,6 +238,11 @@ describe Attributes do
       expect(attributes.to_s).to eql('class="test"')
       attributes[:class] = nil
       expect(attributes.to_s).to eql('')
+    end
+
+    it "should render a boolean attributes as just the attribute name (if present)" do
+      attributes = Attributes.new('one' => true, 'two' => false)
+      expect(attributes.to_s).to eql('one')
     end
 
   end
